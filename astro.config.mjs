@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://datify.fr',
+  site: 'https://datify-brown.vercel.app',
   vite: {
     plugins: [tailwindcss()]
   },
