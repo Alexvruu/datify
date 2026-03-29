@@ -1,17 +1,127 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro'
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Analytics Engineer & Media Buyer"
+  description="Datify — Analytics engineering, web tracking et media buying pour les équipes qui veulent des décisions basées sur de vraies données."
+>
+
+  <!-- HERO -->
+  <section class="py-24 bg-white">
+    <div class="container">
+      <div class="max-w-3xl">
+        <span class="inline-flex items-center gap-2 bg-[#F6F8FA] border border-[#E2E8F0] text-[#635BFF] text-sm font-medium px-4 py-1.5 rounded-full mb-8">
+          <span class="w-2 h-2 rounded-full bg-[#635BFF] animate-pulse"></span>
+          Disponible pour de nouvelles missions
+        </span>
+        <h1 class="text-5xl md:text-6xl font-bold text-[#0A2540] leading-tight mb-6">
+          Data-driven.<br />
+          <span class="text-[#635BFF]">Résultats prouvés.</span>
+        </h1>
+        <p class="text-xl text-[#425466] mb-10 max-w-xl">
+          Analytics engineering, web tracking & media buying — pour des équipes qui veulent des décisions basées sur de vraies données.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/services" class="btn-primary">Voir les services</a>
+          <a href="/blog" class="btn-ghost">Lire le blog →</a>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-8 mt-20 pt-12 border-t border-[#E2E8F0] max-w-lg">
+        <div>
+          <div class="text-3xl font-bold text-[#0A2540]">+40</div>
+          <div class="text-sm text-[#8898AA] mt-1">projets livrés</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-[#0A2540]">3×</div>
+          <div class="text-sm text-[#8898AA] mt-1">ROAS moyen</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-[#0A2540]">100%</div>
+          <div class="text-sm text-[#8898AA] mt-1">data fiable</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="py-24 bg-[#F6F8FA]">
+    <div class="container">
+      <div class="mb-12">
+        <span class="text-[#635BFF] text-sm font-semibold uppercase tracking-widest">Services</span>
+        <h2 class="mt-2 text-[#0A2540]">Ce que je fais pour vous</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <div class="bg-white rounded-xl p-8 border border-[#E2E8F0] hover:border-[#635BFF] transition-colors">
+          <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center mb-4">
+            <span class="text-[#635BFF] text-lg">◈</span>
+          </div>
+          <h3 class="text-[#0A2540] mb-2">Analytics & Tracking</h3>
+          <p class="text-sm">Plan de taggage, GA4, GTM server-side, Consent Mode v2. Des données fiables, conformes RGPD.</p>
+          <div class="flex gap-2 mt-4 flex-wrap">
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">GA4</span>
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">GTM</span>
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Server-side</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-8 border border-[#E2E8F0] hover:border-[#635BFF] transition-colors">
+          <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center mb-4">
+            <span class="text-[#635BFF] text-lg">⬡</span>
+          </div>
+          <h3 class="text-[#0A2540] mb-2">Data Engineering</h3>
+          <p class="text-sm">Pipelines de données, modélisation BigQuery, dbt, dashboards Looker Studio orientés décision.</p>
+          <div class="flex gap-2 mt-4 flex-wrap">
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">BigQuery</span>
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">dbt</span>
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Looker</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-8 border border-[#E2E8F0] hover:border-[#635BFF] transition-colors">
+          <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center mb-4">
+            <span class="text-[#635BFF] text-lg">◎</span>
+          </div>
+          <h3 class="text-[#0A2540] mb-2">Média Buying</h3>
+          <p class="text-sm">Campagnes Meta Ads & Google Ads, attribution multi-touch, optimisation ROAS. Du budget qui performe.</p>
+          <div class="flex gap-2 mt-4 flex-wrap">
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Meta Ads</span>
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Google Ads</span>
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Attribution</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-8 border border-[#E2E8F0] hover:border-[#635BFF] transition-colors">
+          <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center mb-4">
+            <span class="text-[#635BFF] text-lg">◇</span>
+          </div>
+          <h3 class="text-[#0A2540] mb-2">Web Analytics & Reporting</h3>
+          <p class="text-sm">Audits analytics, dashboards sur mesure, formation équipes. La data rendue accessible à tous.</p>
+          <div class="flex gap-2 mt-4 flex-wrap">
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Audit</span>
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Reporting</span>
+            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Formation</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24">
+    <div class="container">
+      <div class="bg-[#0A2540] rounded-2xl p-12 text-center">
+        <h2 class="text-white mb-4">Prêt à passer à la data qui performe ?</h2>
+        <p class="text-[#8898AA] mb-8 max-w-md mx-auto">Discutons de votre projet. Premier échange gratuit et sans engagement.</p>
+        <a href="/contact" class="inline-flex items-center gap-2 bg-[#635BFF] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#4F46E5] transition-colors">
+          Prendre contact →
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

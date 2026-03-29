@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const services = [
+  {
+    icon: '◈',
+    title: 'Analytics & Tracking',
+    tagline: 'Des données fiables, conformes RGPD',
+    description:
+      'Mise en place complète de votre stack analytics : plan de taggage, implémentation GA4, conteneur GTM, Consent Mode v2 et tracking server-side pour des données de qualité malgré les bloqueurs.',
+    deliverables: [
+      'Audit de votre tracking existant',
+      'Plan de taggage sur mesure',
+      'Implémentation GA4 + GTM',
+      'Server-side tagging (Cloud Run)',
+      'Conformité RGPD / Consent Mode v2',
+      'Documentation et tests QA',
+    ],
+    tags: ['GA4', 'GTM', 'Server-side', 'RGPD', 'Consent Mode'],
+  },
+  {
+    icon: '⬡',
+    title: 'Data Engineering',
+    tagline: 'Des pipelines solides, des insights actionnables',
+    description:
+      'Conception et développement de pipelines de données robustes. Centralisation de vos sources, modélisation en entrepôt BigQuery avec dbt, et dashboards Looker Studio orientés décision.',
+    deliverables: [
+      'Architecture data sur mesure',
+      'Pipelines ETL / ELT (BigQuery, dbt)',
+      'Modélisation dimensionnelle',
+      'Dashboards Looker Studio',
+      'Documentation data catalog',
+      'Alertes et monitoring qualité',
+    ],
+    tags: ['BigQuery', 'dbt', 'Looker Studio', 'ETL', 'SQL'],
+  },
+  {
+    icon: '◎',
+    title: 'Média Buying',
+    tagline: 'Du budget qui performe, pas du budget gaspillé',
+    description:
+      'Création, gestion et optimisation de campagnes Meta Ads et Google Ads. Attribution multi-touch pour mesurer l\'impact réel de chaque canal, et pilotage au ROAS.',
+    deliverables: [
+      'Audit de vos campagnes actuelles',
+      'Stratégie d\'acquisition sur mesure',
+      'Setup Meta Ads & Google Ads',
+      'Attribution multi-touch',
+      'Optimisation continue ROAS',
+      'Reporting mensuel détaillé',
+    ],
+    tags: ['Meta Ads', 'Google Ads', 'Attribution', 'ROAS', 'Performance'],
+  },
+  {
+    icon: '◇',
+    title: 'Web Analytics & Reporting',
+    tagline: 'La data rendue accessible à vos équipes',
+    description:
+      'Audits analytics approfondis, dashboards sur mesure et formations équipes. Je rends vos données compréhensibles et actionnables pour toute votre organisation.',
+    deliverables: [
+      'Audit analytics complet',
+      'Rapport de recommandations',
+      'Dashboards personnalisés',
+      'Formation équipes (GA4, Looker)',
+      'Documentation des KPIs',
+      'Suivi trimestriel',
+    ],
+    tags: ['Audit', 'Reporting', 'Formation', 'KPIs', 'Looker Studio'],
+  },
+]
+
+const faqs = [
+  {
+    q: 'Comment se déroule une mission ?',
+    a: 'Après un premier échange gratuit pour cadrer votre besoin, je propose un devis détaillé avec livrables et délais. La mission démarre sur validation. Je travaille en autonomie avec des points réguliers pour vous tenir informé.',
+  },
+  {
+    q: 'Quels sont vos tarifs ?',
+    a: 'Les missions sont facturées au jour ou au forfait selon le projet. Comptez entre 600 et 900 €/jour selon la complexité. Les forfaits audit démarrent à 1 500 €. Contactez-moi pour un devis personnalisé.',
+  },
+  {
+    q: 'Travaillez-vous à distance ou en présentiel ?',
+    a: 'Principalement à distance, ce qui me permet d\'intervenir sur toute la France et l\'Europe. Des déplacements ponctuels sont possibles si nécessaire.',
+  },
+  {
+    q: 'Quelle est votre disponibilité ?',
+    a: 'Je travaille généralement sur 1 à 2 missions simultanées pour garantir la qualité. Le délai de démarrage est généralement de 2 à 4 semaines. Contactez-moi pour connaître mes disponibilités actuelles.',
+  },
+]
+---
+
+<BaseLayout
+  title="Services Analytics, Data Engineering & Media Buying"
+  description="Analytics engineering, tracking GA4 server-side, data engineering BigQuery/dbt et media buying Meta/Google Ads. Découvrez mes services freelance."
+>
+
+  <!-- HERO -->
+  <section class="py-20 bg-white">
+    <div class="container max-w-3xl">
+      <span class="text-[#635BFF] text-sm font-semibold uppercase tracking-widest">Services</span>
+      <h1 class="mt-2 text-[#0A2540]">Des services data end-to-end</h1>
+      <p class="mt-4 text-lg text-[#425466] max-w-2xl">
+        De la collecte à l'activation : j'interviens sur toute la chaîne data pour que vos décisions s'appuient sur des chiffres fiables.
+      </p>
+    </div>
+  </section>
+
+  <!-- SERVICES DETAIL -->
+  <section class="py-12 bg-[#F6F8FA]">
+    <div class="container">
+      <div class="grid gap-8">
+        {services.map((service, i) => (
+          <div class="bg-white rounded-xl border border-[#E2E8F0] p-10 grid md:grid-cols-2 gap-10">
+            <div>
+              <div class="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center mb-5">
+                <span class="text-[#635BFF] text-2xl">{service.icon}</span>
+              </div>
+              <h2 class="text-[#0A2540] mb-1">{service.title}</h2>
+              <p class="text-[#635BFF] font-medium text-sm mb-4">{service.tagline}</p>
+              <p class="text-sm leading-relaxed">{service.description}</p>
+              <div class="flex flex-wrap gap-2 mt-6">
+                {service.tags.map((tag) => (
+                  <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-[#8898AA] mb-4">Livrables</p>
+              <ul class="space-y-3">
+                {service.deliverables.map((item) => (
+                  <li class="flex items-start gap-3 text-sm text-[#425466]">
+                    <span class="text-[#635BFF] mt-0.5 shrink-0">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-24">
+    <div class="container max-w-2xl">
+      <div class="mb-12">
+        <span class="text-[#635BFF] text-sm font-semibold uppercase tracking-widest">FAQ</span>
+        <h2 class="mt-2 text-[#0A2540]">Questions fréquentes</h2>
+      </div>
+      <div class="space-y-6">
+        {faqs.map((faq) => (
+          <div class="border border-[#E2E8F0] rounded-xl p-7">
+            <h3 class="text-[#0A2540] mb-3">{faq.q}</h3>
+            <p class="text-sm">{faq.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24 bg-[#F6F8FA]">
+    <div class="container">
+      <div class="bg-[#0A2540] rounded-2xl p-12 text-center">
+        <h2 class="text-white mb-4">Discutons de votre projet</h2>
+        <p class="text-[#8898AA] mb-8 max-w-md mx-auto">Premier échange gratuit et sans engagement. Je réponds dans les 24h.</p>
+        <a href="/contact" class="inline-flex items-center gap-2 bg-[#635BFF] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#4F46E5] transition-colors">
+          Prendre contact →
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

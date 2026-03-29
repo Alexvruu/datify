@@ -1,0 +1,105 @@
+---
+import '../styles/global.css'
+import { SEO } from 'astro-seo'
+
+interface Props {
+  title: string
+  description: string
+  image?: string
+  type?: string
+}
+
+const {
+  title,
+  description,
+  image = '/og-default.jpg',
+  type = 'website'
+} = Astro.props
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const fullTitle = `${title} | Datify`
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Primary -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <!-- Schema JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Alexandre Gire",
+      "url": Astro.site,
+      "jobTitle": "Analytics Engineer & Media Buyer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Datify"
+      },
+      "sameAs": [
+        "https://linkedin.com/in/alexandre-gire"
+      ]
+    })} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-[#E2E8F0]">
+      <nav class="container flex items-center justify-between h-16">
+        <a href="/" class="text-lg font-bold text-[#0A2540]">
+          Dati<span class="text-[#635BFF]">fy</span>
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="/services" class="text-sm text-[#425466] hover:text-[#0A2540]">Services</a>
+          <a href="/blog" class="text-sm text-[#425466] hover:text-[#0A2540]">Blog</a>
+          <a href="/contact" class="text-sm text-[#425466] hover:text-[#0A2540]">Contact</a>
+        </div>
+        <a href="/contact" class="btn-primary text-sm py-2 px-4">
+          Travailler ensemble
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="border-t border-[#E2E8F0] py-12 mt-24">
+      <div class="container flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-sm text-[#8898AA]">
+          © {new Date().getFullYear()} Datify — Alexandre Gire
+        </p>
+        <div class="flex gap-6">
+          <a href="/blog" class="text-sm text-[#8898AA] hover:text-[#0A2540]">Blog</a>
+          <a href="/mentions-legales" class="text-sm text-[#8898AA] hover:text-[#0A2540]">Mentions légales</a>
+          <a href="https://linkedin.com/in/alexandre-gire" class="text-sm text-[#8898AA] hover:text-[#0A2540]">LinkedIn</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

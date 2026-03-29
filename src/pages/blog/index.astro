@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+
+const allPosts = await getCollection('blog')
+const posts = allPosts
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+}
+---
+
+<BaseLayout
+  title="Blog Analytics & Tracking"
+  description="Articles sur GA4, GTM server-side, tracking web, data engineering et media buying. Conseils pratiques d'un analytics engineer freelance."
+>
+  <section class="py-20">
+    <div class="container">
+
+      <div class="mb-14">
+        <span class="text-[#635BFF] text-sm font-semibold uppercase tracking-widest">Blog</span>
+        <h1 class="mt-2 text-[#0A2540]">Analytics, Tracking & Data</h1>
+        <p class="mt-4 max-w-xl">
+          Guides pratiques et retours terrain sur GA4, GTM server-side, data engineering et media buying.
+        </p>
+      </div>
+
+      {posts.length === 0 ? (
+        <p class="text-[#8898AA]">Aucun article pour l'instant — revenez bientôt.</p>
+      ) : (
+        <div class="grid md:grid-cols-2 gap-8">
+          {posts.map((post) => (
+            <article class="group border border-[#E2E8F0] rounded-xl p-8 hover:border-[#635BFF] transition-colors bg-white">
+              <div class="flex flex-wrap gap-2 mb-4">
+                {post.data.tags.slice(0, 3).map((tag) => (
+                  <span class="text-xs bg-[#EEF2FF] text-[#635BFF] px-3 py-1 rounded-full font-medium">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <h2 class="text-lg font-bold text-[#0A2540] mb-3 group-hover:text-[#635BFF] transition-colors leading-snug">
+                <a href={`/blog/${post.id}`} class="after:absolute after:inset-0 relative">
+                  {post.data.title}
+                </a>
+              </h2>
+              <p class="text-sm text-[#425466] line-clamp-3 mb-5">{post.data.description}</p>
+              <div class="flex items-center justify-between text-xs text-[#8898AA]">
+                <span>{post.data.author}</span>
+                <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+
+    </div>
+  </section>
+</BaseLayout>

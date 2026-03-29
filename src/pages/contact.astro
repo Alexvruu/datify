@@ -1,0 +1,202 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact — Datify',
+  url: 'https://datify.fr/contact',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Alexandre Gire',
+    jobTitle: 'Analytics Engineer & Media Buyer',
+    email: 'alexandre@datify.fr',
+    url: 'https://datify.fr',
+  },
+}
+---
+
+<BaseLayout
+  title="Contact — Parlons de votre projet"
+  description="Contactez Alexandre Gire pour une mission analytics, tracking GA4, data engineering ou media buying. Premier échange gratuit, réponse sous 24h."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(contactSchema)} />
+
+  <section class="py-20">
+    <div class="container">
+      <div class="grid md:grid-cols-2 gap-16 max-w-5xl">
+
+        <!-- Left — copy -->
+        <div>
+          <span class="text-[#635BFF] text-sm font-semibold uppercase tracking-widest">Contact</span>
+          <h1 class="mt-2 text-[#0A2540]">Parlons de votre projet</h1>
+          <p class="mt-4 text-lg text-[#425466]">
+            Premier échange gratuit et sans engagement. Je réponds sous 24h.
+          </p>
+
+          <div class="mt-10 space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center shrink-0">
+                <span class="text-[#635BFF]">✉</span>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-[#0A2540]">Email</p>
+                <a href="mailto:alexandre@datify.fr" class="text-sm text-[#635BFF] hover:text-[#4F46E5]">
+                  alexandre@datify.fr
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center shrink-0">
+                <span class="text-[#635BFF]">in</span>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-[#0A2540]">LinkedIn</p>
+                <a
+                  href="https://linkedin.com/in/alexandre-gire"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm text-[#635BFF] hover:text-[#4F46E5]"
+                >
+                  linkedin.com/in/alexandre-gire
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center shrink-0">
+                <span class="text-[#635BFF]">⏱</span>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-[#0A2540]">Disponibilité</p>
+                <p class="text-sm text-[#425466]">Ouvert aux nouvelles missions — délai de démarrage 2 à 4 semaines</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-12 bg-[#F6F8FA] border border-[#E2E8F0] rounded-xl p-6">
+            <p class="text-sm font-semibold text-[#0A2540] mb-3">Ce que je peux faire pour vous</p>
+            <ul class="space-y-2">
+              {[
+                'Audit et refonte de votre tracking analytics',
+                'Mise en place GA4 + GTM server-side',
+                'Pipelines de données BigQuery / dbt',
+                'Optimisation de vos campagnes Meta & Google Ads',
+                'Formation équipes analytics',
+              ].map((item) => (
+                <li class="flex items-start gap-2 text-sm text-[#425466]">
+                  <span class="text-[#635BFF] shrink-0 mt-0.5">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Right — form -->
+        <div>
+          <form
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            class="space-y-6 bg-white border border-[#E2E8F0] rounded-xl p-8"
+          >
+            <input type="hidden" name="form-name" value="contact" />
+            <p class="hidden">
+              <label>Ne remplissez pas ce champ : <input name="bot-field" /></label>
+            </p>
+
+            <div>
+              <label for="name" class="block text-sm font-medium text-[#0A2540] mb-2">
+                Nom *
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="Votre nom"
+                class="w-full border border-[#E2E8F0] rounded-lg px-4 py-3 text-sm text-[#0A2540] placeholder-[#8898AA] focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent transition"
+              />
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm font-medium text-[#0A2540] mb-2">
+                Email *
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="vous@entreprise.com"
+                class="w-full border border-[#E2E8F0] rounded-lg px-4 py-3 text-sm text-[#0A2540] placeholder-[#8898AA] focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent transition"
+              />
+            </div>
+
+            <div>
+              <label for="company" class="block text-sm font-medium text-[#0A2540] mb-2">
+                Entreprise
+              </label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                placeholder="Votre entreprise (optionnel)"
+                class="w-full border border-[#E2E8F0] rounded-lg px-4 py-3 text-sm text-[#0A2540] placeholder-[#8898AA] focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent transition"
+              />
+            </div>
+
+            <div>
+              <label for="subject" class="block text-sm font-medium text-[#0A2540] mb-2">
+                Sujet *
+              </label>
+              <select
+                id="subject"
+                name="subject"
+                required
+                class="w-full border border-[#E2E8F0] rounded-lg px-4 py-3 text-sm text-[#0A2540] focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent transition bg-white"
+              >
+                <option value="" disabled selected>Sélectionnez un sujet</option>
+                <option value="tracking">Analytics &amp; Tracking</option>
+                <option value="data-engineering">Data Engineering</option>
+                <option value="media-buying">Média Buying</option>
+                <option value="reporting">Reporting &amp; Dashboards</option>
+                <option value="other">Autre</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="message" class="block text-sm font-medium text-[#0A2540] mb-2">
+                Message *
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                required
+                rows="5"
+                placeholder="Décrivez votre projet, vos besoins, votre contexte..."
+                class="w-full border border-[#E2E8F0] rounded-lg px-4 py-3 text-sm text-[#0A2540] placeholder-[#8898AA] focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent transition resize-none"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full btn-primary justify-center py-3.5"
+            >
+              Envoyer le message →
+            </button>
+
+            <p class="text-xs text-[#8898AA] text-center">
+              Vos données sont utilisées uniquement pour répondre à votre demande.
+            </p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
