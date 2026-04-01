@@ -63,7 +63,7 @@ const blogPostingSchema = {
   image={image}
   type="article"
 >
-  <script type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
 
   <article class="py-20">
     <div class="container max-w-2xl">

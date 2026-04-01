@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css'
-import { SEO } from 'astro-seo'
 
 interface Props {
   title: string
@@ -55,7 +54,7 @@ const fullTitle = `${title} | Datify`
     <meta name="twitter:image" content={image} />
 
     <!-- Schema JSON-LD -->
-    <script type="application/ld+json" set:html={JSON.stringify({
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Alexandre Gire",
