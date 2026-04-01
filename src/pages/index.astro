@@ -1,5 +1,56 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+
+const tools = [
+  { name: 'GA4', color: '#E37400' },
+  { name: 'GTM', color: '#4285F4' },
+  { name: 'Meta Ads', color: '#0081FB' },
+  { name: 'Google Ads', color: '#34A853' },
+  { name: 'BigQuery', color: '#4285F4' },
+  { name: 'dbt', color: '#FF694A' },
+  { name: 'Looker Studio', color: '#4285F4' },
+  { name: 'Shopify', color: '#96BF48' },
+]
+
+const steps = [
+  {
+    number: '01',
+    title: 'Audit & Diagnostic',
+    description: 'J\'analyse votre tracking existant, identifie les pertes de données et cartographie votre stack. Vous savez exactement ce qui ne fonctionne pas et pourquoi.',
+    icon: '◎',
+  },
+  {
+    number: '02',
+    title: 'Implémentation',
+    description: 'Je mets en place la solution : GA4 server-side, pipelines BigQuery, campagnes optimisées. Tout est documenté, testé et livré clé en main.',
+    icon: '◈',
+  },
+  {
+    number: '03',
+    title: 'Activation & Résultats',
+    description: 'Vos données sont fiables et vos équipes autonomes. ROAS en hausse, décisions basées sur des vrais chiffres, et un suivi régulier pour continuer à progresser.',
+    icon: '◇',
+  },
+]
+
+const testimonials = [
+  {
+    quote: 'Avant de travailler avec Alexandre, on perdait plus de 35% de nos conversions dans GA4. En 3 semaines, on était à 97% de tracking fiable. Notre ROAS Meta est passé de 1.9x à 3.2x.',
+    name: 'Sophie M.',
+    role: 'Head of Growth',
+    company: 'E-commerce mode · 150k€/mois',
+    initials: 'SM',
+    result: '+68% ROAS',
+  },
+  {
+    quote: 'Le pipeline BigQuery + dbt qu\'Alexandre a mis en place a divisé par 3 le temps qu\'on passait à préparer nos reportings. On prend des décisions en quelques minutes, pas en quelques jours.',
+    name: 'Thomas R.',
+    role: 'Directeur Marketing',
+    company: 'SaaS B2B · Série A',
+    initials: 'TR',
+    result: '−70% temps reporting',
+  },
+]
 ---
 
 <BaseLayout
@@ -8,40 +59,87 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 >
 
   <!-- HERO -->
-  <section class="py-24 bg-white">
+  <section class="pt-24 pb-16 bg-white overflow-hidden">
     <div class="container">
       <div class="max-w-3xl">
-        <span class="inline-flex items-center gap-2 bg-[#F6F8FA] border border-[#E2E8F0] text-[#635BFF] text-sm font-medium px-4 py-1.5 rounded-full mb-8">
+        <span class="fade-up inline-flex items-center gap-2 bg-[#F6F8FA] border border-[#E2E8F0] text-[#635BFF] text-sm font-medium px-4 py-1.5 rounded-full mb-8">
           <span class="w-2 h-2 rounded-full bg-[#635BFF] animate-pulse"></span>
           Disponible pour de nouvelles missions
         </span>
-        <h1 class="text-5xl md:text-6xl font-bold text-[#0A2540] leading-tight mb-6">
+        <h1 class="fade-up delay-1 text-5xl md:text-6xl font-bold text-[#0A2540] leading-tight mb-6">
           Data-driven.<br />
           <span class="text-[#635BFF]">Résultats prouvés.</span>
         </h1>
-        <p class="text-xl text-[#425466] mb-10 max-w-xl">
-          Analytics engineering, web tracking & media buying — pour des équipes qui veulent des décisions basées sur de vraies données.
+        <p class="fade-up delay-2 text-xl text-[#425466] mb-10 max-w-xl">
+          Analytics engineering, tracking GA4 server-side & media buying — pour des équipes qui décident sur de vraies données.
         </p>
-        <div class="flex flex-wrap gap-4">
-          <a href="/services" class="btn-primary">Voir les services</a>
-          <a href="/blog" class="btn-ghost">Lire le blog →</a>
+        <div class="fade-up delay-3 flex flex-wrap gap-4 mb-16">
+          <a href="/contact" class="btn-primary">Parlons de votre projet →</a>
+          <a href="/services" class="btn-ghost">Voir les services</a>
         </div>
       </div>
 
-      <!-- Stats -->
-      <div class="grid grid-cols-3 gap-8 mt-20 pt-12 border-t border-[#E2E8F0] max-w-lg">
-        <div>
-          <div class="text-3xl font-bold text-[#0A2540]">+40</div>
-          <div class="text-sm text-[#8898AA] mt-1">projets livrés</div>
+      <!-- TOOLS STRIP -->
+      <div class="fade-up delay-4 border-t border-[#E2E8F0] pt-10">
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#8898AA] mb-6">Stack maîtrisée</p>
+        <div class="flex flex-wrap gap-3">
+          {tools.map((tool) => (
+            <span class="tool-badge inline-flex items-center gap-2 bg-white border border-[#E2E8F0] text-[#425466] text-sm px-4 py-2 rounded-full hover:border-[#635BFF] hover:text-[#0A2540] transition-all cursor-default">
+              <span class="w-2 h-2 rounded-full" style={`background-color: ${tool.color}`}></span>
+              {tool.name}
+            </span>
+          ))}
         </div>
-        <div>
-          <div class="text-3xl font-bold text-[#0A2540]">3×</div>
-          <div class="text-sm text-[#8898AA] mt-1">ROAS moyen</div>
-        </div>
-        <div>
-          <div class="text-3xl font-bold text-[#0A2540]">100%</div>
-          <div class="text-sm text-[#8898AA] mt-1">data fiable</div>
-        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="py-14 bg-[#F6F8FA] border-y border-[#E2E8F0]">
+    <div class="container">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {[
+          { value: '+40', label: 'projets livrés' },
+          { value: '3×', label: 'ROAS moyen clients' },
+          { value: '97%', label: 'données récupérées' },
+          { value: '< 48h', label: 'délai de réponse' },
+        ].map((stat) => (
+          <div class="fade-up text-center md:text-left">
+            <div class="text-3xl font-bold text-[#0A2540]">{stat.value}</div>
+            <div class="text-sm text-[#8898AA] mt-1">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="py-24 bg-white">
+    <div class="container">
+      <div class="mb-14 fade-up">
+        <span class="text-[#635BFF] text-sm font-semibold uppercase tracking-widest">Méthode</span>
+        <h2 class="mt-2 text-[#0A2540]">Comment ça marche</h2>
+        <p class="mt-3 text-[#425466] max-w-xl">
+          Un process en 3 étapes, clair et sans surprise, pour aller des données chaotiques aux décisions fiables.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 relative">
+        <!-- connecting line desktop -->
+        <div class="hidden md:block absolute top-10 left-[calc(16.66%+1rem)] right-[calc(16.66%+1rem)] h-px bg-[#E2E8F0] z-0"></div>
+
+        {steps.map((step, i) => (
+          <div class={`fade-up delay-${i + 1} relative z-10`}>
+            <div class="flex items-center gap-4 mb-6">
+              <div class="w-12 h-12 rounded-xl bg-[#EEF2FF] flex items-center justify-center shrink-0 border-2 border-white shadow-sm">
+                <span class="text-[#635BFF] font-bold text-sm">{step.number}</span>
+              </div>
+              <div class="h-px flex-1 bg-[#E2E8F0] md:hidden"></div>
+            </div>
+            <h3 class="text-[#0A2540] mb-3">{step.title}</h3>
+            <p class="text-sm text-[#425466] leading-relaxed">{step.description}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -49,79 +147,159 @@ import BaseLayout from '../layouts/BaseLayout.astro'
   <!-- SERVICES -->
   <section class="py-24 bg-[#F6F8FA]">
     <div class="container">
-      <div class="mb-12">
+      <div class="mb-12 fade-up">
         <span class="text-[#635BFF] text-sm font-semibold uppercase tracking-widest">Services</span>
         <h2 class="mt-2 text-[#0A2540]">Ce que je fais pour vous</h2>
       </div>
       <div class="grid md:grid-cols-2 gap-6">
 
-        <div class="bg-white rounded-xl p-8 border border-[#E2E8F0] hover:border-[#635BFF] transition-colors">
-          <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center mb-4">
-            <span class="text-[#635BFF] text-lg">◈</span>
+        {[
+          {
+            icon: '◈',
+            title: 'Analytics & Tracking',
+            desc: 'Plan de taggage, GA4, GTM server-side, Consent Mode v2. Des données fiables, conformes RGPD.',
+            tags: ['GA4', 'GTM', 'Server-side'],
+          },
+          {
+            icon: '⬡',
+            title: 'Data Engineering',
+            desc: 'Pipelines de données, modélisation BigQuery, dbt, dashboards Looker Studio orientés décision.',
+            tags: ['BigQuery', 'dbt', 'Looker'],
+          },
+          {
+            icon: '◎',
+            title: 'Média Buying',
+            desc: 'Campagnes Meta Ads & Google Ads, attribution multi-touch, optimisation ROAS. Du budget qui performe.',
+            tags: ['Meta Ads', 'Google Ads', 'Attribution'],
+          },
+          {
+            icon: '◇',
+            title: 'Web Analytics & Reporting',
+            desc: 'Audits analytics, dashboards sur mesure, formation équipes. La data rendue accessible à tous.',
+            tags: ['Audit', 'Reporting', 'Formation'],
+          },
+        ].map((s, i) => (
+          <div class={`fade-up delay-${(i % 2) + 1} bg-white rounded-xl p-8 border border-[#E2E8F0] hover:border-[#635BFF] hover:shadow-lg transition-all group`}>
+            <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center mb-4 group-hover:bg-[#635BFF] transition-colors">
+              <span class="text-[#635BFF] text-lg group-hover:text-white transition-colors">{s.icon}</span>
+            </div>
+            <h3 class="text-[#0A2540] mb-2">{s.title}</h3>
+            <p class="text-sm mb-4">{s.desc}</p>
+            <div class="flex gap-2 flex-wrap">
+              {s.tags.map((tag) => (
+                <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">{tag}</span>
+              ))}
+            </div>
           </div>
-          <h3 class="text-[#0A2540] mb-2">Analytics & Tracking</h3>
-          <p class="text-sm">Plan de taggage, GA4, GTM server-side, Consent Mode v2. Des données fiables, conformes RGPD.</p>
-          <div class="flex gap-2 mt-4 flex-wrap">
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">GA4</span>
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">GTM</span>
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Server-side</span>
-          </div>
-        </div>
+        ))}
 
-        <div class="bg-white rounded-xl p-8 border border-[#E2E8F0] hover:border-[#635BFF] transition-colors">
-          <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center mb-4">
-            <span class="text-[#635BFF] text-lg">⬡</span>
-          </div>
-          <h3 class="text-[#0A2540] mb-2">Data Engineering</h3>
-          <p class="text-sm">Pipelines de données, modélisation BigQuery, dbt, dashboards Looker Studio orientés décision.</p>
-          <div class="flex gap-2 mt-4 flex-wrap">
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">BigQuery</span>
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">dbt</span>
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Looker</span>
-          </div>
-        </div>
+      </div>
+      <div class="mt-8 text-center fade-up">
+        <a href="/services" class="btn-ghost">Voir tous les services et livrables →</a>
+      </div>
+    </div>
+  </section>
 
-        <div class="bg-white rounded-xl p-8 border border-[#E2E8F0] hover:border-[#635BFF] transition-colors">
-          <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center mb-4">
-            <span class="text-[#635BFF] text-lg">◎</span>
-          </div>
-          <h3 class="text-[#0A2540] mb-2">Média Buying</h3>
-          <p class="text-sm">Campagnes Meta Ads & Google Ads, attribution multi-touch, optimisation ROAS. Du budget qui performe.</p>
-          <div class="flex gap-2 mt-4 flex-wrap">
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Meta Ads</span>
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Google Ads</span>
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Attribution</span>
-          </div>
-        </div>
+  <!-- TESTIMONIALS -->
+  <section class="py-24 bg-white">
+    <div class="container">
+      <div class="mb-14 fade-up">
+        <span class="text-[#635BFF] text-sm font-semibold uppercase tracking-widest">Résultats</span>
+        <h2 class="mt-2 text-[#0A2540]">Ce que ça change concrètement</h2>
+      </div>
 
-        <div class="bg-white rounded-xl p-8 border border-[#E2E8F0] hover:border-[#635BFF] transition-colors">
-          <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center mb-4">
-            <span class="text-[#635BFF] text-lg">◇</span>
+      <div class="grid md:grid-cols-2 gap-8">
+        {testimonials.map((t, i) => (
+          <div class={`fade-up delay-${i + 1} bg-[#F6F8FA] rounded-2xl p-8 border border-[#E2E8F0] relative`}>
+            <!-- result badge -->
+            <span class="absolute top-8 right-8 bg-[#EEF2FF] text-[#635BFF] text-xs font-bold px-3 py-1.5 rounded-full">
+              {t.result}
+            </span>
+            <!-- quote -->
+            <p class="text-3xl text-[#635BFF] font-serif leading-none mb-4">"</p>
+            <p class="text-[#0A2540] font-medium leading-relaxed mb-6 pr-20">
+              {t.quote}
+            </p>
+            <!-- author -->
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-[#635BFF] flex items-center justify-center text-white text-xs font-bold shrink-0">
+                {t.initials}
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-[#0A2540]">{t.name}</p>
+                <p class="text-xs text-[#8898AA]">{t.role} · {t.company}</p>
+              </div>
+            </div>
           </div>
-          <h3 class="text-[#0A2540] mb-2">Web Analytics & Reporting</h3>
-          <p class="text-sm">Audits analytics, dashboards sur mesure, formation équipes. La data rendue accessible à tous.</p>
-          <div class="flex gap-2 mt-4 flex-wrap">
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Audit</span>
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Reporting</span>
-            <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#425466] px-3 py-1 rounded-full">Formation</span>
-          </div>
-        </div>
-
+        ))}
       </div>
     </div>
   </section>
 
   <!-- CTA -->
-  <section class="py-24">
+  <section class="py-24 bg-[#F6F8FA]">
     <div class="container">
-      <div class="bg-[#0A2540] rounded-2xl p-12 text-center">
-        <h2 class="text-white mb-4">Prêt à passer à la data qui performe ?</h2>
-        <p class="text-[#8898AA] mb-8 max-w-md mx-auto">Discutons de votre projet. Premier échange gratuit et sans engagement.</p>
-        <a href="/contact" class="inline-flex items-center gap-2 bg-[#635BFF] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#4F46E5] transition-colors">
-          Prendre contact →
-        </a>
+      <div class="fade-up bg-[#0A2540] rounded-2xl p-12 md:p-16 text-center relative overflow-hidden">
+        <!-- background decoration -->
+        <div class="absolute inset-0 opacity-5">
+          <div class="absolute top-0 right-0 w-96 h-96 bg-[#635BFF] rounded-full translate-x-1/3 -translate-y-1/3"></div>
+          <div class="absolute bottom-0 left-0 w-64 h-64 bg-[#635BFF] rounded-full -translate-x-1/3 translate-y-1/3"></div>
+        </div>
+        <div class="relative z-10">
+          <h2 class="text-white mb-4">Prêt à passer à la data qui performe ?</h2>
+          <p class="text-[#8898AA] mb-10 max-w-md mx-auto">Discutons de votre projet. Premier échange gratuit et sans engagement. Je réponds sous 24h.</p>
+          <div class="flex flex-wrap gap-4 justify-center">
+            <a href="/contact" class="inline-flex items-center gap-2 bg-[#635BFF] text-white px-8 py-4 rounded-lg font-medium hover:bg-[#4F46E5] transition-colors">
+              Prendre contact →
+            </a>
+            <a href="/blog" class="inline-flex items-center gap-2 bg-white/10 text-white px-8 py-4 rounded-lg font-medium hover:bg-white/20 transition-colors">
+              Lire le blog
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
 </BaseLayout>
+
+<script>
+  // Scroll animations with IntersectionObserver
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+  )
+
+  document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el))
+</script>
+
+<style>
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-up.delay-1 { transition-delay: 0.1s; }
+  .fade-up.delay-2 { transition-delay: 0.2s; }
+  .fade-up.delay-3 { transition-delay: 0.3s; }
+  .fade-up.delay-4 { transition-delay: 0.4s; }
+
+  .tool-badge {
+    transition: all 0.2s ease;
+  }
+  .tool-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 91, 255, 0.12);
+  }
+</style>

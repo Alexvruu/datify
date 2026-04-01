@@ -104,6 +104,112 @@ const faqs = [
     </div>
   </section>
 
+  <!-- STACK VISUELLE -->
+  <section class="py-16 bg-white">
+    <div class="container">
+      <div class="mb-10">
+        <span class="text-[#635BFF] text-sm font-semibold uppercase tracking-widest">Architecture</span>
+        <h2 class="mt-2 text-[#0A2540]">Votre stack data, de A à Z</h2>
+        <p class="mt-3 text-[#425466] max-w-xl">De la collecte à l'activation, chaque brique est connectée et fiable.</p>
+      </div>
+
+      <div class="bg-[#F6F8FA] rounded-2xl border border-[#E2E8F0] p-8 md:p-12 overflow-x-auto">
+        <div class="min-w-[640px]">
+
+          <!-- Row 1: Sources -->
+          <div class="mb-2">
+            <p class="text-xs font-semibold uppercase tracking-widest text-[#8898AA] mb-3">Sources</p>
+            <div class="flex gap-3 flex-wrap">
+              {['Site Web', 'App Mobile', 'CRM', 'E-commerce'].map((src) => (
+                <div class="bg-white border border-[#E2E8F0] rounded-lg px-4 py-2.5 text-sm font-medium text-[#425466] flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-[#8898AA]"></span>
+                  {src}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Arrow down -->
+          <div class="flex items-center gap-1 my-4 ml-6">
+            <div class="w-px h-8 bg-[#635BFF]"></div>
+            <svg class="text-[#635BFF] -ml-1.5 mt-6" width="12" height="8" viewBox="0 0 12 8" fill="currentColor">
+              <path d="M6 8L0 0h12L6 8z"/>
+            </svg>
+          </div>
+
+          <!-- Row 2: Collecte -->
+          <div class="mb-2">
+            <p class="text-xs font-semibold uppercase tracking-widest text-[#8898AA] mb-3">Collecte</p>
+            <div class="bg-[#EEF2FF] border-2 border-[#635BFF] rounded-xl px-6 py-4 inline-flex items-center gap-3 max-w-sm">
+              <span class="text-[#635BFF] text-xl">◈</span>
+              <div>
+                <p class="font-semibold text-[#0A2540] text-sm">GTM Server-Side</p>
+                <p class="text-xs text-[#635BFF]">Données first-party · RGPD compliant</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Arrow + split -->
+          <div class="flex items-start gap-1 my-4 ml-6">
+            <div class="w-px h-8 bg-[#635BFF]"></div>
+            <svg class="text-[#635BFF] -ml-1.5 mt-6" width="12" height="8" viewBox="0 0 12 8" fill="currentColor">
+              <path d="M6 8L0 0h12L6 8z"/>
+            </svg>
+          </div>
+
+          <!-- Row 3: Destinations -->
+          <div class="mb-2">
+            <p class="text-xs font-semibold uppercase tracking-widest text-[#8898AA] mb-3">Destinations</p>
+            <div class="flex gap-3 flex-wrap">
+              {[
+                { name: 'GA4', color: '#E37400', desc: 'Analytics' },
+                { name: 'Meta CAPI', color: '#0081FB', desc: 'Conversion API' },
+                { name: 'Google Ads', color: '#34A853', desc: 'Conversions' },
+                { name: 'BigQuery', color: '#4285F4', desc: 'Stockage brut' },
+              ].map((dest) => (
+                <div class="bg-white border border-[#E2E8F0] rounded-lg px-4 py-2.5 text-sm flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0" style={`background-color: ${dest.color}`}></span>
+                  <div>
+                    <p class="font-medium text-[#0A2540] leading-none">{dest.name}</p>
+                    <p class="text-xs text-[#8898AA]">{dest.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Arrow down from BigQuery -->
+          <div class="flex items-center gap-1 my-4" style="margin-left: calc(3 * (7rem + 0.75rem) + 1.5rem)">
+            <div class="w-px h-8 bg-[#4285F4]"></div>
+            <svg class="text-[#4285F4] -ml-1.5 mt-6" width="12" height="8" viewBox="0 0 12 8" fill="currentColor">
+              <path d="M6 8L0 0h12L6 8z"/>
+            </svg>
+          </div>
+
+          <!-- Row 4: Modélisation -->
+          <div class="mb-2" style="margin-left: calc(3 * (7rem + 0.75rem))">
+            <p class="text-xs font-semibold uppercase tracking-widest text-[#8898AA] mb-3">Modélisation</p>
+            <div class="flex gap-3 flex-wrap">
+              {[
+                { name: 'dbt', color: '#FF694A', desc: 'Transformation SQL' },
+                { name: 'Looker Studio', color: '#4285F4', desc: 'Dashboards' },
+              ].map((tool) => (
+                <div class="bg-white border border-[#E2E8F0] rounded-lg px-4 py-2.5 text-sm flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full shrink-0" style={`background-color: ${tool.color}`}></span>
+                  <div>
+                    <p class="font-medium text-[#0A2540] leading-none">{tool.name}</p>
+                    <p class="text-xs text-[#8898AA]">{tool.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- SERVICES DETAIL -->
   <section class="py-12 bg-[#F6F8FA]">
     <div class="container">
