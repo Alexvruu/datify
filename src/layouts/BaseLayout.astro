@@ -17,6 +17,7 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const fullTitle = `${title} | Datify`
+const currentPath = Astro.url.pathname
 ---
 
 <!doctype html>
@@ -28,18 +29,16 @@ const fullTitle = `${title} | Datify`
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Google Tag Manager -->
-  <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-N97WP9M3');</script>
-  <!-- End Google Tag Manager -->
+    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N97WP9M3');</script>
+    <!-- End Google Tag Manager -->
 
-    <!-- Primary -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
 
-    <!-- Open Graph -->
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
@@ -47,72 +46,201 @@ const fullTitle = `${title} | Datify`
     <meta property="og:image" content={image} />
     <meta property="og:locale" content="fr_FR" />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={image} />
 
-    <!-- Schema JSON-LD -->
     <script is:inline type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Alexandre Gire",
       "url": Astro.site,
       "jobTitle": "Analytics Engineer & Media Buyer",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Datify"
-      },
-      "sameAs": [
-        "https://linkedin.com/in/alexandre-gire"
-      ]
+      "worksFor": { "@type": "Organization", "name": "Datify" },
+      "sameAs": ["https://linkedin.com/in/alexandre-gire"]
     })} />
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
   </head>
 
   <body>
-
-    <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N97WP9M3"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
 
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-[#E2E8F0]">
-      <nav class="container flex items-center justify-between h-16">
-        <a href="/" class="text-lg font-bold text-[#0A2540]">
+    <!-- NAVBAR -->
+    <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+      <nav class="container flex items-center justify-between h-[72px]">
+
+        <!-- Logo -->
+        <a href="/" class="text-[1.1rem] font-bold tracking-tight text-[#0A2540] shrink-0">
           Dati<span class="text-[#635BFF]">fy</span>
         </a>
-        <div class="hidden md:flex items-center gap-8">
-          <a href="/services" class="text-sm text-[#425466] hover:text-[#0A2540]">Services</a>
-          <a href="/blog" class="text-sm text-[#425466] hover:text-[#0A2540]">Blog</a>
-          <a href="/contact" class="text-sm text-[#425466] hover:text-[#0A2540]">Contact</a>
+
+        <!-- Nav links (desktop) -->
+        <div class="hidden md:flex items-center gap-10">
+          {[
+            { href: '/services', label: 'Services' },
+            { href: '/blog', label: 'Blog' },
+            { href: '/contact', label: 'Contact' },
+          ].map(({ href, label }) => (
+            <a
+              href={href}
+              class={`text-sm font-medium transition-colors ${
+                currentPath.startsWith(href)
+                  ? 'text-[#635BFF]'
+                  : 'text-[#425466] hover:text-[#0A2540]'
+              }`}
+            >
+              {label}
+            </a>
+          ))}
         </div>
-        <a href="/contact" class="btn-primary text-sm py-2 px-4">
-          Travailler ensemble
-        </a>
+
+        <!-- CTA + mobile toggle -->
+        <div class="flex items-center gap-4">
+          <a href="/contact" class="hidden md:inline-flex btn-primary text-sm py-2.5 px-5">
+            Démarrer →
+          </a>
+          <!-- Mobile menu button -->
+          <button id="menu-toggle" class="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-[#F6F8FA] transition-colors" aria-label="Menu">
+            <span class="menu-bar w-5 h-0.5 bg-[#0A2540] rounded-full transition-all duration-300"></span>
+            <span class="menu-bar w-5 h-0.5 bg-[#0A2540] rounded-full transition-all duration-300"></span>
+          </button>
+        </div>
+
       </nav>
+
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-[#E2E8F0]">
+        <div class="container py-6 flex flex-col gap-5">
+          <a href="/services" class="text-base font-medium text-[#425466] hover:text-[#0A2540]">Services</a>
+          <a href="/blog" class="text-base font-medium text-[#425466] hover:text-[#0A2540]">Blog</a>
+          <a href="/contact" class="text-base font-medium text-[#425466] hover:text-[#0A2540]">Contact</a>
+          <a href="/contact" class="btn-primary w-fit mt-2">Démarrer →</a>
+        </div>
+      </div>
     </header>
 
-    <main>
+    <main class="pt-[72px]">
       <slot />
     </main>
 
-    <footer class="border-t border-[#E2E8F0] py-12 mt-24">
-      <div class="container flex flex-col md:flex-row items-center justify-between gap-4">
-        <p class="text-sm text-[#8898AA]">
-          © {new Date().getFullYear()} Datify — Alexandre Gire
-        </p>
-        <div class="flex gap-6">
-          <a href="/blog" class="text-sm text-[#8898AA] hover:text-[#0A2540]">Blog</a>
-          <a href="/mentions-legales" class="text-sm text-[#8898AA] hover:text-[#0A2540]">Mentions légales</a>
-          <a href="https://linkedin.com/in/alexandre-gire" class="text-sm text-[#8898AA] hover:text-[#0A2540]">LinkedIn</a>
+    <!-- FOOTER -->
+    <footer class="bg-[#0A2540] text-white pt-20 pb-10 mt-0">
+      <div class="container">
+        <!-- Top -->
+        <div class="grid md:grid-cols-3 gap-12 pb-16 border-b border-white/10">
+          <!-- Brand -->
+          <div>
+            <p class="text-xl font-bold tracking-tight mb-3">
+              Dati<span class="text-[#635BFF]">fy</span>
+            </p>
+            <p class="text-sm text-white/50 leading-relaxed max-w-xs">
+              Analytics engineering, tracking & media buying pour les équipes data-driven.
+            </p>
+          </div>
+          <!-- Nav -->
+          <div>
+            <p class="label text-white/30 mb-5">Navigation</p>
+            <div class="flex flex-col gap-3">
+              {[
+                { href: '/', label: 'Accueil' },
+                { href: '/services', label: 'Services' },
+                { href: '/blog', label: 'Blog' },
+                { href: '/contact', label: 'Contact' },
+              ].map(({ href, label }) => (
+                <a href={href} class="text-sm text-white/60 hover:text-white transition-colors w-fit">{label}</a>
+              ))}
+            </div>
+          </div>
+          <!-- Contact -->
+          <div>
+            <p class="label text-white/30 mb-5">Contact</p>
+            <div class="flex flex-col gap-3">
+              <a href="mailto:alexandre@datify.fr" class="text-sm text-white/60 hover:text-white transition-colors w-fit">
+                alexandre@datify.fr
+              </a>
+              <a href="https://linkedin.com/in/alexandre-gire" target="_blank" rel="noopener noreferrer" class="text-sm text-white/60 hover:text-white transition-colors w-fit">
+                LinkedIn
+              </a>
+              <span class="inline-flex items-center gap-2 text-sm text-[#635BFF] font-medium mt-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#635BFF] animate-pulse"></span>
+                Disponible pour missions
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom -->
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-8">
+          <p class="text-xs text-white/30">
+            © {new Date().getFullYear()} Datify — Alexandre Gire
+          </p>
+          <div class="flex gap-6">
+            <a href="/mentions-legales" class="text-xs text-white/30 hover:text-white/60 transition-colors">Mentions légales</a>
+            <a href="/blog" class="text-xs text-white/30 hover:text-white/60 transition-colors">Blog</a>
+          </div>
         </div>
       </div>
     </footer>
+
+    <!-- Navbar scroll behavior -->
+    <script>
+      const header = document.getElementById('site-header')
+      const updateHeader = () => {
+        if (window.scrollY > 24) {
+          header?.classList.add('nav-scrolled')
+        } else {
+          header?.classList.remove('nav-scrolled')
+        }
+      }
+      window.addEventListener('scroll', updateHeader, { passive: true })
+      updateHeader()
+
+      // Mobile menu
+      const toggle = document.getElementById('menu-toggle')
+      const mobileMenu = document.getElementById('mobile-menu')
+      const bars = document.querySelectorAll('.menu-bar')
+      let open = false
+
+      toggle?.addEventListener('click', () => {
+        open = !open
+        mobileMenu?.classList.toggle('hidden', !open)
+        bars[0]?.classList.toggle('rotate-45', open)
+        bars[0]?.classList.toggle('translate-y-2', open)
+        bars[1]?.classList.toggle('-rotate-45', open)
+        bars[1]?.classList.toggle('-translate-y-2', open)
+      })
+
+      // Scroll reveal
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('in-view')
+              observer.unobserve(e.target)
+            }
+          })
+        },
+        { threshold: 0.08, rootMargin: '0px 0px -48px 0px' }
+      )
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
+    </script>
+
+    <style>
+      #site-header {
+        background: transparent;
+      }
+      #site-header.nav-scrolled {
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 1px 0 #E2E8F0;
+      }
+    </style>
+
   </body>
 </html>
