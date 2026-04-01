@@ -1,0 +1,325 @@
+---
+title: "Déboguer GTM Server-Side : du premier 404 aux logs BigQuery"
+description: "Guide complet de debug GTM Server-Side, du plus simple au plus avancé. Infrastructure, CSP, cas Shopify, logs Cloud Run, validation BigQuery. Tout ce qui peut casser — et comment le corriger."
+pubDate: 2026-04-01
+author: "Alexandre Gire"
+tags: ["GTM", "server-side", "debug", "GA4", "Shopify", "BigQuery", "tracking"]
+---
+
+Cet article couvre le debug GTM Server-Side de A à Z, dans l'ordre dans lequel un problème se présente réellement sur un projet. On part du plus basique — "pourquoi mon conteneur ne reçoit rien" — et on monte progressivement vers des techniques avancées : inspection des logs Cloud, corrélation avec BigQuery, détection des doublons dans Meta CAPI.
+
+Vous n'avez pas besoin de tout lire. Si votre Preview serveur est vide, commencez par la section 1. Si GA4 reçoit des données mais que vos events de checkout Shopify n'apparaissent pas côté serveur, allez directement à la section 2.4. Si les données arrivent mais que les chiffres ne collent pas, c'est la section 4.
+
+L'essentiel à comprendre avant de commencer : dans un setup SST, il y a **trois couches distinctes** où quelque chose peut casser — le conteneur web, le conteneur serveur, et la destination (GA4, Meta, etc.). La majorité des bugs viennent du conteneur **web**, pas du serveur. C'est contre-intuitif, mais c'est le premier endroit à inspecter.
+
+---
+
+## Sommaire
+
+1. [Vérifier que l'infrastructure fonctionne](#1-vérifier-que-linfrastructure-fonctionne)
+2. [Le conteneur serveur ne reçoit rien](#2-le-conteneur-serveur-ne-reçoit-rien)
+3. [Le mode Preview ment — et comment le compenser](#3-le-mode-preview-ment--et-comment-le-compenser)
+4. [Les events arrivent en double ou avec des données corrompues](#4-les-events-arrivent-en-double-ou-avec-des-données-corrompues)
+5. [Debug avancé avec les logs Cloud Run et BigQuery](#5-debug-avancé-avec-les-logs-cloud-run-et-bigquery)
+6. [Valider end-to-end : de la source de vérité à la destination](#6-valider-end-to-end--de-la-source-de-vérité-à-la-destination)
+
+---
+
+## 1 — Vérifier que l'infrastructure fonctionne
+
+Avant de toucher à quoi que ce soit dans GTM, deux vérifications qui prennent 30 secondes et éliminent la moitié des fausses pistes.
+
+**Test 1 — `/healthy`**
+
+Ouvrez votre domaine serveur dans le navigateur avec `/healthy` à la fin :
+
+```
+https://ss.monsite.com/healthy
+```
+
+Si vous voyez `ok` : le serveur physique tourne. Si vous voyez une erreur de connexion ou un timeout : le problème est au niveau de l'hébergement (GCP, Stape, Cloud Run), pas de GTM.
+
+**Test 2 — `/test`**
+
+```
+https://ss.monsite.com/test
+```
+
+Une réponse `400` ici est **normale et souhaitable**. Elle confirme que le conteneur GTM est publié et qu'il répond. Une `404` signifie que votre conteneur n'a jamais été publié — c'est le bug le plus fréquent et le plus invisible.
+
+Si vous venez de configurer votre conteneur serveur, allez dans GTM → **Envoyer** → **Publier** avant toute autre chose. Le serveur physique peut tourner parfaitement avec un conteneur GTM vide dedans. Dans ce cas il répond `404` à toutes les requêtes, sans le moindre message d'erreur dans les logs.
+
+---
+
+## 2 — Le conteneur serveur ne reçoit rien
+
+L'infrastructure tourne, mais votre Preview serveur affiche une colonne "Incoming Requests" désespérément vide. Votre Preview web, lui, montre des events. Plusieurs causes possibles, dans l'ordre de fréquence.
+
+### 2.1 — `server_container_url` manquant ou mal formaté
+
+`gtag.js` envoie par défaut directement à Google. Pour qu'il route vers votre serveur, il faut l'indiquer explicitement dans votre **Google Tag** (la balise de configuration, pas les balises d'events).
+
+Dans GTM web → ouvrez votre Google Tag → **Paramètres de configuration** → ajoutez manuellement :
+
+| Clé | Valeur |
+|-----|--------|
+| `server_container_url` | `https://ss.monsite.com` |
+
+Deux détails qui cassent des configurations entières :
+
+- Pas de slash final (`https://ss.monsite.com/` avec le slash → ne fonctionne pas)
+- Ce paramètre va dans la **Google Tag de configuration**, pas dans les balises GA4 Event individuelles
+
+> 📸 **Illustration** : interface GTM "Paramètres de configuration" avec le paramètre `server_container_url` en surbrillance, annotation sur l'absence du slash
+
+### 2.2 — Un autre script réinitialise GA4 sans `server_container_url`
+
+Votre serveur reste muet malgré la bonne configuration, mais GA4 reçoit quand même des données. Dans le Network tab (filtrez sur votre Measurement ID), les hits partent vers `google-analytics.com` directement.
+
+Un autre script sur votre site a réinitialisé le même Measurement ID sans votre paramètre de routage. Ce script gagne la "course" et court-circuite tout votre setup serveur.
+
+Suspects habituels selon la plateforme :
+
+- **WordPress** : Site Kit, MonsterInsights, plugin WooCommerce Analytics
+- **Shopify** : App native Google & YouTube (voir section 2.4)
+- **Framework JS** : snippet GA4 hardcodé dans le code source par un développeur
+
+**Vérification** : Network tab → filtrez sur votre Measurement ID → regardez la colonne Domain. Tout ce qui va vers `google-analytics.com` bypasse votre serveur.
+
+La règle : un seul Measurement ID, un seul point d'initialisation, un seul chemin.
+
+### 2.3 — La CSP bloque les scripts GTM
+
+Sur les frameworks modernes avec headers HTTP configurés (Next.js, Astro, Nuxt), une Content Security Policy trop stricte empêche le chargement de `gtm.js`. GTM ne donne aucun message d'erreur dans son interface — la seule trace est dans la console du navigateur :
+
+```
+Refused to load the script 'https://www.googletagmanager.com/gtm.js'
+because it violates the following Content Security Policy directive: "script-src 'self'"
+```
+
+Sur Datify, on a eu ce bug au déploiement Astro sur Vercel : GTM fonctionnait sur la home et pas sur `/services`, parce que les headers CSP s'appliquaient différemment selon les routes dans le `vercel.json`.
+
+Configuration minimale fonctionnelle dans `vercel.json` :
+
+```json
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "script-src 'self' 'unsafe-inline' https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.googletagmanager.com https://region1.google-analytics.com; img-src 'self' data: https://www.googletagmanager.com;"
+        }
+      ]
+    }
+  ]
+}
+```
+
+`unsafe-inline` est nécessaire pour que le mode Preview GTM affiche son panel de debug. Pour une CSP stricte en production, l'approche nonce est recommandée par Google — mais elle impose que votre serveur génère un nonce unique à chaque réponse HTTP.
+
+> 📸 **Illustration** : console Chrome avec la ligne rouge CSP annotée, flèche vers la directive `script-src` bloquante
+
+### 2.4 — Le cas Shopify : pourquoi les deux Previews ne peuvent pas coexister
+
+C'est le problème le plus contre-intuitif de tout le debug server-side sur Shopify. Si vous avez un setup Shopify + GTM SST et que vos events `begin_checkout` ou `purchase` n'apparaissent pas dans le Preview serveur, la cause probable n'est pas votre configuration — c'est que vous avez les deux Previews ouverts en même temps.
+
+**Ce qui se passe mécaniquement** : quand le Preview client-side est actif, GTM injecte un cookie de session de debug (`gtm_debug`) dans le navigateur. Ce cookie modifie le routing des requêtes. Sur Shopify, où les events de checkout passent par le mécanisme Customer Events — des pixels dans une sandbox iFrame isolée — ce cookie interfère avec la transmission des events vers le conteneur serveur. Les deux Previews se marchent dessus.
+
+**Le fix** :
+
+1. Fermez complètement le Preview client-side (cliquez "Quitter le mode Preview" dans GTM web)
+2. Ouvrez **uniquement** le Preview serveur dans un onglet
+3. Ouvrez votre store Shopify dans un onglet séparé
+4. Rafraîchissez la page et déclenchez un `begin_checkout` ou un `purchase`
+5. Les events apparaissent maintenant dans le Preview serveur
+
+> 📸 **Illustration** : deux onglets côte à côte — GTM Server Preview actif à gauche, Shopify store à droite — avec une croix rouge sur le panneau de debug client-side fermé
+
+**Pourquoi le Preview client-side est structurellement cassé sur Shopify checkout** : depuis que Shopify a déprécié `checkout.liquid` et migré vers les Customer Events (Web Pixel API), tous les pixels de tracking sur le checkout s'exécutent dans un iFrame sandboxé. Cet iFrame n'a pas accès au DOM parent, ne peut pas lire les cookies du domaine principal, et le script de debug GTM ne peut pas s'y charger. Pour les events de checkout et `purchase`, le Preview client-side ne montrera jamais rien — c'est une contrainte Shopify, pas GTM. La seule façon de déboguer ces events reste le Preview serveur seul, ou le Network tab.
+
+**Deux autres pièges Shopify fréquents** :
+
+L'app **Google & YouTube** dans Shopify Admin initialise son propre tracking GA4 qui envoie les events directement vers Google en bypassant votre conteneur serveur. Résolution : Shopify Admin → Apps → Google & YouTube → déconnectez GA4 de cette app.
+
+Dans Shopify Admin → Paramètres → Confidentialité client, le paramètre de permissions des pixels doit être sur **"Non requis"**. S'il est sur "Requis", Shopify bloque l'exécution du code dans la sandbox Customer Events avant même que vos events puissent être générés.
+
+---
+
+## 3 — Le mode Preview ment — et comment le compenser
+
+Le mode Preview GTM est le premier réflexe de debug, et c'est bien. Mais il a une limite fondamentale : il contourne les adblockers, Safari ITP, Firefox Enhanced Tracking Protection, et toutes les extensions de protection de vie privée de vos vrais utilisateurs.
+
+Concrètement : en Preview, vos tags peuvent fire parfaitement. Vous publiez. Une semaine plus tard, un écart de 25 à 35 % apparaît entre vos conversions GA4 et vos données Stripe. Le server-side est censé contourner les bloqueurs — mais seulement si les requêtes passent effectivement par votre domaine.
+
+**Le test de réalité** : avant de publier n'importe quel changement, testez dans ces conditions :
+
+1. Firefox avec Enhanced Tracking Protection activée (onglet "Strict")
+2. Chrome en navigation privée avec uBlock Origin activé
+3. Safari standard (le plus bloquant)
+
+Dans le Network tab de chacun, filtrez sur votre Measurement ID. Chaque hit doit aller vers `ss.monsite.com`, pas vers `google-analytics.com`. Si ce n'est pas le cas en conditions réelles, votre serveur tourne dans le vide.
+
+### Le trigger qui casse l'attribution silencieusement
+
+Un bug qui ne se voit pas en Preview mais qui corrompt des mois de données en production : vos balises d'events se déclenchent avant que votre Google Tag de configuration soit chargée.
+
+Dans GTM, les tags ne sont pas synchrones — il y a une séquence d'exécution. Si un event comme `page_view` fire avant que la Google Tag ait initialisé le contexte de session, l'event arrive dans GA4 sans session ID, sans source, sans medium. GA4 ne peut pas l'attribuer → `(not set)` partout dans vos rapports d'acquisition.
+
+**Correction** : dans votre conteneur web GTM, trouvez votre **Google Tag** et changez son trigger de "All Pages" vers **"Initialization – All Pages"**. Ce trigger s'exécute avant tous les autres dans GTM par design. Depuis avril 2025, Google applique automatiquement ce comportement pour les tags Google Ads, mais pas pour les autres configurations.
+
+> 📸 **Illustration** : interface GTM, trigger de la Google Tag — "All Pages" à gauche vs "Initialization – All Pages" à droite
+
+---
+
+## 4 — Les events arrivent en double ou avec des données corrompues
+
+Votre monitoring est vert, les events arrivent, mais les chiffres ne tiennent pas. Trop de conversions, des valeurs aberrantes, ou des sessions dupliquées.
+
+### Double initialisation GA4
+
+Si deux tags initialisent le même Measurement ID — l'un avec `server_container_url`, l'autre sans — vous avez des hits qui partent deux fois : une fois par votre serveur, une fois directement vers Google. Vos conversions sont comptées double, Meta et Google Ads reçoivent deux fois plus de signaux, vos algorithmes optimisent sur des données fausses.
+
+**Vérification** : dans le Network tab, comptez les requêtes vers votre Measurement ID pour un seul `page_view`. Il ne doit y en avoir qu'une, vers votre domaine serveur.
+
+### Valeurs monétaires en centimes vs euros
+
+Une erreur de données fréquente sur les intégrations API : la source envoie les montants en centimes (Shopify, Stripe), et votre tag relaie ce montant brut vers Meta CAPI ou GA4 qui l'interprète en euros.
+
+Résultat : un achat à 198 € s'affiche à 19 800 € dans Meta Ads. Les algorithmes publicitaires sont euphoriques pour les mauvaises raisons, vos audiences lookalike se construisent sur des signaux aberrants.
+
+Dans votre variable GTM qui récupère la valeur, normalisez à la source :
+
+```javascript
+function() {
+  var raw = {{DLV - rawValue}};
+  // Shopify et Stripe envoient en centimes
+  return raw / 100;
+}
+```
+
+Avant de pousser en production, vérifiez dans le Panel "Event Data" du Preview serveur que le paramètre `value` contient bien le montant en euros.
+
+### Noms de paramètres réservés GA4
+
+GA4 réserve une liste de paramètres pour ses usages e-commerce natifs : `value`, `currency`, `items`, `shipping`, `tax`, `coupon`. Si vous utilisez ces noms pour autre chose — par exemple `items` pour transmettre un nom de service — GA4 l'interprète comme un tableau d'articles e-commerce et peut rejeter ou mal stocker la donnée.
+
+Renommez : `service_name`, `service_value`, `service_type`. Et déclarez-les comme Custom Dimensions dans GA4 Admin — sinon ils sont invisibles dans les rapports (ils arrivent bien dans BigQuery, mais pas dans l'interface reporting).
+
+---
+
+## 5 — Debug avancé avec les logs Cloud Run et BigQuery
+
+Le mode Preview GTM est un excellent point de départ, mais il a des angles morts : il ne montre pas ce qui se passe côté Cloud Run, ne loggue pas les erreurs d'authentification vers les APIs tierces, et n'est pas disponible en production sans accès à l'interface GTM.
+
+### Logs Cloud Run dans GCP
+
+Si votre sGTM tourne sur Google Cloud Run (directement ou via Stape), les logs sont accessibles dans la console GCP sous **Cloud Logging**.
+
+Filtre utile pour isoler les erreurs GTM :
+
+```
+resource.type="cloud_run_revision"
+resource.labels.service_name="[nom-de-votre-service]"
+severity>=WARNING
+```
+
+Ce que vous cherchez :
+
+- **Erreurs 401/403** : problème d'authentification avec une API tierce (Meta CAPI, TikTok Events API)
+- **Erreurs 400** : payload malformé — votre tag envoie des données que la destination refuse
+- **Timeouts** : la destination met trop longtemps à répondre, l'event est perdu
+
+### Logger Tag dans le conteneur serveur
+
+Pour les requêtes POST dont le body n'est pas automatiquement loggué (comportement par défaut de Cloud Run et Stape), ajoutez un **Logger Tag** dans votre conteneur serveur. Il capture le body complet de chaque requête et vous permet de voir exactement ce qui entre dans votre serveur.
+
+Dans le conteneur serveur GTM → Nouveau tag → cherchez "Logger" dans la galerie → activez "Log Request Body".
+
+### Export vers BigQuery pour auditer à grande échelle
+
+Pour auditer votre tracking sur des volumes réels — pas juste en session de debug — activez l'export BigQuery dans vos tags serveur. La requête suivante donne le taux de transmission entre ce que reçoit votre serveur et ce qui arrive dans GA4, sur les 7 derniers jours :
+
+```sql
+WITH serveur AS (
+  SELECT
+    DATE(timestamp) AS date,
+    JSON_VALUE(jsonPayload.message, '$.event_name') AS event_name,
+    COUNT(*) AS hits_serveur
+  FROM `projet.logs.run_googleapis_com_requests_*`
+  WHERE DATE(timestamp) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+  GROUP BY 1, 2
+),
+
+ga4 AS (
+  SELECT
+    PARSE_DATE('%Y%m%d', event_date) AS date,
+    event_name,
+    COUNT(*) AS hits_ga4
+  FROM `projet.analytics_XXXXXXX.events_*`
+  WHERE _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY))
+  GROUP BY 1, 2
+)
+
+SELECT
+  s.date,
+  s.event_name,
+  s.hits_serveur,
+  g.hits_ga4,
+  ROUND(SAFE_DIVIDE(g.hits_ga4, s.hits_serveur) * 100, 1) AS taux_transmission_pct
+FROM serveur s
+LEFT JOIN ga4 g USING (date, event_name)
+ORDER BY s.date DESC, s.hits_serveur DESC
+```
+
+Un `taux_transmission_pct` en dessous de 85 % sur un event critique (`purchase`, `lead`) signale une perte de données entre votre serveur et GA4 — probablement un problème d'authentification ou de payload malformé.
+
+> 📸 **Illustration** : tableau BigQuery avec 3 colonnes — hits_serveur (bleu), hits_ga4 (vert), taux_transmission avec fond rouge si < 85 %
+
+---
+
+## 6 — Valider end-to-end : de la source de vérité à la destination
+
+La dernière étape, celle que la plupart des setups ne font jamais : comparer vos données tracking avec la source de vérité business.
+
+Si vous trackez des purchases : la somme des `purchase` events dans GA4 doit correspondre à votre Stripe ou votre backend. Si vous trackez des leads : vos events `form_submit` doivent correspondre à ce que votre CRM a enregistré le même jour.
+
+Un écart de 5 à 10 % est normal (timing, JS désactivé, bots filtrés). Au-delà de 15 %, il y a un problème de tracking à investiguer.
+
+La requête BigQuery pour comparer sur 30 jours :
+
+```sql
+SELECT
+  PARSE_DATE('%Y%m%d', event_date) AS date,
+  COUNT(*) AS purchases_ga4,
+  SUM(ecommerce.purchase_revenue) AS revenue_ga4
+FROM `projet.analytics_XXXXXXX.events_*`
+WHERE event_name = 'purchase'
+  AND _TABLE_SUFFIX >= FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY))
+GROUP BY 1
+ORDER BY 1 DESC
+```
+
+Exportez en Looker Studio et posez ces données côté-à-côté avec votre export Stripe ou votre extraction CRM. C'est ça, la vraie validation d'un tracking server-side.
+
+---
+
+## Récapitulatif — la méthode de diagnostic en moins de 5 minutes
+
+Quand quelque chose ne fonctionne pas, voilà l'ordre dans lequel chercher :
+
+1. `ss.monsite.com/healthy` → répond `ok` ? L'infra tourne.
+2. `ss.monsite.com/test` → répond `400` ? Le conteneur est publié.
+3. Network tab → les hits vont vers votre domaine, pas vers Google directement ?
+4. Console du navigateur → pas d'erreur CSP ?
+5. Sur Shopify → Preview client-side bien fermé avant de tester le serveur ?
+6. La Google Tag a bien le trigger "Initialization – All Pages" ?
+
+Si les 6 répondent correctement et que vous avez encore un problème, cherchez du côté d'un autre script qui réinitialise GA4 — c'est la cause la moins visible et la plus courante sur les sites avec des CMS ou des apps tierces.
+
+---
+
+Le prochain article de cette série abordera l'enrichissement des données côté serveur : comment ajouter des informations CRM sur les events avant de les envoyer vers Meta CAPI, et comment construire un scoring d'audience first-party directement dans BigQuery.
+
+Si vous voulez un audit de votre setup GTM server-side existant, ou déployer cette architecture sur votre site : [contactez-moi](/contact).
