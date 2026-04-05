@@ -101,6 +101,25 @@
     transform: translateY(-1px);
   }
 
+  .btn-ghost-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.65);
+    padding: 0.875rem 1.75rem;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+  }
+  .btn-ghost-dark:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white;
+    transform: translateY(-1px);
+  }
+
   .label {
     font-size: 0.6875rem;
     font-weight: 600;
