@@ -15,7 +15,7 @@ export const FORM_ENDPOINT = 'https://formspree.io/f/A-REMPLACER'
 /** Adresse de contact affichée. Ne fonctionnera qu'une fois datify.fr acheté. */
 export const CONTACT_EMAIL = 'alexandre@datify.fr'
 
-export const LINKEDIN_URL = 'https://linkedin.com/in/alexandre-gire'
+export const LINKEDIN_URL = 'https://www.linkedin.com/in/alexandre-gire-1203851b9/'
 
 /** Identité légale — à compléter avant mise en ligne des mentions légales. */
 export const LEGAL = {
