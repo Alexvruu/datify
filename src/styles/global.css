@@ -216,3 +216,27 @@ body:has(main > section.nuit:first-of-type) #site-header:not(.is-light):not(.men
 /* Le hero sombre remonte sous le header transparent (le halo violet passe dessous). */
 main:has(> section.nuit:first-of-type) { padding-top: 0; }
 main > section.nuit:first-of-type { border-top: 72px solid transparent; background-origin: border-box; }
+
+
+/* ── Accessibilité ────────────────────────────────────────────────────────────
+   Le violet de marque (#635BFF) tombe à 4,41:1 sur fond clair : sous le seuil AA
+   pour du texte courant. Le texte en violet utilise donc la variante foncée ;
+   les boutons, qui sont du gros texte sur aplat, gardent la couleur de marque. */
+.text-signal { color: var(--color-signal-dark); }
+.nuit .text-signal { color: #7C75FF; }
+
+:focus-visible {
+  outline: 2px solid var(--color-signal-dark);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.nuit :focus-visible, #site-header:not(.is-light):not(.menu-open) :focus-visible { outline-color: #A8A2FF; }
+
+/* Lien d'évitement : visible seulement au clavier. */
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 60;
+  background: var(--color-signal-dark); color: #fff;
+  padding: 10px 16px; border-radius: 4px; font-weight: 500;
+  transition: top .15s ease;
+}
+.skip-link:focus { top: 12px; }

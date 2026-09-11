@@ -1,10 +1,9 @@
 ---
-title: "GA4 Server-Side : Implémenter le tracking côté serveur avec GTM"
-description: "Guide complet pour configurer GA4 en server-side tagging avec Google Tag Manager. Améliorez la qualité de vos données analytics, contournez les bloqueurs de publicité et restez conforme RGPD."
+title: "GA4 server-side : le tracking côté serveur avec GTM"
+description: "Configurer GA4 en server-side avec Google Tag Manager : qualité des données, pertes techniques récupérées, consentement respecté."
 date: 2026-03-15
 author: Alexandre Gire
 tags: ["GA4", "GTM", "server-side", "tracking", "RGPD", "analytics"]
-image: "/images/blog/ga4-server-side-gtm.jpg"
 ---
 
 Le tracking côté client montre ses limites : bloqueurs de pubs, iOS 17, restrictions navigateur. En 2025, **perdre 20 à 40 % de ses données analytics** est devenu la norme pour les sites non préparés. La solution ? Le **server-side tagging**.

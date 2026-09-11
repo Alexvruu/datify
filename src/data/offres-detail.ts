@@ -50,9 +50,8 @@ export const OFFRES_PAGES: OffreDetail[] = [
     nom: 'Tracking server-side',
     navTitre: 'Tracking server-side',
     accroche: 'GTM server-side, API Conversions Meta et Enhanced Conversions : vos conversions arrivent aux régies.',
-    metaTitre: 'Tracking server-side : GTM server-side, Meta CAPI, Enhanced Conversions',
-    metaDescription:
-      'Mise en place d’un tracking server-side complet : conteneur GTM server-side, API Conversions Meta dédupliquée, Enhanced Conversions, Consent Mode v2. Mesuré avant et après, documenté.',
+    metaTitre: 'Tracking server-side : GTM, Meta CAPI, GA4',
+    metaDescription: 'Tracking server-side complet : conteneur GTM serveur, API Conversions Meta dédupliquée, Enhanced Conversions et Consent Mode v2, mesuré avant/après.',
     surtitre: 'Offre · Cœur du métier',
     h1: 'Vos campagnes optimisent sur les conversions qu’elles reçoivent. Encore faut-il qu’elles les reçoivent.',
     chapo:
@@ -198,9 +197,8 @@ export const OFFRES_PAGES: OffreDetail[] = [
     nom: 'Audit tracking',
     navTitre: 'Audit tracking',
     accroche: 'L’état des lieux chiffré, avant toute décision.',
-    metaTitre: 'Audit tracking à 290 € : ce que vos campagnes ne mesurent pas',
-    metaDescription:
-      'Audit tracking en 5 jours : réconciliation des ventes réelles avec GA4, Meta et Google Ads, contrôle de la collecte et du consentement, correctifs classés par impact. 290 €, déduits du setup.',
+    metaTitre: 'Audit tracking à 290 € : ce que vous ne mesurez pas',
+    metaDescription: 'Audit en 5 jours : vos ventes réelles comparées à GA4, Meta et Google Ads, collecte et consentement contrôlés, correctifs classés par impact.',
     surtitre: 'Offre · Porte d’entrée',
     h1: 'Avant de corriger quoi que ce soit : savoir ce que vous perdez, et combien.',
     chapo:
@@ -342,9 +340,8 @@ export const OFFRES_PAGES: OffreDetail[] = [
     nom: 'Conversions offline',
     navTitre: 'Conversions offline',
     accroche: 'Enchérir sur les leads qui signent, pas sur les formulaires.',
-    metaTitre: 'Conversions offline CRM vers Google Ads : enchérir sur les leads qui signent',
-    metaDescription:
-      'Remontée des jalons CRM (lead qualifié, rendez-vous, signature) vers Google Ads avec leur valeur : capture du GCLID, import par fichier ou API, gestion des fuseaux et des doublons.',
+    metaTitre: 'Conversions offline CRM vers Google Ads',
+    metaDescription: 'Remonter les jalons de votre CRM vers Google Ads avec leur valeur : capture du GCLID, import quotidien, fuseaux et doublons maîtrisés.',
     surtitre: 'Offre · Lead gen',
     h1: 'Google Ads enchérit sur vos formulaires. Faites-le enchérir sur vos clients.',
     chapo:
@@ -489,9 +486,8 @@ export const OFFRES_PAGES: OffreDetail[] = [
     nom: 'Dashboard et ROAS réel',
     navTitre: 'Dashboard et ROAS réel',
     accroche: 'Piloter sur la marge, pas sur le revenu déclaré par les régies.',
-    metaTitre: 'Dashboard marge et ROAS réel : BigQuery, Looker Studio et vos vraies ventes',
-    metaDescription:
-      'Ventes, CRM et dépenses publicitaires réunis dans votre BigQuery, commandes réelles attribuées au bon canal, tableau de bord orienté marge et alertes quand un chiffre dérape.',
+    metaTitre: 'Dashboard marge et ROAS réel sur BigQuery',
+    metaDescription: 'Ventes, CRM et dépenses publicitaires réunis dans votre BigQuery, commandes attribuées au bon canal, pilotage à la marge et alertes.',
     surtitre: 'Offre · Piloter',
     h1: 'Le ROAS affiché par la régie n’est pas celui qui paie vos salaires.',
     chapo:
@@ -633,9 +629,8 @@ export const OFFRES_PAGES: OffreDetail[] = [
     nom: 'Outils et dashboards sur mesure',
     navTitre: 'Outils sur mesure',
     accroche: 'L’outil que votre équipe ouvre tous les matins.',
-    metaTitre: 'Outils et dashboards sur mesure : l’application interne qui remplace vos fichiers',
-    metaDescription:
-      'Application interne bâtie sur vos données : accès par utilisateur, cloisonnement par compte, alertes, indicateurs métier. Construite sur votre Google Cloud, documentée, reprenable.',
+    metaTitre: 'Outils et dashboards sur mesure',
+    metaDescription: 'Application interne bâtie sur vos données : accès par utilisateur, cloisonnement, alertes et indicateurs métier. Hébergée chez vous, documentée.',
     surtitre: 'Offre · Data, outils et IA',
     h1: 'Quand le tableau de bord ne suffit plus : l’outil que votre équipe ouvre tous les matins.',
     chapo:
@@ -777,9 +772,8 @@ export const OFFRES_PAGES: OffreDetail[] = [
     nom: 'Automatisation',
     navTitre: 'Automatisation',
     accroche: 'Les tâches du lundi matin, faites sans vous.',
-    metaTitre: 'Automatisation des tâches data : exports, synchros, rapports et alertes',
-    metaDescription:
-      'Suppression des tâches répétitives : exports, synchronisations, rapprochements et rapports automatisés sur Google Cloud et Apps Script, avec contrôles et alertes en cas d’anomalie.',
+    metaTitre: 'Automatisation des tâches data',
+    metaDescription: 'Exports, synchronisations, rapports et alertes automatisés sur Google Cloud et Apps Script, avec des contrôles qui bloquent les données fausses.',
     surtitre: 'Offre · Data, outils et IA',
     h1: 'Les tâches qui reviennent tous les lundis n’ont pas besoin de vous.',
     chapo:
@@ -920,9 +914,8 @@ export const OFFRES_PAGES: OffreDetail[] = [
     nom: 'IA branchée sur vos données',
     navTitre: 'IA sur vos données',
     accroche: 'Un assistant qui répond sur vos chiffres, pas sur Internet.',
-    metaTitre: 'IA branchée sur vos données : un assistant qui répond sur vos chiffres',
-    metaDescription:
-      'Mise en place d’un assistant connecté à votre entrepôt de données : réponses sourcées, périmètre maîtrisé, coûts contrôlés. Analyses récurrentes automatisées, sans décision prise à votre place.',
+    metaTitre: 'IA branchée sur vos données',
+    metaDescription: 'Un assistant connecté à votre entrepôt : réponses sourcées, périmètre maîtrisé, coûts plafonnés. Mise en place encadrée, sans décision automatique.',
     surtitre: 'Offre · Data, outils et IA',
     h1: 'Un assistant qui répond sur vos chiffres, pas sur Internet.',
     chapo:
@@ -1064,9 +1057,8 @@ export const OFFRES_PAGES: OffreDetail[] = [
     nom: 'Accompagnement data',
     navTitre: 'Accompagnement data',
     accroche: 'Quelques jours par mois, la compétence que vous n’avez pas en interne.',
-    metaTitre: 'Accompagnement data : quelques jours par mois dans votre équipe',
-    metaDescription:
-      'Accompagnement data au mois : priorisation, exécution, montée en compétence de l’équipe et définitions partagées. Sans recruter un profil data à temps plein.',
+    metaTitre: 'Accompagnement data, quelques jours par mois',
+    metaDescription: 'Priorisation, exécution et montée en compétence de votre équipe, 2 à 4 jours par mois, sans recruter un profil data à temps plein.',
     surtitre: 'Offre · Data, outils et IA',
     h1: 'Quelques jours par mois, la compétence data que vous n’avez pas en interne.',
     chapo:

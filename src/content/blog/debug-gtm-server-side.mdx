@@ -1,6 +1,6 @@
 ---
-title: "Déboguer GTM Server-Side : du premier 404 aux logs BigQuery"
-description: "Guide complet de debug GTM Server-Side, du plus simple au plus avancé. Infrastructure, CSP, cas Shopify, logs Cloud Run, validation BigQuery. Tout ce qui peut casser — et comment le corriger."
+title: "Déboguer GTM Server-Side, du 404 aux logs"
+description: "Debug GTM Server-Side, du plus simple au plus avancé : infrastructure, CSP, cas Shopify, logs Cloud Run, validation BigQuery."
 date: 2026-04-01
 author: "Alexandre Gire"
 tags: ["GTM", "server-side", "debug", "GA4", "Shopify", "BigQuery", "tracking"]
@@ -16,12 +16,12 @@ L'essentiel à comprendre avant de commencer : dans un setup SST, il y a **trois
 
 ## Sommaire
 
-1. [Vérifier que l'infrastructure fonctionne](#1-vérifier-que-linfrastructure-fonctionne)
-2. [Le conteneur serveur ne reçoit rien](#2-le-conteneur-serveur-ne-reçoit-rien)
-3. [Le mode Preview ment — et comment le compenser](#3-le-mode-preview-ment--et-comment-le-compenser)
-4. [Les events arrivent en double ou avec des données corrompues](#4-les-events-arrivent-en-double-ou-avec-des-données-corrompues)
-5. [Debug avancé avec les logs Cloud Run et BigQuery](#5-debug-avancé-avec-les-logs-cloud-run-et-bigquery)
-6. [Valider end-to-end : de la source de vérité à la destination](#6-valider-end-to-end--de-la-source-de-vérité-à-la-destination)
+1. [Vérifier que l'infrastructure fonctionne](#1--vérifier-que-linfrastructure-fonctionne)
+2. [Le conteneur serveur ne reçoit rien](#2--le-conteneur-serveur-ne-reçoit-rien)
+3. [Le mode Preview ment — et comment le compenser](#3--le-mode-preview-ment--et-comment-le-compenser)
+4. [Les events arrivent en double ou avec des données corrompues](#4--les-events-arrivent-en-double-ou-avec-des-données-corrompues)
+5. [Debug avancé avec les logs Cloud Run et BigQuery](#5--debug-avancé-avec-les-logs-cloud-run-et-bigquery)
+6. [Valider end-to-end : de la source de vérité à la destination](#6--valider-end-to-end--de-la-source-de-vérité-à-la-destination)
 
 ---
 
@@ -97,7 +97,7 @@ Refused to load the script 'https://www.googletagmanager.com/gtm.js'
 because it violates the following Content Security Policy directive: "script-src 'self'"
 ```
 
-Sur Datify, on a eu ce bug au déploiement Astro sur Vercel : GTM fonctionnait sur la home et pas sur `/services`, parce que les headers CSP s'appliquaient différemment selon les routes dans le `vercel.json`.
+Sur Datify, on a eu ce bug au déploiement Astro sur Vercel : GTM fonctionnait sur la home et pas sur `/offres`, parce que les headers CSP s'appliquaient différemment selon les routes dans le `vercel.json`.
 
 Configuration minimale fonctionnelle dans `vercel.json` :
 

@@ -118,6 +118,8 @@ const currentPath = Astro.url.pathname
     <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
+    <a href="#contenu" class="skip-link">Aller au contenu</a>
+
     <!-- NAVBAR -->
     <header id="site-header" class="fixed top-0 left-0 right-0 z-50">
       <nav class="container flex items-center justify-between h-[72px]">
@@ -245,7 +247,7 @@ const currentPath = Astro.url.pathname
       )}
     </header>
 
-    <main class="pt-[72px]">
+    <main id="contenu" class="pt-[72px]">
       <slot />
     </main>
 
@@ -373,17 +375,93 @@ const currentPath = Astro.url.pathname
     </script>
 
     <!-- ÉVÉNEMENTS DE CONVERSION -->
-    <script>
+    <script define:vars={{ CALENDLY_URL }}>
       // Tout élément portant data-cta pousse un événement nommé dans le dataLayer.
+      const push = (data) => { (window.dataLayer = window.dataLayer || []).push(data) }
+
       document.querySelectorAll('[data-cta]').forEach((el) => {
         el.addEventListener('click', () => {
           const cta = el.getAttribute('data-cta')
-          ;(window as any).dataLayer?.push({
+          push({
             event: cta === 'rdv' ? 'rdv_click' : 'cta_click',
             cta_name: cta,
             cta_location: el.getAttribute('data-cta-loc') || 'inconnu',
             page_path: window.location.pathname
           })
+        })
+      })
+
+      // ── Prise de rendez-vous Calendly ───────────────────────────────────────
+      // Le widget est chargé au premier clic, jamais avant : aucun script tiers
+      // ni cookie Calendly sur une simple visite. Si le chargement échoue, le lien
+      // s'ouvre normalement dans un onglet : on ne casse jamais la prise de rdv.
+      let widgetPret = null
+      let dernierEmplacement = 'inconnu'
+
+      const chargerWidget = () => {
+        if (widgetPret) return widgetPret
+        widgetPret = new Promise((resolve, reject) => {
+          const css = document.createElement('link')
+          css.rel = 'stylesheet'
+          css.href = 'https://assets.calendly.com/assets/external/widget.css'
+          document.head.appendChild(css)
+
+          const js = document.createElement('script')
+          js.src = 'https://assets.calendly.com/assets/external/widget.js'
+          js.async = true
+          js.onload = resolve
+          js.onerror = reject
+          document.head.appendChild(js)
+
+          setTimeout(reject, 4000)
+        })
+        return widgetPret
+      }
+
+      // La page d'origine voyage avec le rendez-vous : on la retrouve dans Calendly,
+      // et elle sert de dimension dans GA4 pour savoir quelle page convertit.
+      const urlAvecSource = () => {
+        const u = new URL(CALENDLY_URL)
+        u.searchParams.set('utm_source', 'site')
+        u.searchParams.set('utm_medium', 'cta')
+        u.searchParams.set('utm_campaign', window.location.pathname)
+        u.searchParams.set('utm_content', dernierEmplacement)
+        return u.toString()
+      }
+
+      document.querySelectorAll('[data-cta="rdv"]').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+          dernierEmplacement = el.getAttribute('data-cta-loc') || 'inconnu'
+          e.preventDefault()
+          chargerWidget()
+            .then(() => {
+              if (!window.Calendly) throw new Error('widget indisponible')
+              window.Calendly.initPopupWidget({ url: urlAvecSource() })
+              push({ event: 'rdv_widget_ouvert', cta_location: dernierEmplacement, page_path: window.location.pathname })
+            })
+            .catch(() => { window.open(urlAvecSource(), '_blank', 'noopener') })
+        })
+      })
+
+      // Étapes renvoyées par Calendly dans la popup. « rdv_confirme » est
+      // l'événement à marquer comme conversion dans GA4 et Google Ads.
+      const etapes = {
+        'calendly.event_type_viewed': 'rdv_creneau_consulte',
+        'calendly.date_and_time_selected': 'rdv_creneau_choisi',
+        'calendly.event_scheduled': 'rdv_confirme'
+      }
+      window.addEventListener('message', (e) => {
+        // Origine vérifiée strictement : « evilcalendly.com » ne doit pas passer.
+        const origineOk = e.origin === 'https://calendly.com' || e.origin.endsWith('.calendly.com')
+        if (typeof e.origin !== 'string' || !origineOk) return
+        const nom = e.data && e.data.event
+        if (!nom || !etapes[nom]) return
+        push({
+          event: etapes[nom],
+          cta_location: dernierEmplacement,
+          page_path: window.location.pathname,
+          rdv_source: 'calendly'
         })
       })
     </script>
