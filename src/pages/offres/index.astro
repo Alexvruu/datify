@@ -71,13 +71,30 @@ const faqs = [
               ))}
             </ul>
             <p class="mt-6 pt-5 border-t border-line text-sm font-medium text-ink">Délai : {o.delai}</p>
-            {PLAN_OFFRES.filter((p) => p.pret && p.ancre === o.cle).map((p) => (
-              <a href={`/offres/${p.slug}`} class="mt-4 inline-block text-sm font-medium text-signal hover:underline">Le détail de cette offre →</a>
-            ))}
+
           </article>
         ))}
       </div>
       <p class="mt-8 text-xs text-muted">Prix nets. TVA non applicable, article 293 B du CGI.</p>
+    </div>
+  </section>
+
+  <!-- PAGES DÉTAILLÉES -->
+  <section class="py-20 bg-paper border-t border-line">
+    <div class="container">
+      <div class="max-w-2xl mb-10">
+        <p class="label mb-3">Le détail, offre par offre</p>
+        <h2>Ce qui est livré, comment ça se passe, ce que ça ne fait pas</h2>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {PLAN_OFFRES.map((p) => (
+          <a href={`/offres/${p.slug}`} class="block bg-white border border-line rounded-lg p-7 hover:border-signal transition-colors">
+            <h3 class="text-lg text-ink leading-snug">{p.nom}</h3>
+            <p class="text-[15px] text-body mt-2">{p.accroche}</p>
+            <span class="inline-block mt-4 text-sm font-medium text-signal">Voir la page →</span>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 

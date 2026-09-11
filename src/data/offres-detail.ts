@@ -30,6 +30,7 @@ export interface OffreDetail {
   etapesStack: string[]
   prix: { titre: string; texte: string }[]
   faqs: Faq[]
+  sources?: { label: string; url: string }[]
   ctaTitre: string
   ctaTexte: string
 }
@@ -182,6 +183,438 @@ export const OFFRES_PAGES: OffreDetail[] = [
     ctaTitre: 'Voyons si vos campagnes perdent des ventes',
     ctaTexte: '30 minutes, gratuit, votre site ouvert en direct. Vous repartez avec une réponse, pas avec un devis imposé.',
   },
+  {
+    slug: 'audit-tracking',
+    nom: 'Audit tracking',
+    navTitre: 'Audit tracking',
+    accroche: 'L’état des lieux chiffré, avant toute décision.',
+    metaTitre: 'Audit tracking à 290 € : ce que vos campagnes ne mesurent pas',
+    metaDescription:
+      'Audit tracking en 5 jours : réconciliation des ventes réelles avec GA4, Meta et Google Ads, contrôle de la collecte et du consentement, correctifs classés par impact. 290 €, déduits du setup.',
+    surtitre: 'Offre · Porte d’entrée',
+    h1: 'Avant de corriger quoi que ce soit : savoir ce que vous perdez, et combien.',
+    chapo:
+      'Cinq jours, un rapport écrit, un appel de restitution. Je compare vos ventes réelles à ce que déclarent GA4, Meta et Google Ads, j’explique d’où vient chaque écart, et je classe les correctifs par impact. Si rien ne justifie une intervention, vous l’apprenez là, pour 290 €.',
+    reperes: [
+      { valeur: '290 €', libelle: 'Déduits du setup si vous poursuivez' },
+      { valeur: '5 jours ouvrés', libelle: 'Entre les accès et la restitution' },
+      { valeur: '2 h', libelle: 'De votre temps, tout compris' },
+    ],
+    question: 'Vos chiffres se contredisent. Lequel dit vrai ?',
+    symptomes: [
+      {
+        titre: 'Trois sources, trois vérités',
+        texte:
+          'Votre back-office, GA4 et vos régies annoncent des ventes différentes. Sans arbitrage, chaque réunion repart du même débat.',
+      },
+      {
+        titre: 'Vous ne savez pas si le problème vient de la pub ou de la mesure',
+        texte:
+          'Une campagne qui paraît mauvaise l’est peut-être vraiment, ou bien elle est mal mesurée. Tant que ce n’est pas tranché, couper le budget est un pari.',
+      },
+      {
+        titre: 'On vous vend un chantier sans avoir mesuré',
+        texte:
+          'Les devis de setup arrivent avant le diagnostic. Vous payez une solution sans connaître l’ampleur du problème.',
+      },
+    ],
+    livrables: [
+      {
+        titre: 'Réconciliation des chiffres',
+        resume: 'Vos ventes réelles, face à ce que déclarent GA4 et les régies.',
+        points: [
+          'Comparaison sur une période représentative : back-office, GA4, Meta, Google Ads',
+          'L’écart chiffré, canal par canal, et ce qu’il représente en budget',
+          'La part expliquée par la mesure, et celle qui vient de l’attribution',
+        ],
+      },
+      {
+        titre: 'Contrôle de la collecte',
+        resume: 'Ce qui se déclenche, ce qui manque, ce qui se déclenche deux fois.',
+        points: [
+          'Conteneur GTM passé en revue : balises, déclencheurs, variables inutilisées',
+          'Événements e-commerce et formulaires testés sur le site en conditions réelles',
+          'Cas particuliers vérifiés : multi-pays, multi-conteneurs, formulaires en AJAX, paiement hébergé',
+        ],
+      },
+      {
+        titre: 'Conversions côté régies',
+        resume: 'Ce que Meta et Google reçoivent vraiment, et sur quoi ils enchérissent.',
+        points: [
+          'Déduplication pixel et API, qualité de correspondance des événements Meta',
+          'Actions de conversion Google Ads : lesquelles servent à enchérir, lesquelles polluent le signal',
+          'Enhanced Conversions et conversions offline : présentes, absentes ou mal configurées',
+        ],
+      },
+      {
+        titre: 'Consentement et conformité',
+        resume: 'Ce qui part avant l’accord du visiteur, et ce que ça vous fait risquer.',
+        points: [
+          'Test refus par refus : quelles balises se déclenchent quand même',
+          'Consent Mode v2 : présent, bien câblé, ou déclaré sans effet',
+          'Bandeau et outils en doublon, qui faussent vos chiffres autant que votre conformité',
+        ],
+      },
+      {
+        titre: 'Rapport et plan d’action',
+        resume: 'Un document lisible, utilisable même sans moi.',
+        points: [
+          'Correctifs classés par impact et par effort, avec ce que chacun débloque',
+          'Ce qui est urgent, ce qui peut attendre, ce qui ne vaut pas le coût',
+          'Appel de restitution de 45 minutes, puis devis ferme si vous voulez la suite',
+        ],
+      },
+    ],
+    etapes: [
+      { titre: 'Appel de cadrage', texte: 'Votre situation, vos volumes, vos doutes. Je vous dis si l’audit se justifie.', delai: 'Gratuit · sous 48 h' },
+      { titre: 'Accès en lecture', texte: 'GTM, GA4, comptes publicitaires, back-office. Je fournis la liste précise, en lecture seule.', delai: '1 jour' },
+      { titre: 'Analyse', texte: 'Je teste, je compare, je documente. Vous n’avez rien à faire pendant ce temps.', delai: '5 jours ouvrés' },
+      { titre: 'Restitution', texte: '45 minutes en visio, rapport à l’appui. Vous posez vos questions, y compris les gênantes.', delai: 'Inclus' },
+      { titre: 'Suite, ou non', texte: 'Devis ferme si vous voulez que je corrige. Sinon, le rapport est à vous, un autre prestataire peut l’appliquer.', delai: 'Libre' },
+    ],
+    preuves: [
+      {
+        probleme: 'Un tableau de bord affichait une dépense publicitaire des centaines de fois supérieure à la réalité.',
+        cause: 'Un export ouvert dans un tableur en langue française transformait des montants en dates.',
+        correctif: 'Montants reconstruits à 0,16 % près, et passage obligatoire à un format qui ne se réinterprète pas.',
+      },
+      {
+        probleme: 'Toutes les conversions importées affichaient « aucune conversion récente ».',
+        cause: 'Elles reposaient sur des pages de remerciement dont l’adresse avait changé, et la balise pointait vers un autre compte publicitaire.',
+        correctif: 'Plan de marquage refait en 13 événements, dont 5 conversions, avec une recette écrite pour les développeurs.',
+      },
+      {
+        probleme: 'Des cookies étaient déposés avant tout consentement.',
+        cause: 'Douze balises tierces déclenchées sans condition, et deux outils de mesure en doublon avec des réglages différents.',
+        correctif: 'Consentement câblé, outils redondants retirés, une seule table de correspondance pour les chiffres.',
+      },
+    ],
+    limites: [
+      'L’audit ne corrige rien. Il dit ce qui ne va pas, ce que ça coûte, et dans quel ordre le traiter.',
+      'Il me faut des accès en lecture. Sans eux, je ne peux qu’observer le site depuis l’extérieur, et le rapport perd l’essentiel.',
+      'Ce n’est pas un audit de vos campagnes. Je regarde le signal qu’elles reçoivent, pas vos créas ni votre ciblage, sauf si le signal explique déjà tout.',
+      'S’il n’y a rien de significatif à gagner, je vous le dis et vous n’aurez pas de setup à acheter. C’est déjà arrivé.',
+    ],
+    etapesStack: ['02', '03'],
+    prix: [
+      { titre: 'Audit', texte: '290 € nets, payables à la commande. Rapport écrit et appel de restitution compris.' },
+      { titre: 'Déduction', texte: 'Si vous poursuivez avec un setup dans les 3 mois, les 290 € sont déduits du devis.' },
+      { titre: 'Ce qui n’est pas compris', texte: 'Les corrections elles-mêmes. Elles sont chiffrées dans un devis séparé, que vous êtes libre de refuser ou de confier à quelqu’un d’autre.' },
+    ],
+    faqs: [
+      {
+        q: 'Quels accès devez-vous avoir ?',
+        a: 'En lecture : Google Tag Manager, GA4, vos comptes Google Ads et Meta, et de quoi consulter vos commandes réelles (back-office ou export). Je vous envoie la liste exacte avec les niveaux de droits minimaux. Aucun mot de passe ne transite : vous m’ajoutez avec mon adresse.',
+      },
+      {
+        q: 'Combien de temps ça me prend, à moi ?',
+        a: 'Environ deux heures : l’appel de cadrage, la mise en place des accès, et la restitution. Le reste se fait sans vous.',
+      },
+      {
+        q: 'J’ai déjà une agence. Ça a du sens ?',
+        a: 'Oui, et c’est souvent là que c’est le plus utile : l’audit porte sur la mesure, pas sur le travail de votre agence. Le rapport lui est remis si vous le souhaitez, il est fait pour être appliqué par quelqu’un d’autre que moi.',
+      },
+      {
+        q: 'Et si vous ne trouvez rien ?',
+        a: 'Le rapport le dit, avec les vérifications faites à l’appui. Vous aurez payé 290 € pour savoir que votre mesure tient, ce qui vaut mieux qu’un chantier vendu pour rien. Je ne rembourse pas un audit mené, mais je vous préviens dès l’appel de cadrage si je pense que le sujet ne se pose pas chez vous.',
+      },
+      {
+        q: 'Vous travaillez sous NDA ?',
+        a: 'Oui, sans difficulté. Et par défaut, aucun de vos chiffres ni votre nom ne sortent d’ici : les exemples que je publie sont anonymisés, et je ne cite un client qu’avec son accord écrit.',
+      },
+    ],
+    ctaTitre: 'Commençons par regarder ensemble',
+    ctaTexte: '30 minutes, gratuit, votre site ouvert en direct. Vous saurez si l’audit se justifie chez vous.',
+  },
+  {
+    slug: 'conversions-offline',
+    nom: 'Conversions offline',
+    navTitre: 'Conversions offline',
+    accroche: 'Enchérir sur les leads qui signent, pas sur les formulaires.',
+    metaTitre: 'Conversions offline CRM vers Google Ads : enchérir sur les leads qui signent',
+    metaDescription:
+      'Remontée des jalons CRM (lead qualifié, rendez-vous, signature) vers Google Ads avec leur valeur : capture du GCLID, import par fichier ou API, gestion des fuseaux et des doublons.',
+    surtitre: 'Offre · Lead gen',
+    h1: 'Google Ads enchérit sur vos formulaires. Faites-le enchérir sur vos clients.',
+    chapo:
+      'Tant que la seule conversion remontée est « formulaire envoyé », l’algorithme achète des formulaires, y compris les mauvais. En renvoyant les jalons de votre CRM avec leur valeur, il apprend à chercher ceux qui signent.',
+    reperes: [
+      { valeur: '2 à 3 semaines', libelle: 'Délai de mise en place' },
+      { valeur: 'Par jalon', libelle: 'Lead qualifié, rendez-vous, signature' },
+      { valeur: '290 €', libelle: 'Audit préalable, déduit du setup' },
+    ],
+    question: 'Combien de vos leads deviennent des clients, et Google le sait-il ?',
+    symptomes: [
+      {
+        titre: 'Beaucoup de leads, peu de clients',
+        texte:
+          'Le coût par lead baisse, le nombre de contrats ne bouge pas. Les campagnes optimisent sur un volume qui ne se transforme pas.',
+      },
+      {
+        titre: 'Vos commerciaux trient à la main',
+        texte:
+          'Ils savent quels leads ne valent rien. Cette information reste dans le CRM et ne redescend jamais vers les campagnes.',
+      },
+      {
+        titre: 'Les campagnes automatiques ramassent le fond du panier',
+        texte:
+          'Performance Max et Demand Gen vont chercher le formulaire le moins cher, là où il est. Sans signal de qualité, c’est logique.',
+      },
+    ],
+    livrables: [
+      {
+        titre: 'Cartographie de votre parcours commercial',
+        resume: 'Quels jalons remonter, et à quelle valeur.',
+        points: [
+          'Les étapes de votre CRM traduites en jalons mesurables : lead qualifié, rendez-vous, devis, signature',
+          'Une valeur par jalon, fondée sur vos taux réels et votre marge, pas sur le chiffre d’affaires brut',
+          'Ce qui est fiable dans votre CRM, et ce qui ne l’est pas encore',
+        ],
+      },
+      {
+        titre: 'Capture et conservation de l’identifiant de clic',
+        resume: 'Sans identifiant de clic, aucune remontée n’est possible.',
+        points: [
+          'Récupération et stockage du GCLID, y compris ses variantes iOS, dès le formulaire',
+          'Champ dédié dans le CRM, conservé jusqu’à la signature, même si l’affaire change de main',
+          'Diagnostic en lecture seule avant tout chantier : quelle part de vos leads porte un identifiant exploitable',
+        ],
+      },
+      {
+        titre: 'Pipeline de remontée',
+        resume: 'Un envoi automatique tous les jours, qui survit aux changements de Google.',
+        points: [
+          'Export nocturne des jalons vers votre Google Cloud, puis import dans Google Ads',
+          'Import par fichier ou par API selon votre éligibilité : depuis le 15 juin 2026, l’API n’accepte plus les nouveaux arrivants',
+          'Horodatages stockés à la source, jamais recalculés, avec le bon fuseau',
+        ],
+      },
+      {
+        titre: 'Fiabilité',
+        resume: 'La moitié du travail, c’est ce qu’on évite d’envoyer.',
+        points: [
+          'Déduplication, rejet des identifiants invalides et des champs laissés à l’état de gabarit',
+          'Contrôle de la fenêtre de 90 jours après le clic, et arbitrages quand votre cycle de vente est plus long',
+          'Journal des envois et des rejets, consultable sans moi',
+        ],
+      },
+      {
+        titre: 'Réglage des campagnes',
+        resume: 'Une remontée qui ne sert à rien si l’enchère continue d’ignorer ces jalons.',
+        points: [
+          'Tri des actions de conversion : ce qui sert à enchérir, ce qui reste en observation',
+          'Bascule progressive vers les jalons valorisés, sans casser le volume du jour au lendemain',
+          'Suivi des premières semaines, puis point mensuel si vous prenez le suivi',
+        ],
+      },
+    ],
+    etapes: [
+      { titre: 'Appel de cadrage', texte: 'Votre CRM, votre cycle de vente, vos campagnes. Je vous dis si le sujet est mûr chez vous.', delai: 'Gratuit · sous 48 h' },
+      { titre: 'Diagnostic du CRM', texte: 'En lecture seule : part des leads avec identifiant de clic, jalons exploitables, valeurs disponibles.', delai: 'Inclus dans l’audit' },
+      { titre: 'Capture et conservation', texte: 'Formulaires et CRM modifiés pour garder l’identifiant de clic jusqu’à la signature.', delai: '3 à 5 jours' },
+      { titre: 'Pipeline et premiers envois', texte: 'Export automatique, import quotidien, contrôle des rejets pendant deux semaines.', delai: '2 à 3 semaines' },
+      { titre: 'Bascule des enchères', texte: 'On passe l’enchère sur les jalons valorisés, progressivement, en surveillant le volume.', delai: 'Après 30 jours de données' },
+    ],
+    preuves: [
+      {
+        probleme: 'Une campagne automatique générait des leads jugés inexploitables par les commerciaux.',
+        cause: 'Elle optimisait sur douze objectifs, dont une majorité de simples formulaires. Traçage par identifiant de clic et analyse de plus de 6 000 emplacements.',
+        correctif: 'Enchère recentrée sur les leads qualifiés remontés du CRM, et emplacements de faible qualité exclus.',
+      },
+      {
+        probleme: 'Les conversions remontées étaient refusées par Google Ads.',
+        cause: 'Un CRM en temps universel face à un compte en heure de Paris, des doublons, et des identifiants restés à l’état de gabarit.',
+        correctif: 'Décalage horaire explicite, horodatages stockés à la source, et filtrage des identifiants invalides.',
+      },
+      {
+        probleme: 'La valeur envoyée aux campagnes était surévaluée d’environ un quart.',
+        cause: 'Le montant annuel natif du CRM mélangeait plusieurs types de revenus, et les affaires signées sortaient du pipe où on les cherchait.',
+        correctif: 'Champ de valeur dédié, et recherche des signatures dans tous les pipes.',
+      },
+    ],
+    limites: [
+      'Sans identifiant de clic capté à l’arrivée du lead, rien ne peut remonter. Si votre formulaire ne le conserve pas, on commence par là.',
+      'Google ne prend en compte qu’une fenêtre limitée après le clic, 90 jours dans la plupart des cas. Sur un cycle de vente plus long, on remonte un jalon intermédiaire plutôt que la signature.',
+      'Ce sont des données personnelles indirectes : la remontée se fait dans le cadre de votre base légale et de votre politique de confidentialité, pas en dehors.',
+      'Ça n’améliore pas un mauvais ciblage ni une offre qui ne convertit pas. Ça empêche seulement d’acheter le mauvais lead deux fois.',
+    ],
+    etapesStack: ['01', '03'],
+    prix: [
+      { titre: 'Audit préalable', texte: '290 €, déduits du setup. Il mesure notamment la part de vos leads réellement rattachables à un clic.' },
+      { titre: 'Mise en place', texte: 'Sur devis après l’audit. Le prix dépend de votre CRM et du nombre de jalons, pas du nombre de leads.' },
+      { titre: 'Fonctionnement', texte: 'L’exécution quotidienne tourne dans votre Google Cloud : quelques euros par mois à ce volume (estimation, chiffrée dans le devis).' },
+    ],
+    faqs: [
+      {
+        q: 'Mon CRM est Pipedrive, Odoo, ou autre chose. C’est compatible ?',
+        a: 'J’ai construit ce type de remontée sur Pipedrive et travaillé sur des données Odoo. Le principe vaut pour tout CRM qui expose ses affaires par API ou par export : un champ pour l’identifiant de clic, un jalon, une valeur, une date. Si votre CRM ne permet ni l’un ni l’autre, je vous le dis à l’appel de cadrage.',
+      },
+      {
+        q: 'L’API Google Ads est fermée aux nouveaux arrivants. Ça marche quand même ?',
+        a: 'Oui. Depuis le 15 juin 2026, Google n’accepte plus de nouveaux intégrateurs sur l’import de conversions offline via l’API Google Ads, et pousse vers son API Data Manager. On passe alors par un import de fichier programmé, déposé chaque nuit : c’est stable, documenté, et ça ne dépend pas d’un jeton d’accès qui peut être refusé.',
+      },
+      {
+        q: 'Est-ce conforme au RGPD ?',
+        a: 'La remontée n’envoie pas de dossier client : un identifiant de clic, un jalon, une date, une valeur. Elle doit s’inscrire dans la base légale que vous avez déjà pour vos leads, et figurer dans votre politique de confidentialité. Je vous remets un document qui décrit précisément ce qui part. Je ne suis pas juriste : faites-le relire par votre conseil.',
+      },
+      {
+        q: 'Faut-il arrêter les conversions actuelles ?',
+        a: 'Non, et ce serait risqué. On garde les conversions de formulaire en observation, on laisse les jalons valorisés accumuler des données, puis on bascule l’enchère quand le volume le permet.',
+      },
+      {
+        q: 'Combien de leads faut-il pour que ça vaille le coup ?',
+        a: 'En dessous d’une trentaine de leads par mois, l’algorithme aura du mal à apprendre sur les seuls jalons qualifiés. Dans ce cas, on remonte un jalon plus fréquent, et on s’en sert d’abord pour arbitrer les campagnes à la main.',
+      },
+    ],
+    sources: [
+      { label: 'Google Ads Developer Blog, mai 2026 : fin de l’import de conversions offline via l’API pour les nouveaux arrivants', url: 'https://ads-developers.googleblog.com/2026/05/changes-to-offline-click-conversion.html' },
+    ],
+    ctaTitre: 'Vos campagnes savent-elles qui signe ?',
+    ctaTexte: '30 minutes, gratuit. On regarde votre CRM et vos conversions actuelles, et je vous dis ce qui est remontable.',
+  },
+  {
+    slug: 'dashboard-roas-reel',
+    nom: 'Dashboard et ROAS réel',
+    navTitre: 'Dashboard et ROAS réel',
+    accroche: 'Piloter sur la marge, pas sur le revenu déclaré par les régies.',
+    metaTitre: 'Dashboard marge et ROAS réel : BigQuery, Looker Studio et vos vraies ventes',
+    metaDescription:
+      'Ventes, CRM et dépenses publicitaires réunis dans votre BigQuery, commandes réelles attribuées au bon canal, tableau de bord orienté marge et alertes quand un chiffre dérape.',
+    surtitre: 'Offre · Piloter',
+    h1: 'Le ROAS affiché par la régie n’est pas celui qui paie vos salaires.',
+    chapo:
+      'Chaque plateforme s’attribue les mêmes ventes, et aucune ne connaît votre marge. En réunissant vos commandes, votre CRM et vos dépenses dans votre propre entrepôt, on obtient un chiffre unique, vérifiable, sur lequel décider.',
+    reperes: [
+      { valeur: '2 à 4 semaines', libelle: 'Délai de mise en place' },
+      { valeur: 'Chez vous', libelle: 'Dans votre projet Google Cloud' },
+      { valeur: 'Marge', libelle: 'Pas seulement le revenu brut' },
+    ],
+    question: 'Sur quels chiffres décidez-vous de couper un budget ?',
+    symptomes: [
+      {
+        titre: 'Le reporting se fabrique à la main',
+        texte:
+          'Quelqu’un passe sa matinée à recopier des exports. Le fichier arrive tard, il contient des erreurs, et personne ne s’y fie vraiment.',
+      },
+      {
+        titre: 'Chaque plateforme s’attribue les mêmes ventes',
+        texte:
+          'Additionnez les revenus déclarés par vos régies : vous obtenez plus que votre chiffre d’affaires réel. Le ROAS affiché n’est donc pas comparable d’un canal à l’autre.',
+      },
+      {
+        titre: 'Vous pilotez au chiffre d’affaires, pas à la marge',
+        texte:
+          'Un produit qui tourne bien en volume peut vous coûter de l’argent une fois les remises, les frais et les retours pris en compte.',
+      },
+    ],
+    livrables: [
+      {
+        titre: 'Centralisation dans votre entrepôt',
+        resume: 'Une seule base, chez vous, alimentée toute seule.',
+        points: [
+          'Dépenses et performances Google Ads et Meta, commandes de votre boutique, jalons de votre CRM',
+          'Historique repris à l’installation, puis mise à jour quotidienne planifiée',
+          'Tout reste dans votre projet Google Cloud, à votre nom, y compris si on arrête de travailler ensemble',
+        ],
+      },
+      {
+        titre: 'Attribution de vos vraies ventes',
+        resume: 'Les commandes de votre boutique rattachées au canal qui les a amenées.',
+        points: [
+          'Rapprochement entre commandes réelles et clics, à partir des paramètres de campagne et des identifiants de clic',
+          'Un revenu attribué une seule fois, comparable entre canaux',
+          'L’écart avec le chiffre déclaré par chaque régie, affiché plutôt que masqué',
+        ],
+      },
+      {
+        titre: 'Modèle orienté marge',
+        resume: 'Le chiffre qui compte reste ce qu’il vous reste.',
+        points: [
+          'Coût d’achat, remises, frais de port et retours intégrés quand vous pouvez les fournir',
+          'Marge par canal, par campagne et par produit, à côté du revenu brut',
+          'Règles de calcul écrites et vérifiables : aucun chiffre ne sort d’une boîte noire',
+        ],
+      },
+      {
+        titre: 'Restitution',
+        resume: 'Une page par décision à prendre, pas un mur de graphiques.',
+        points: [
+          'Looker Studio, ou un tableau de bord sur mesure avec accès par utilisateur si vous en avez besoin',
+          'Vues quotidienne, hebdomadaire et mensuelle qui se recoupent, sans écart inexpliqué',
+          'Formation de prise en main, et documentation pour la personne qui reprendra',
+        ],
+      },
+      {
+        titre: 'Alertes et garde-fous',
+        resume: 'Un chiffre faux doit se voir avant votre réunion du lundi.',
+        points: [
+          'Contrôles automatiques : volumes qui s’effondrent, doublons, source qui cesse de répondre',
+          'Alerte par e-mail ou sur votre messagerie d’équipe quand un seuil est franchi',
+          'Rapprochement régulier entre l’entrepôt et votre back-office',
+        ],
+      },
+    ],
+    etapes: [
+      { titre: 'Appel de cadrage', texte: 'Les décisions que vous voulez prendre, et les chiffres qui vous manquent pour ça.', delai: 'Gratuit · sous 48 h' },
+      { titre: 'Cadrage des indicateurs', texte: 'On fige la définition de chaque indicateur avant de coder. C’est ce qui évite les débats après la livraison.', delai: '2 à 3 jours' },
+      { titre: 'Mise en place des flux', texte: 'Connecteurs, historique, planification, contrôles de cohérence.', delai: '1 à 2 semaines' },
+      { titre: 'Modèle et tableau de bord', texte: 'Construction des tables métier, puis des vues. Vous validez sur vos propres chiffres.', delai: '1 à 2 semaines' },
+      { titre: 'Prise en main', texte: 'Formation, documentation, et 30 jours d’ajustements inclus.', delai: 'Inclus' },
+    ],
+    preuves: [
+      {
+        probleme: 'Une régie affichait un retour sur dépense publicitaire d’environ 190.',
+        cause: 'Elle s’attribuait des ventes que le site avait réalisées autrement.',
+        correctif: 'Attribution des commandes réelles de la boutique : le chiffre réel tournait autour de 36, et un canal ne pesait presque rien.',
+      },
+      {
+        probleme: 'Le chiffre d’affaires remonté par l’entrepôt était supérieur à la réalité.',
+        cause: 'Les commandes annulées après coup restaient comptées comme des ventes, faute de relecture des commandes modifiées.',
+        correctif: 'Relecture glissante des dernières 48 heures, et script de rapprochement avec l’ERP.',
+      },
+      {
+        probleme: 'Un tableau de bord affichait zéro euro de chiffre d’affaires pour un canal payant.',
+        cause: 'Un filtre du connecteur vidait les colonnes de conversions, et une jointure par jour ne trouvait aucune correspondance.',
+        correctif: 'Agrégation revue, configuration corrigée, et même défaut retrouvé puis corrigé sur un second tableau de bord.',
+      },
+    ],
+    limites: [
+      'Un tableau de bord ne répare pas un tracking cassé. Si la collecte est fausse, on la corrige d’abord : sinon, on affiche proprement des chiffres faux.',
+      'La marge n’apparaît que si vous pouvez fournir vos coûts. Sans eux, on s’arrête au revenu attribué.',
+      'Ce n’est pas de l’attribution multi-touch avec modèle statistique. C’est un rattachement au clic, vérifiable, que vous pouvez recalculer vous-même.',
+      'L’entrepôt a un coût de fonctionnement. Il est faible à ces volumes, mais il existe, et il est à votre nom.',
+    ],
+    etapesStack: ['05', '06'],
+    prix: [
+      { titre: 'Audit préalable', texte: '290 €, déduits du setup. Il vérifie que les données d’entrée sont fiables avant qu’on construise dessus.' },
+      { titre: 'Mise en place', texte: 'Sur devis après l’audit, selon le nombre de sources et la profondeur du modèle de marge.' },
+      { titre: 'Fonctionnement', texte: 'Google Cloud vous facture directement, à l’usage. À ces volumes, cela reste de l’ordre de quelques euros à quelques dizaines d’euros par mois (estimation, précisée dans le devis).' },
+    ],
+    faqs: [
+      {
+        q: 'Pourquoi BigQuery plutôt qu’un connecteur direct vers Looker Studio ?',
+        a: 'Parce qu’un connecteur direct ne garde pas d’historique, casse quand une plateforme change son API, et ne permet pas de croiser vos ventes avec vos dépenses. L’entrepôt garde vos données chez vous, et le tableau de bord devient interchangeable.',
+      },
+      {
+        q: 'Faut-il payer des connecteurs comme Supermetrics ?',
+        a: 'Pas nécessairement. Je sais les utiliser, et je sais aussi écrire les flux d’ingestion en direct sur les API, ce qui supprime l’abonnement. Le choix dépend du nombre de sources et de votre envie d’avoir du code à maintenir : je vous donne les deux chiffrages.',
+      },
+      {
+        q: 'Qui possède les données et le tableau de bord ?',
+        a: 'Vous. Le projet Google Cloud est au nom de votre société, les accès aussi, et la documentation vous est remise. Si vous arrêtez de travailler avec moi, rien ne s’éteint.',
+      },
+      {
+        q: 'Nos équipes ne sont pas techniques.',
+        a: 'C’est le cas général, et c’est prévu : les vues sont pensées pour une décision précise, la prise en main se fait en visio, et une documentation reste dans votre espace. Vous n’aurez pas de requête à écrire.',
+      },
+      {
+        q: 'On a déjà un Looker Studio. Vous repartez de zéro ?',
+        a: 'Pas forcément. Si la source est saine, on garde vos vues et on remplace ce qui les alimente. Si elle repose sur des mélanges de données impossibles à recalculer, je vous le dis franchement, et on reconstruit la partie qui pose problème.',
+      },
+    ],
+    ctaTitre: 'Sur quel chiffre décidez-vous ?',
+    ctaTexte: '30 minutes, gratuit. On regarde votre reporting actuel et ce qu’il faudrait pour qu’il devienne fiable.',
+  },
 ]
 
 export const getOffrePage = (slug: string) => OFFRES_PAGES.find((o) => o.slug === slug)
@@ -189,8 +622,8 @@ export const getOffrePage = (slug: string) => OFFRES_PAGES.find((o) => o.slug ==
 // Les 4 pages d'offre prévues. `pret: false` tant que la page n'est pas écrite :
 // le lien pointe alors vers l'ancre correspondante sur /offres.
 export const PLAN_OFFRES: { slug: string; nom: string; accroche: string; pret: boolean; ancre: string }[] = [
-  { slug: 'audit-tracking', nom: 'Audit tracking', accroche: 'L’état des lieux chiffré, avant toute décision.', pret: false, ancre: 'audit' },
+  { slug: 'audit-tracking', nom: 'Audit tracking', accroche: 'L’état des lieux chiffré, avant toute décision.', pret: true, ancre: 'audit' },
   { slug: 'tracking-server-side', nom: 'Tracking server-side', accroche: 'Vos conversions arrivent aux régies, sans doublons.', pret: true, ancre: 'setup' },
-  { slug: 'conversions-offline', nom: 'Conversions offline', accroche: 'Enchérir sur les leads qui signent, pas sur les formulaires.', pret: false, ancre: 'setup' },
-  { slug: 'dashboard-roas-reel', nom: 'Dashboard et ROAS réel', accroche: 'Piloter sur la marge, pas sur le revenu déclaré.', pret: false, ancre: 'dashboard' },
+  { slug: 'conversions-offline', nom: 'Conversions offline', accroche: 'Enchérir sur les leads qui signent, pas sur les formulaires.', pret: true, ancre: 'setup' },
+  { slug: 'dashboard-roas-reel', nom: 'Dashboard et ROAS réel', accroche: 'Piloter sur la marge, pas sur le revenu déclaré.', pret: true, ancre: 'dashboard' },
 ]

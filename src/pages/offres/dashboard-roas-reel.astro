@@ -1,0 +1,7 @@
+---
+import OffrePage from '../../components/OffrePage.astro'
+import { getOffrePage } from '../../data/offres-detail'
+
+const offre = getOffrePage('dashboard-roas-reel')!
+---
+<OffrePage offre={offre} />

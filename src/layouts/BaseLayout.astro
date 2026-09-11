@@ -8,6 +8,7 @@ import '@fontsource/ibm-plex-mono/400.css'
 import '@fontsource/ibm-plex-mono/500.css'
 import '../styles/global.css'
 import { SITE_URL, GTM_ID, CALENDLY_URL, CONTACT_EMAIL, LINKEDIN_URL } from '../../site.config.mjs'
+import { PLAN_OFFRES } from '../data/offres-detail'
 
 interface Props {
   title: string
@@ -127,8 +128,18 @@ const currentPath = Astro.url.pathname
         <!-- Nav links (desktop) — absents du DOM sur les landings de prospection -->
         {!landing && (
           <div class="hidden md:flex items-center gap-10">
+            <a
+              href="/offres"
+              id="offres-toggle"
+              class="nav-link text-sm font-medium inline-flex items-center gap-1.5"
+              aria-expanded="false"
+              aria-controls="offres-panneau"
+              aria-current={currentPath.startsWith('/offres') ? 'page' : undefined}
+            >
+              Offres
+              <span id="offres-fleche" class="text-[10px] transition-transform duration-200" aria-hidden="true">▾</span>
+            </a>
             {[
-              { href: '/offres', label: 'Offres' },
               { href: '/blog', label: 'Blog' },
               { href: '/contact', label: 'Contact' },
             ].map(({ href, label }) => (
@@ -166,11 +177,49 @@ const currentPath = Astro.url.pathname
 
       </nav>
 
+      <!-- Panneau des offres (desktop) — quatre univers, comme quatre portes d'entrée -->
+      {!landing && (
+        <div id="offres-panneau" class="hidden md:block absolute left-0 right-0 top-[72px] bg-white border-t border-line shadow-[0_12px_32px_rgba(11,27,43,0.10)]" hidden>
+          <div class="container py-8">
+            <div class="grid lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] gap-8">
+              <ul class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {PLAN_OFFRES.map((p, i) => (
+                  <li>
+                    <a href={`/offres/${p.slug}`} class="group block h-full rounded-md border border-line bg-paper p-5 hover:border-signal hover:bg-signal-soft transition-colors">
+                      <span class="font-mono text-xs text-signal">{String(i + 1).padStart(2, '0')}</span>
+                      <span class="block text-[15px] font-semibold text-ink mt-2 leading-snug">{p.nom}</span>
+                      <span class="block text-sm text-body mt-1.5 leading-snug">{p.accroche}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <div class="rounded-md border border-line p-5 flex flex-col justify-between gap-4">
+                <div>
+                  <p class="text-[15px] font-semibold text-ink leading-snug">Vous ne savez pas laquelle ?</p>
+                  <p class="text-sm text-body mt-1.5 leading-snug">30 minutes, votre site ouvert en direct, et je vous dis ce qui se justifie chez vous.</p>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" data-cta="rdv" data-cta-loc="menu-offres" class="btn-primary text-sm py-2.5 px-5 w-fit">Diagnostic gratuit</a>
+                  <a href="/offres" class="text-sm font-medium text-signal hover:underline w-fit">Toutes les offres et les prix →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <!-- Mobile menu — absent sur les landings -->
       {!landing && (
         <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-line">
           <div class="container py-6 flex flex-col gap-5">
-            <a href="/offres" class="text-base font-medium text-body hover:text-ink">Offres</a>
+            <div>
+              <a href="/offres" class="text-base font-medium text-body hover:text-ink">Offres</a>
+              <ul class="mt-3 pl-4 border-l border-line space-y-2.5">
+                {PLAN_OFFRES.map((p) => (
+                  <li><a href={`/offres/${p.slug}`} class="block text-sm text-body hover:text-ink">{p.nom}</a></li>
+                ))}
+              </ul>
+            </div>
             <a href="/blog" class="text-base font-medium text-body hover:text-ink">Blog</a>
             <a href="/contact" class="text-base font-medium text-body hover:text-ink">Contact</a>
             <a
@@ -348,6 +397,58 @@ const currentPath = Astro.url.pathname
       }
       watchHero()
       window.addEventListener('resize', watchHero, { passive: true })
+
+      // Panneau des offres : ouverture au clic, survol sur souris, fermeture par Échap ou clic extérieur.
+      const offresToggle = document.getElementById('offres-toggle')
+      const offresPanneau = document.getElementById('offres-panneau')
+      const offresFleche = document.getElementById('offres-fleche')
+      let offresOuvert = false
+      let fermeture: ReturnType<typeof setTimeout> | null = null
+      // Échap rend le focus au lien : sans ce verrou, le focus rouvrirait le panneau.
+      let verrou = false
+
+      const setOffres = (ouvert: boolean) => {
+        offresOuvert = ouvert
+        if (offresPanneau) offresPanneau.hidden = !ouvert
+        offresToggle?.setAttribute('aria-expanded', String(ouvert))
+        offresFleche?.classList.toggle('rotate-180', ouvert)
+        header?.classList.toggle('menu-open', ouvert)
+      }
+
+      // Souris : le panneau s'ouvre au survol, le clic sur « Offres » va à la page.
+      // Sans survol (tactile) : le clic ouvre le panneau au lieu de naviguer.
+      const avecSurvol = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+      if (avecSurvol) {
+        const ouvrir = () => { if (verrou) return; if (fermeture) clearTimeout(fermeture); setOffres(true) }
+        const fermerPlusTard = () => { if (fermeture) clearTimeout(fermeture); fermeture = setTimeout(() => setOffres(false), 180) }
+        offresToggle?.addEventListener('mouseenter', ouvrir)
+        offresToggle?.addEventListener('mouseleave', fermerPlusTard)
+        offresToggle?.addEventListener('focus', ouvrir)
+        offresPanneau?.addEventListener('mouseenter', ouvrir)
+        offresPanneau?.addEventListener('mouseleave', fermerPlusTard)
+      } else {
+        offresToggle?.addEventListener('click', (e) => { e.preventDefault(); setOffres(!offresOuvert) })
+      }
+
+      // Le panneau se ferme dès que le focus en sort (navigation au clavier).
+      document.addEventListener('focusin', (e) => {
+        if (!offresOuvert) return
+        const cible = e.target as Node
+        if (!offresPanneau?.contains(cible) && !offresToggle?.contains(cible)) setOffres(false)
+      })
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape' || !offresOuvert) return
+        verrou = true
+        setOffres(false)
+        offresToggle?.focus()
+        setTimeout(() => { verrou = false }, 400)
+      })
+      document.addEventListener('click', (e) => {
+        if (!offresOuvert) return
+        const cible = e.target as Node
+        if (!offresPanneau?.contains(cible) && !offresToggle?.contains(cible)) setOffres(false)
+      })
 
       // Mobile menu
       const toggle = document.getElementById('menu-toggle')

@@ -242,6 +242,16 @@ const jsonLdFaq = {
           </div>
         ))}
       </div>
+      {o.sources && (
+        <p class="mt-8 text-xs text-muted">
+          Source : {o.sources.map((src, i) => (
+            <>
+              {i > 0 && <span> · </span>}
+              <a href={src.url} target="_blank" rel="noopener noreferrer" class="underline hover:text-ink">{src.label}</a>
+            </>
+          ))}. Vérifié le 11/09/2026.
+        </p>
+      )}
     </div>
   </section>
 
