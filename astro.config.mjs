@@ -4,11 +4,12 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 import mdx from '@astrojs/mdx';
+import { SITE_URL } from './site.config.mjs';
 
 export default defineConfig({
-  site: 'https://datify-brown.vercel.app',
+  site: SITE_URL,
   vite: {
     plugins: [tailwindcss()]
   },
-  integrations: [sitemap(), mdx()]
+  integrations: [sitemap({ filter: (page) => !/\/audit(-b)?\/?$/.test(page) }), mdx()]
 });

@@ -1,21 +1,37 @@
 ---
+import '@fontsource/ibm-plex-sans/400.css'
+import '@fontsource/ibm-plex-sans/500.css'
+import '@fontsource/ibm-plex-sans/600.css'
+import '@fontsource/ibm-plex-sans-condensed/600.css'
+import '@fontsource/ibm-plex-sans-condensed/700.css'
+import '@fontsource/ibm-plex-mono/400.css'
+import '@fontsource/ibm-plex-mono/500.css'
 import '../styles/global.css'
+import { SITE_URL, GTM_ID, CALENDLY_URL, CONTACT_EMAIL, LINKEDIN_URL } from '../../site.config.mjs'
 
 interface Props {
   title: string
   description: string
   image?: string
   type?: string
+  /** true pour les landings de prospection et leurs variantes A/B : hors index. */
+  noindex?: boolean
+  /** true pour une landing de trafic froid : navigation et pied de page réduits
+   *  au minimum, pour ne laisser qu'une seule sortie possible, le rendez-vous. */
+  landing?: boolean
 }
 
 const {
   title,
   description,
-  image = '/og-default.jpg',
-  type = 'website'
+  image = '/og-default.png',
+  type = 'website',
+  noindex = false,
+  landing = false
 } = Astro.props
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL)
+const ogImage = new URL(image, SITE_URL).toString()
 const fullTitle = `${title} | Datify`
 const currentPath = Astro.url.pathname
 ---
@@ -25,15 +41,49 @@ const currentPath = Astro.url.pathname
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
+
+    <!-- Pose .js avant le premier rendu : sans JS, rien n'est masque. -->
+    <script is:inline>document.documentElement.classList.add('js')</script>
     <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Consent Mode v2 : refus par défaut, AVANT tout chargement GTM -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || []
+      function gtag(){dataLayer.push(arguments)}
+      window.gtag = gtag
+
+      var DATIFY_CONSENT_KEY = 'datify_consent_v1'
+      var stored = null
+      try { stored = JSON.parse(localStorage.getItem(DATIFY_CONSENT_KEY) || 'null') } catch (e) {}
+
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        wait_for_update: 500
+      })
+
+      if (stored && stored.analytics) {
+        gtag('consent', 'update', {
+          ad_storage: stored.ads ? 'granted' : 'denied',
+          ad_user_data: stored.ads ? 'granted' : 'denied',
+          ad_personalization: stored.ads ? 'granted' : 'denied',
+          analytics_storage: 'granted'
+        })
+      }
+    </script>
 
     <!-- Google Tag Manager -->
-    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script is:inline define:vars={{ GTM_ID }}>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-N97WP9M3');</script>
+    })(window,document,'script','dataLayer',GTM_ID);</script>
     <!-- End Google Tag Manager -->
 
     <title>{fullTitle}</title>
@@ -43,31 +93,28 @@ const currentPath = Astro.url.pathname
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="fr_FR" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image" content={ogImage} />
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Alexandre Gire",
-      "url": Astro.site,
+      "url": SITE_URL,
       "jobTitle": "Analytics Engineer & Media Buyer",
       "worksFor": { "@type": "Organization", "name": "Datify" },
-      "sameAs": ["https://linkedin.com/in/alexandre-gire"]
+      "sameAs": [LINKEDIN_URL]
     })} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
   </head>
 
   <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N97WP9M3"
+    <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- NAVBAR -->
@@ -75,53 +122,74 @@ const currentPath = Astro.url.pathname
       <nav class="container flex items-center justify-between h-[72px]">
 
         <!-- Logo -->
-        <a href="/" class="text-[1.1rem] font-bold tracking-tight text-[#0A2540] shrink-0">
-          Dati<span class="text-[#635BFF]">fy</span>
+        <a href="/" class="flex items-center gap-2.5 shrink-0 font-mono text-[1.05rem] font-medium text-ink" aria-label="Datify, accueil">
+          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" class="shrink-0"><rect x="2" y="3" width="6" height="16" rx="1" fill="#DCE2DF"/><rect x="10" y="8" width="6" height="11" rx="1" fill="#0F766E"/><rect x="18" y="3" width="2" height="5" rx="1" fill="#C2410C"/></svg>
+          <span>datify</span>
         </a>
 
-        <!-- Nav links (desktop) -->
-        <div class="hidden md:flex items-center gap-10">
-          {[
-            { href: '/services', label: 'Services' },
-            { href: '/blog', label: 'Blog' },
-            { href: '/contact', label: 'Contact' },
-          ].map(({ href, label }) => (
-            <a
-              href={href}
-              class={`text-sm font-medium transition-colors ${
-                currentPath.startsWith(href)
-                  ? 'text-[#635BFF]'
-                  : 'text-[#425466] hover:text-[#0A2540]'
-              }`}
-            >
-              {label}
-            </a>
-          ))}
-        </div>
+        <!-- Nav links (desktop) — absents du DOM sur les landings de prospection -->
+        {!landing && (
+          <div class="hidden md:flex items-center gap-10">
+            {[
+              { href: '/services', label: 'Offres' },
+              { href: '/blog', label: 'Blog' },
+              { href: '/contact', label: 'Contact' },
+            ].map(({ href, label }) => (
+              <a
+                href={href}
+                class={`text-sm font-medium transition-colors ${
+                  currentPath.startsWith(href)
+                    ? 'text-signal'
+                    : 'text-body hover:text-ink'
+                }`}
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+        )}
 
         <!-- CTA + mobile toggle -->
         <div class="flex items-center gap-4">
-          <a href="/contact" class="hidden md:inline-flex btn-primary text-sm py-2.5 px-5">
-            Démarrer →
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cta="rdv"
+            data-cta-loc="header"
+            class={`${landing ? 'inline-flex' : 'hidden md:inline-flex'} btn-primary text-sm py-2.5 px-5`}
+          >
+            Diagnostic gratuit (30 min)
           </a>
           <!-- Mobile menu button -->
-          <button id="menu-toggle" class="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-[#F6F8FA] transition-colors" aria-label="Menu">
-            <span class="menu-bar w-5 h-0.5 bg-[#0A2540] rounded-full transition-all duration-300"></span>
-            <span class="menu-bar w-5 h-0.5 bg-[#0A2540] rounded-full transition-all duration-300"></span>
-          </button>
+          {!landing && (
+            <button id="menu-toggle" class="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-mist transition-colors" aria-label="Menu">
+              <span class="menu-bar w-5 h-0.5 bg-ink rounded-full transition-all duration-300"></span>
+              <span class="menu-bar w-5 h-0.5 bg-ink rounded-full transition-all duration-300"></span>
+            </button>
+          )}
         </div>
 
       </nav>
 
-      <!-- Mobile menu -->
-      <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-[#E2E8F0]">
-        <div class="container py-6 flex flex-col gap-5">
-          <a href="/services" class="text-base font-medium text-[#425466] hover:text-[#0A2540]">Services</a>
-          <a href="/blog" class="text-base font-medium text-[#425466] hover:text-[#0A2540]">Blog</a>
-          <a href="/contact" class="text-base font-medium text-[#425466] hover:text-[#0A2540]">Contact</a>
-          <a href="/contact" class="btn-primary w-fit mt-2">Démarrer →</a>
+      <!-- Mobile menu — absent sur les landings -->
+      {!landing && (
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-line">
+          <div class="container py-6 flex flex-col gap-5">
+            <a href="/services" class="text-base font-medium text-body hover:text-ink">Offres</a>
+            <a href="/blog" class="text-base font-medium text-body hover:text-ink">Blog</a>
+            <a href="/contact" class="text-base font-medium text-body hover:text-ink">Contact</a>
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cta="rdv"
+              data-cta-loc="menu-mobile"
+              class="btn-primary w-fit mt-2"
+            >Réserver un appel →</a>
+          </div>
         </div>
-      </div>
+      )}
     </header>
 
     <main class="pt-[72px]">
@@ -129,17 +197,19 @@ const currentPath = Astro.url.pathname
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-[#0A2540] text-white pt-20 pb-10 mt-0">
+    <footer class={`bg-ink text-white ${landing ? 'pt-10' : 'pt-20'} pb-10 mt-0`}>
       <div class="container">
-        <!-- Top -->
+        <!-- Top — absent sur les landings : chaque lien y est une sortie -->
+        {!landing && (
         <div class="grid md:grid-cols-3 gap-12 pb-16 border-b border-white/10">
           <!-- Brand -->
           <div>
-            <p class="text-xl font-bold tracking-tight mb-3">
-              Dati<span class="text-[#635BFF]">fy</span>
+            <p class="flex items-center gap-2.5 font-mono text-lg font-medium mb-3">
+              <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" class="shrink-0"><rect x="2" y="3" width="6" height="16" rx="1" fill="#DCE2DF"/><rect x="10" y="8" width="6" height="11" rx="1" fill="#0F766E"/><rect x="18" y="3" width="2" height="5" rx="1" fill="#C2410C"/></svg>
+              <span>datify</span>
             </p>
             <p class="text-sm text-white/50 leading-relaxed max-w-xs">
-              Analytics engineering, tracking & media buying pour les équipes data-driven.
+              Tracking server-side et data Google Cloud pour les e-commerçants qui investissent en Meta et Google Ads.
             </p>
           </div>
           <!-- Nav -->
@@ -148,7 +218,7 @@ const currentPath = Astro.url.pathname
             <div class="flex flex-col gap-3">
               {[
                 { href: '/', label: 'Accueil' },
-                { href: '/services', label: 'Services' },
+                { href: '/services', label: 'Offres' },
                 { href: '/blog', label: 'Blog' },
                 { href: '/contact', label: 'Contact' },
               ].map(({ href, label }) => (
@@ -160,19 +230,20 @@ const currentPath = Astro.url.pathname
           <div>
             <p class="label text-white/30 mb-5">Contact</p>
             <div class="flex flex-col gap-3">
-              <a href="mailto:alexandre@datify.fr" class="text-sm text-white/60 hover:text-white transition-colors w-fit">
-                alexandre@datify.fr
+              <a href={`mailto:${CONTACT_EMAIL}`} class="text-sm text-white/60 hover:text-white transition-colors w-fit">
+                {CONTACT_EMAIL}
               </a>
-              <a href="https://linkedin.com/in/alexandre-gire" target="_blank" rel="noopener noreferrer" class="text-sm text-white/60 hover:text-white transition-colors w-fit">
+              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" class="text-sm text-white/60 hover:text-white transition-colors w-fit">
                 LinkedIn
               </a>
-              <span class="inline-flex items-center gap-2 text-sm text-[#635BFF] font-medium mt-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#635BFF] animate-pulse"></span>
+              <span class="inline-flex items-center gap-2 text-sm text-signal font-medium mt-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-signal animate-pulse"></span>
                 Disponible pour missions
               </span>
             </div>
           </div>
         </div>
+        )}
 
         <!-- Bottom -->
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-8">
@@ -181,11 +252,91 @@ const currentPath = Astro.url.pathname
           </p>
           <div class="flex gap-6">
             <a href="/mentions-legales" class="text-xs text-white/30 hover:text-white/60 transition-colors">Mentions légales</a>
-            <a href="/blog" class="text-xs text-white/30 hover:text-white/60 transition-colors">Blog</a>
+            <button type="button" id="consent-reopen" class="text-xs text-white/30 hover:text-white/60 transition-colors cursor-pointer">Gérer les cookies</button>
+            {!landing && <a href="/blog" class="text-xs text-white/30 hover:text-white/60 transition-colors">Blog</a>}
           </div>
         </div>
       </div>
     </footer>
+
+    <!-- BANNIÈRE DE CONSENTEMENT -->
+    <div
+      id="consent-banner"
+      hidden
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="consent-title"
+      class="fixed bottom-0 left-0 right-0 z-[100] bg-white border-t border-line shadow-[0_-4px_24px_rgba(10,37,64,0.08)]"
+    >
+      <div class="container py-6 flex flex-col lg:flex-row lg:items-center gap-5">
+        <div class="flex-1">
+          <p id="consent-title" class="text-sm font-semibold text-ink mb-1.5">Cookies et mesure d'audience</p>
+          <p class="text-sm text-body leading-relaxed max-w-2xl">
+            J'utilise des cookies de mesure d'audience pour comprendre comment le site est utilisé.
+            Rien n'est déposé sans votre accord. Vous pouvez changer d'avis à tout moment depuis le pied de page.
+            <a href="/mentions-legales" class="text-signal hover:underline">En savoir plus</a>.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3 shrink-0">
+          <button type="button" id="consent-refuse" class="btn-ghost text-sm py-2.5 px-5">Refuser</button>
+          <button type="button" id="consent-accept" class="btn-primary text-sm py-2.5 px-5">Accepter</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const CONSENT_KEY = 'datify_consent_v1'
+      const banner = document.getElementById('consent-banner')
+
+      const hasChoice = () => {
+        try { return localStorage.getItem(CONSENT_KEY) !== null } catch (e) { return false }
+      }
+
+      const showBanner = () => { if (banner) banner.hidden = false }
+      const hideBanner = () => { if (banner) banner.hidden = true }
+
+      const record = (analytics: boolean) => {
+        const choice = { analytics, ads: false, ts: Date.now() }
+        try { localStorage.setItem(CONSENT_KEY, JSON.stringify(choice)) } catch (e) {}
+
+        const gtag = (window as any).gtag
+        if (typeof gtag === 'function') {
+          gtag('consent', 'update', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: analytics ? 'granted' : 'denied'
+          })
+        }
+        ;(window as any).dataLayer?.push({
+          event: 'consent_choice',
+          consent_analytics: analytics ? 'granted' : 'denied'
+        })
+        hideBanner()
+      }
+
+      if (!hasChoice()) showBanner()
+
+      document.getElementById('consent-accept')?.addEventListener('click', () => record(true))
+      document.getElementById('consent-refuse')?.addEventListener('click', () => record(false))
+      document.getElementById('consent-reopen')?.addEventListener('click', () => showBanner())
+    </script>
+
+    <!-- ÉVÉNEMENTS DE CONVERSION -->
+    <script>
+      // Tout élément portant data-cta pousse un événement nommé dans le dataLayer.
+      document.querySelectorAll('[data-cta]').forEach((el) => {
+        el.addEventListener('click', () => {
+          const cta = el.getAttribute('data-cta')
+          ;(window as any).dataLayer?.push({
+            event: cta === 'rdv' ? 'rdv_click' : 'cta_click',
+            cta_name: cta,
+            cta_location: el.getAttribute('data-cta-loc') || 'inconnu',
+            page_path: window.location.pathname
+          })
+        })
+      })
+    </script>
 
     <!-- Navbar scroll behavior -->
     <script>
@@ -238,7 +389,7 @@ const currentPath = Astro.url.pathname
         background: rgba(255, 255, 255, 0.92);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
-        box-shadow: 0 1px 0 #E2E8F0;
+        box-shadow: 0 1px 0 var(--color-line);
       }
     </style>
 

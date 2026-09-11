@@ -1,24 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+import { SITE_URL, CALENDLY_URL, FORM_ENDPOINT, CONTACT_EMAIL, LINKEDIN_URL } from '../../site.config.mjs'
 
 const contactSchema = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
   name: 'Contact — Datify',
-  url: 'https://datify.fr/contact',
+  url: new URL('/contact', SITE_URL).toString(),
   mainEntity: {
     '@type': 'Person',
     name: 'Alexandre Gire',
-    jobTitle: 'Analytics Engineer & Media Buyer',
-    email: 'alexandre@datify.fr',
-    url: 'https://datify.fr',
+    jobTitle: 'Analytics Engineer',
+    email: CONTACT_EMAIL,
+    url: SITE_URL,
   },
 }
 ---
 
 <BaseLayout
   title="Contact — Parlons de votre projet"
-  description="Contactez Alexandre Gire pour une mission analytics, tracking GA4, data engineering ou media buying. Premier échange gratuit, réponse sous 24h."
+  description="Audit tracking, setup server-side (GTM, Meta CAPI, GA4) ou intervention express BigQuery. Appel de cadrage gratuit, réponse sous 24 h."
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(contactSchema)} />
 
@@ -28,36 +29,36 @@ const contactSchema = {
 
         <!-- Left — copy -->
         <div>
-          <span class="text-[#635BFF] text-sm font-semibold uppercase tracking-widest">Contact</span>
-          <h1 class="mt-2 text-[#0A2540]">Parlons de votre projet</h1>
-          <p class="mt-4 text-lg text-[#425466]">
+          <span class="text-signal text-sm font-semibold uppercase tracking-widest">Contact</span>
+          <h1 class="mt-2 text-ink">Parlons de votre projet</h1>
+          <p class="mt-4 text-lg text-body">
             Premier échange gratuit et sans engagement. Je réponds sous 24h.
           </p>
 
           <div class="mt-10 space-y-6">
             <div class="flex items-start gap-4">
-              <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center shrink-0">
-                <span class="text-[#635BFF]">✉</span>
+              <div class="w-10 h-10 bg-signal-soft rounded-lg flex items-center justify-center shrink-0">
+                <span class="text-signal">✉</span>
               </div>
               <div>
-                <p class="text-sm font-semibold text-[#0A2540]">Email</p>
-                <a href="mailto:alexandre@datify.fr" class="text-sm text-[#635BFF] hover:text-[#4F46E5]">
-                  alexandre@datify.fr
+                <p class="text-sm font-semibold text-ink">Email</p>
+                <a href={`mailto:${CONTACT_EMAIL}`} class="text-sm text-signal hover:text-signal-dark">
+                  {CONTACT_EMAIL}
                 </a>
               </div>
             </div>
 
             <div class="flex items-start gap-4">
-              <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center shrink-0">
-                <span class="text-[#635BFF]">in</span>
+              <div class="w-10 h-10 bg-signal-soft rounded-lg flex items-center justify-center shrink-0">
+                <span class="text-signal">in</span>
               </div>
               <div>
-                <p class="text-sm font-semibold text-[#0A2540]">LinkedIn</p>
+                <p class="text-sm font-semibold text-ink">LinkedIn</p>
                 <a
-                  href="https://linkedin.com/in/alexandre-gire"
+                  href={LINKEDIN_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-sm text-[#635BFF] hover:text-[#4F46E5]"
+                  class="text-sm text-signal hover:text-signal-dark"
                 >
                   linkedin.com/in/alexandre-gire
                 </a>
@@ -65,28 +66,28 @@ const contactSchema = {
             </div>
 
             <div class="flex items-start gap-4">
-              <div class="w-10 h-10 bg-[#EEF2FF] rounded-lg flex items-center justify-center shrink-0">
-                <span class="text-[#635BFF]">⏱</span>
+              <div class="w-10 h-10 bg-signal-soft rounded-lg flex items-center justify-center shrink-0">
+                <span class="text-signal">⏱</span>
               </div>
               <div>
-                <p class="text-sm font-semibold text-[#0A2540]">Disponibilité</p>
-                <p class="text-sm text-[#425466]">Ouvert aux nouvelles missions — délai de démarrage 2 à 4 semaines</p>
+                <p class="text-sm font-semibold text-ink">Disponibilité</p>
+                <p class="text-sm text-body">Appel de cadrage sous 48 h, délais détaillés sur la page Offres</p>
               </div>
             </div>
           </div>
 
-          <div class="mt-12 bg-[#F6F8FA] border border-[#E2E8F0] rounded-xl p-6">
-            <p class="text-sm font-semibold text-[#0A2540] mb-3">Ce que je peux faire pour vous</p>
+          <div class="mt-12 bg-mist border border-line rounded-md p-6">
+            <p class="text-sm font-semibold text-ink mb-3">Ce que je peux faire pour vous</p>
             <ul class="space-y-2">
               {[
                 'Audit et refonte de votre tracking analytics',
                 'Mise en place GA4 + GTM server-side',
-                'Pipelines de données BigQuery / dbt',
-                'Optimisation de vos campagnes Meta & Google Ads',
-                'Formation équipes analytics',
+                'Pipelines de données BigQuery et Google Cloud',
+                'API Conversions Meta et Enhanced Conversions Google Ads',
+                'Interventions express à prix fixe, sous 72 h',
               ].map((item) => (
-                <li class="flex items-start gap-2 text-sm text-[#425466]">
-                  <span class="text-[#635BFF] shrink-0 mt-0.5">✓</span>
+                <li class="flex items-start gap-2 text-sm text-body">
+                  <span class="text-signal shrink-0 mt-0.5">✓</span>
                   {item}
                 </li>
               ))}
@@ -94,22 +95,42 @@ const contactSchema = {
           </div>
         </div>
 
-        <!-- Right — form -->
+        <!-- Right — RDV + formulaire -->
         <div>
+          <!-- Voie rapide : réservation directe -->
+          <div class="bg-ink rounded-md p-8 mb-8">
+            <p class="text-white font-semibold mb-2">Le plus rapide : un appel de 30 minutes</p>
+            <p class="text-white/60 text-sm leading-relaxed mb-6">
+              On regarde ensemble votre tracking en direct. Vous repartez avec au moins un problème
+              identifié, que l'on travaille ensemble ensuite ou non.
+            </p>
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cta="rdv"
+              data-cta-loc="contact-encart"
+              class="btn-primary"
+            >
+              Diagnostic gratuit (30 min)
+            </a>
+          </div>
+
+          <p class="text-sm text-muted mb-6 text-center">ou écrivez-moi</p>
+
           <form
+            id="contact-form"
             name="contact"
             method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field"
-            class="space-y-6 bg-white border border-[#E2E8F0] rounded-xl p-8"
+            action={FORM_ENDPOINT}
+            class="space-y-6 bg-white border border-line rounded-md p-8"
           >
-            <input type="hidden" name="form-name" value="contact" />
-            <p class="hidden">
-              <label>Ne remplissez pas ce champ : <input name="bot-field" /></label>
+            <p class="hidden" aria-hidden="true">
+              <label>Ne remplissez pas ce champ : <input name="_gotcha" tabindex="-1" autocomplete="off" /></label>
             </p>
 
             <div>
-              <label for="name" class="block text-sm font-medium text-[#0A2540] mb-2">
+              <label for="name" class="block text-sm font-medium text-ink mb-2">
                 Nom *
               </label>
               <input
@@ -118,12 +139,12 @@ const contactSchema = {
                 name="name"
                 required
                 placeholder="Votre nom"
-                class="w-full border border-[#E2E8F0] rounded-lg px-4 py-3 text-sm text-[#0A2540] placeholder-[#8898AA] focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent transition"
+                class="w-full border border-line rounded-lg px-4 py-3 text-sm text-ink placeholder-muted focus:outline-none focus:ring-2 focus:ring-signal focus:border-transparent transition"
               />
             </div>
 
             <div>
-              <label for="email" class="block text-sm font-medium text-[#0A2540] mb-2">
+              <label for="email" class="block text-sm font-medium text-ink mb-2">
                 Email *
               </label>
               <input
@@ -132,12 +153,12 @@ const contactSchema = {
                 name="email"
                 required
                 placeholder="vous@entreprise.com"
-                class="w-full border border-[#E2E8F0] rounded-lg px-4 py-3 text-sm text-[#0A2540] placeholder-[#8898AA] focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent transition"
+                class="w-full border border-line rounded-lg px-4 py-3 text-sm text-ink placeholder-muted focus:outline-none focus:ring-2 focus:ring-signal focus:border-transparent transition"
               />
             </div>
 
             <div>
-              <label for="company" class="block text-sm font-medium text-[#0A2540] mb-2">
+              <label for="company" class="block text-sm font-medium text-ink mb-2">
                 Entreprise
               </label>
               <input
@@ -145,31 +166,31 @@ const contactSchema = {
                 id="company"
                 name="company"
                 placeholder="Votre entreprise (optionnel)"
-                class="w-full border border-[#E2E8F0] rounded-lg px-4 py-3 text-sm text-[#0A2540] placeholder-[#8898AA] focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent transition"
+                class="w-full border border-line rounded-lg px-4 py-3 text-sm text-ink placeholder-muted focus:outline-none focus:ring-2 focus:ring-signal focus:border-transparent transition"
               />
             </div>
 
             <div>
-              <label for="subject" class="block text-sm font-medium text-[#0A2540] mb-2">
+              <label for="subject" class="block text-sm font-medium text-ink mb-2">
                 Sujet *
               </label>
               <select
                 id="subject"
                 name="subject"
                 required
-                class="w-full border border-[#E2E8F0] rounded-lg px-4 py-3 text-sm text-[#0A2540] focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent transition bg-white"
+                class="w-full border border-line rounded-lg px-4 py-3 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-signal focus:border-transparent transition bg-white"
               >
                 <option value="" disabled selected>Sélectionnez un sujet</option>
-                <option value="tracking">Analytics &amp; Tracking</option>
-                <option value="data-engineering">Data Engineering</option>
-                <option value="media-buying">Média Buying</option>
-                <option value="reporting">Reporting &amp; Dashboards</option>
+                <option value="audit">Audit de tracking</option>
+                <option value="server-side">Setup GTM server-side / Meta CAPI</option>
+                <option value="dashboard">Dashboard BigQuery / Looker Studio</option>
+                <option value="suivi">Suivi mensuel</option>
                 <option value="other">Autre</option>
               </select>
             </div>
 
             <div>
-              <label for="message" class="block text-sm font-medium text-[#0A2540] mb-2">
+              <label for="message" class="block text-sm font-medium text-ink mb-2">
                 Message *
               </label>
               <textarea
@@ -178,7 +199,7 @@ const contactSchema = {
                 required
                 rows="5"
                 placeholder="Décrivez votre projet, vos besoins, votre contexte..."
-                class="w-full border border-[#E2E8F0] rounded-lg px-4 py-3 text-sm text-[#0A2540] placeholder-[#8898AA] focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent transition resize-none"
+                class="w-full border border-line rounded-lg px-4 py-3 text-sm text-ink placeholder-muted focus:outline-none focus:ring-2 focus:ring-signal focus:border-transparent transition resize-none"
               ></textarea>
             </div>
 
@@ -189,10 +210,22 @@ const contactSchema = {
               Envoyer le message →
             </button>
 
-            <p class="text-xs text-[#8898AA] text-center">
-              Vos données sont utilisées uniquement pour répondre à votre demande.
+            <p class="text-xs text-muted text-center leading-relaxed">
+              Vos données servent uniquement à répondre à votre demande et ne sont transmises à
+              aucun tiers à des fins commerciales. Vous pouvez demander leur suppression à tout
+              moment en écrivant à {CONTACT_EMAIL}.
             </p>
           </form>
+
+          <script>
+            document.getElementById('contact-form')?.addEventListener('submit', () => {
+              ;(window as any).dataLayer?.push({
+                event: 'form_submit',
+                form_name: 'contact',
+                page_path: window.location.pathname
+              })
+            })
+          </script>
         </div>
 
       </div>

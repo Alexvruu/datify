@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import { SITE_URL } from '../../../site.config.mjs'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -20,7 +21,7 @@ const { post } = Astro.props
 const { Content } = await render(post)
 
 const { title, description, date, author, tags, image } = post.data
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL)
 
 function formatDate(d: Date) {
   return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -36,22 +37,22 @@ const blogPostingSchema = {
   author: {
     '@type': 'Person',
     name: author,
-    url: 'https://datify.fr',
+    url: SITE_URL,
   },
   publisher: {
     '@type': 'Organization',
     name: 'Datify',
-    url: 'https://datify.fr',
+    url: SITE_URL,
     logo: {
       '@type': 'ImageObject',
-      url: 'https://datify.fr/og-default.jpg',
+      url: new URL('/og-default.png', SITE_URL).toString(),
     },
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': canonicalURL.toString(),
   },
-  ...(image ? { image: new URL(image, Astro.site).toString() } : {}),
+  ...(image ? { image: new URL(image, SITE_URL).toString() } : {}),
   keywords: tags.join(', '),
   inLanguage: 'fr-FR',
 }
@@ -72,22 +73,22 @@ const blogPostingSchema = {
       <header class="mb-12">
         <div class="flex flex-wrap gap-2 mb-6">
           {tags.map((tag) => (
-            <span class="text-xs bg-[#EEF2FF] text-[#635BFF] px-3 py-1 rounded-full font-medium">
+            <span class="text-xs bg-signal-soft text-signal px-3 py-1 rounded-full font-medium">
               {tag}
             </span>
           ))}
         </div>
 
-        <h1 class="text-[#0A2540] mb-6">{title}</h1>
+        <h1 class="text-ink mb-6">{title}</h1>
 
-        <p class="text-lg text-[#425466] mb-8 leading-relaxed">{description}</p>
+        <p class="text-lg text-body mb-8 leading-relaxed">{description}</p>
 
-        <div class="flex items-center gap-4 py-6 border-y border-[#E2E8F0] text-sm text-[#8898AA]">
-          <div class="w-9 h-9 bg-[#EEF2FF] rounded-full flex items-center justify-center text-[#635BFF] font-bold text-sm shrink-0">
+        <div class="flex items-center gap-4 py-6 border-y border-line text-sm text-muted">
+          <div class="w-9 h-9 bg-signal-soft rounded-full flex items-center justify-center text-signal font-bold text-sm shrink-0">
             AG
           </div>
           <div>
-            <span class="font-medium text-[#0A2540]">{author}</span>
+            <span class="font-medium text-ink">{author}</span>
             <span class="mx-2">·</span>
             <time datetime={date.toISOString()}>{formatDate(date)}</time>
           </div>
@@ -100,17 +101,17 @@ const blogPostingSchema = {
       </div>
 
       <!-- Footer -->
-      <footer class="mt-16 pt-10 border-t border-[#E2E8F0]">
-        <div class="bg-[#F6F8FA] rounded-xl p-8">
-          <p class="text-sm font-semibold text-[#0A2540] mb-2">Vous avez un projet analytics ?</p>
-          <p class="text-sm text-[#425466] mb-5">
+      <footer class="mt-16 pt-10 border-t border-line">
+        <div class="bg-mist rounded-md p-8">
+          <p class="text-sm font-semibold text-ink mb-2">Vous avez un projet analytics ?</p>
+          <p class="text-sm text-body mb-5">
             Je mets en place ce type de tracking au quotidien. Discutons de votre situation.
           </p>
           <a href="/contact" class="btn-primary text-sm py-2.5 px-5">Prendre contact →</a>
         </div>
 
         <div class="mt-8">
-          <a href="/blog" class="text-sm text-[#635BFF] hover:text-[#4F46E5] font-medium">
+          <a href="/blog" class="text-sm text-signal hover:text-signal-dark font-medium">
             ← Retour au blog
           </a>
         </div>
@@ -122,14 +123,14 @@ const blogPostingSchema = {
 
 <style>
   .prose {
-    color: #425466;
+    color: var(--color-body);
     line-height: 1.8;
     font-size: 1rem;
   }
   .prose :global(h2) {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #0A2540;
+    color: var(--color-ink);
     margin-top: 2.5rem;
     margin-bottom: 1rem;
     line-height: 1.3;
@@ -137,7 +138,7 @@ const blogPostingSchema = {
   .prose :global(h3) {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #0A2540;
+    color: var(--color-ink);
     margin-top: 2rem;
     margin-bottom: 0.75rem;
   }
@@ -159,16 +160,16 @@ const blogPostingSchema = {
     list-style-type: decimal;
   }
   .prose :global(code) {
-    background: #F6F8FA;
-    border: 1px solid #E2E8F0;
-    color: #635BFF;
+    background: var(--color-mist);
+    border: 1px solid var(--color-line);
+    color: var(--color-signal);
     padding: 0.15em 0.4em;
     border-radius: 4px;
     font-size: 0.875em;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
   }
   .prose :global(pre) {
-    background: #0A2540;
+    background: var(--color-ink);
     border-radius: 10px;
     padding: 1.25rem 1.5rem;
     overflow-x: auto;
@@ -177,50 +178,53 @@ const blogPostingSchema = {
   .prose :global(pre code) {
     background: none;
     border: none;
-    color: #e2e8f0;
+    color: var(--color-line);
     padding: 0;
     font-size: 0.875rem;
   }
   .prose :global(blockquote) {
-    border-left: 3px solid #635BFF;
+    border-left: 3px solid var(--color-signal);
     padding-left: 1.25rem;
     margin: 1.5rem 0;
-    color: #425466;
+    color: var(--color-body);
     font-style: italic;
   }
   .prose :global(a) {
-    color: #635BFF;
+    color: var(--color-signal);
     text-decoration: underline;
     text-underline-offset: 3px;
   }
   .prose :global(a:hover) {
-    color: #4F46E5;
+    color: var(--color-signal-dark);
   }
   .prose :global(strong) {
     font-weight: 600;
-    color: #0A2540;
+    color: var(--color-ink);
   }
   .prose :global(table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
     width: 100%;
     border-collapse: collapse;
     margin: 1.5rem 0;
     font-size: 0.9rem;
   }
   .prose :global(th) {
-    background: #F6F8FA;
-    border: 1px solid #E2E8F0;
+    background: var(--color-mist);
+    border: 1px solid var(--color-line);
     padding: 0.6rem 1rem;
     text-align: left;
     font-weight: 600;
-    color: #0A2540;
+    color: var(--color-ink);
   }
   .prose :global(td) {
-    border: 1px solid #E2E8F0;
+    border: 1px solid var(--color-line);
     padding: 0.6rem 1rem;
   }
   .prose :global(hr) {
     border: none;
-    border-top: 1px solid #E2E8F0;
+    border-top: 1px solid var(--color-line);
     margin: 2rem 0;
   }
 </style>

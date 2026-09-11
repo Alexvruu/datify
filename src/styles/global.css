@@ -1,12 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #635BFF;
-  --color-primary-dark: #4F46E5;
-  --color-navy: #0A2540;
-  --color-gray-soft: #F6F8FA;
-  --color-gray-mid: #8898AA;
-  --font-sans: 'Inter', system-ui, sans-serif;
+  /* Charte Signal (validée le 11/09/2026). Changer de charte = modifier ce bloc. */
+  --color-ink: #0B1B2B;
+  --color-body: #2B3A4A;
+  --color-muted: #5B6B80;
+  --color-line: #DCE2DF;
+  --color-mist: #F1F4F2;
+  --color-paper: #F7F8F6;
+  --color-signal: #0F766E;
+  --color-signal-dark: #0B5E57;
+  --color-signal-soft: #E3F1EF;
+  --color-ecart: #C2410C;
+  --color-ecart-soft: #FBEAE1;
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-display: 'IBM Plex Sans Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
 }
 
 @layer base {
@@ -17,24 +26,24 @@
   }
 
   body {
-    @apply bg-white text-[#0A2540] font-sans;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+    @apply bg-paper text-ink font-sans;
   }
 
+  h1, h2, h3 { font-family: var(--font-display); }
   h1 {
-    font-size: clamp(3.2rem, 9vw, 8rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 0.95;
-    color: #0A2540;
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    color: var(--color-ink);
   }
 
   h2 {
     font-size: clamp(2rem, 4.5vw, 3.75rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-    color: #0A2540;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1.08;
+    color: var(--color-ink);
   }
 
   h3 {
@@ -42,13 +51,13 @@
     font-weight: 600;
     letter-spacing: -0.01em;
     line-height: 1.3;
-    color: #0A2540;
+    color: var(--color-ink);
   }
 
   p {
     font-size: 1rem;
     line-height: 1.75;
-    color: #425466;
+    color: var(--color-body);
   }
 
   a {
@@ -67,37 +76,37 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: #635BFF;
+    background: var(--color-signal);
     color: #fff;
     padding: 0.875rem 1.75rem;
-    border-radius: 100px;
+    border-radius: 4px;
     font-weight: 500;
     font-size: 0.9375rem;
     transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     white-space: nowrap;
   }
   .btn-primary:hover {
-    background: #4F46E5;
+    background: var(--color-signal-dark);
     transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(99, 91, 255, 0.3);
+    box-shadow: 0 8px 24px rgba(15, 118, 110, 0.3);
   }
 
   .btn-ghost {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    border: 1.5px solid #E2E8F0;
-    color: #0A2540;
+    border: 1.5px solid var(--color-line);
+    color: var(--color-ink);
     padding: 0.875rem 1.75rem;
-    border-radius: 100px;
+    border-radius: 4px;
     font-weight: 500;
     font-size: 0.9375rem;
     transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
     white-space: nowrap;
   }
   .btn-ghost:hover {
-    border-color: #0A2540;
-    background: #F6F8FA;
+    border-color: var(--color-ink);
+    background: var(--color-mist);
     transform: translateY(-1px);
   }
 
@@ -108,7 +117,7 @@
     border: 1.5px solid rgba(255, 255, 255, 0.2);
     color: rgba(255, 255, 255, 0.65);
     padding: 0.875rem 1.75rem;
-    border-radius: 100px;
+    border-radius: 4px;
     font-weight: 500;
     font-size: 0.9375rem;
     transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
@@ -121,23 +130,37 @@
   }
 
   .label {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #8898AA;
+    color: var(--color-muted);
   }
+  /* Sur fond sombre, le gris clair reste lisible (5,3:1) */
+  .bg-ink .label { color: #8898AA; }
 
-  /* Scroll animations */
-  .reveal {
+  /* Scroll animations.
+     L'etat masque est conditionne a la classe .js posee par un script inline dans le head :
+     sans JavaScript, ou si le script echoue, le contenu reste visible. */
+  .js .reveal {
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .reveal.in-view {
+  .js .reveal.in-view {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  /* Respect du reglage systeme "reduire les animations" */
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
   .reveal.d1 { transition-delay: 0.08s; }
   .reveal.d2 { transition-delay: 0.16s; }
@@ -159,3 +182,6 @@
 .marquee-track:hover {
   animation-play-state: paused;
 }
+
+/* L'écart : réservé à ce qui sépare le déclaré de l'encaissé */
+.hl-ecart { box-shadow: inset 0 -0.12em 0 var(--color-ecart-soft); }

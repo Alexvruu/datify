@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Notes privées (dépôt public)
+docs/
+CLAUDE.md
+CLAUDE_1.md
+STRATEGIE*.md
+_to_delete/

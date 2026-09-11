@@ -1,269 +1,360 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+import { CALENDLY_URL } from '../../site.config.mjs'
+import {
+  HERO, SYMPTOMES, STACK, EXPERTISES, METHODE, ENGAGEMENTS,
+  CAS_PUBLIABLES, PROBLEMES, FAQ,
+} from '../data/home'
 
-const marqueeItems = [
-  'GA4', 'Google Tag Manager', 'Meta Ads', 'BigQuery', 'dbt', 'Looker Studio',
-  'Google Ads', 'Shopify', 'Consent Mode v2', 'Server-Side Tagging', 'Attribution',
-]
-
-const steps = [
-  {
-    n: '01',
-    title: 'Audit & Diagnostic',
-    desc: 'J\'analyse votre tracking, identifie chaque perte de données et vous rends un rapport clair — ce qui casse, pourquoi, et comment le corriger.',
-  },
-  {
-    n: '02',
-    title: 'Implémentation',
-    desc: 'Mise en place GA4, GTM server-side, pipelines BigQuery ou campagnes media. Livraison documentée, testée, prête à l\'emploi.',
-  },
-  {
-    n: '03',
-    title: 'Activation',
-    desc: 'Vos données travaillent pour vous. ROAS en hausse, reportings automatisés, équipes autonomes. Je reste disponible pour optimiser.',
-  },
-]
-
-const services = [
-  {
-    icon: '◈',
-    title: 'Analytics & Tracking',
-    desc: 'GA4, GTM server-side, Consent Mode v2. Des données fiables malgré les bloqueurs, conformes RGPD.',
-    tags: ['GA4', 'GTM', 'Server-side'],
-    href: '/services',
-  },
-  {
-    icon: '⬡',
-    title: 'Data Engineering',
-    desc: 'Pipelines BigQuery, modélisation dbt, dashboards Looker Studio. De la donnée brute aux décisions actionnables.',
-    tags: ['BigQuery', 'dbt', 'Looker'],
-    href: '/services',
-  },
-  {
-    icon: '◎',
-    title: 'Média Buying',
-    desc: 'Meta Ads & Google Ads avec attribution fiable. Chaque euro de budget est tracé, mesuré, optimisé.',
-    tags: ['Meta Ads', 'Google Ads', 'ROAS'],
-    href: '/services',
-  },
-  {
-    icon: '◇',
-    title: 'Reporting & Audit',
-    desc: 'Audit de votre stack analytics, dashboards sur mesure, formation équipes. La data rendue lisible par tous.',
-    tags: ['Audit', 'Dashboards', 'Formation'],
-    href: '/services',
-  },
-]
-
-const testimonials = [
-  {
-    quote: 'Avant, on perdait 35% de nos conversions dans GA4. Après 3 semaines avec Alexandre, on est à 97% de tracking fiable. Notre ROAS Meta est passé de 1.9× à 3.2×.',
-    name: 'Sophie M.',
-    role: 'Head of Growth · E-commerce mode',
-    initials: 'SM',
-    kpi: '+68% ROAS',
-  },
-  {
-    quote: 'Le pipeline BigQuery + dbt a divisé par 3 le temps de préparation de nos reportings. On décide en minutes, plus en jours.',
-    name: 'Thomas R.',
-    role: 'Directeur Marketing · SaaS B2B',
-    initials: 'TR',
-    kpi: '−70% temps reporting',
-  },
-]
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQ.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+}
 ---
 
 <BaseLayout
-  title="Analytics Engineer & Media Buyer Freelance"
-  description="Datify — Analytics engineering, tracking GA4 server-side et media buying. Des données fiables, des décisions qui performent."
+  title="Tracking server-side, GA4 et Meta CAPI"
+  description="L'écart entre les ventes déclarées par Meta, Google Ads, GA4 et vos ventes réelles se chiffre. Je le mesure et je le corrige. Appel gratuit."
 >
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
-  <!-- ═══════════ HERO ═══════════ -->
-  <section class="relative min-h-[calc(100vh-72px)] flex flex-col justify-center pt-20 pb-16 overflow-hidden">
-
-    <!-- Subtle background gradient -->
+  <!-- ═══════════ 1 · HERO ═══════════ -->
+  <section class="relative pt-24 pb-24 md:pt-32 md:pb-32 overflow-hidden">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div style="position:absolute;top:-20%;right:-10%;width:60vw;height:60vw;max-width:900px;max-height:900px;border-radius:50%;background:radial-gradient(circle,rgba(99,91,255,0.06) 0%,transparent 70%);"></div>
+      <div style="position:absolute;top:-25%;right:-12%;width:60vw;height:60vw;max-width:880px;max-height:880px;border-radius:50%;background:radial-gradient(circle,rgba(15,118,110,0.07) 0%,transparent 70%);"></div>
     </div>
 
     <div class="container relative z-10">
-      <!-- Label -->
-      <p class="reveal label mb-8">
-        Analytics · Data Engineering · Media Buying
-      </p>
+      <div class="grid xl:grid-cols-[minmax(0,1fr)_320px] gap-16 items-start">
+        <div>
+          <p class="reveal label mb-7">{HERO.surtitre}</p>
 
-      <!-- H1 -->
-      <h1 class="reveal d1 mb-8">
-        Data-driven.<br />
-        <span class="text-[#635BFF]">Résultats</span><br />
-        prouvés.
-      </h1>
+          <h1 class="reveal d1 mb-8" style="font-size:clamp(2.6rem,6vw,4.8rem);line-height:1.02;letter-spacing:-0.01em;">
+            {/* Les coupes ne s'appliquent qu'a partir de 640px : en dessous, le texte
+                coule naturellement, sinon un mot se retrouve seul sur sa ligne. */}
+            {HERO.titre.map((ligne, i) => (
+              <>
+                <span class={i === HERO.ligneAccentuee ? 'text-ecart hl-ecart' : ''}>{ligne}</span>
+                {i < HERO.titre.length - 1 && (
+                  <>
+                    {' '}
+                    <br class="hidden sm:block" />
+                  </>
+                )}
+              </>
+            ))}
+          </h1>
 
-      <!-- Subtitle -->
-      <p class="reveal d2 text-lg md:text-xl text-[#425466] max-w-xl mb-12 leading-relaxed">
-        Analytics engineering, tracking GA4 server-side & media buying — pour des équipes qui décident sur de vraies données.
-      </p>
+          <p class="reveal d2 text-lg md:text-xl text-body max-w-2xl mb-10 leading-relaxed">
+            {HERO.sousTitre}
+          </p>
 
-      <!-- CTAs -->
-      <div class="reveal d3 flex flex-wrap gap-4">
-        <a href="/contact" class="btn-primary text-base">
-          Démarrer un projet →
-        </a>
-        <a href="/services" class="btn-ghost text-base">
-          Voir les services
-        </a>
+          <div class="reveal d3 flex flex-wrap items-center gap-5">
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cta="rdv"
+              data-cta-loc="hero"
+              class="btn-primary text-base"
+            >
+              Diagnostic gratuit (30 min)
+            </a>
+            <p class="text-sm text-muted">
+              {HERO.ctaNote[0]}<br class="hidden sm:block" />
+              {HERO.ctaNote[1]}
+            </p>
+          </div>
+
+          <div class="reveal d4 flex flex-wrap gap-x-10 gap-y-4 mt-14 pt-10 border-t border-line">
+            {HERO.chiffres.map(({ v, l }) => (
+              <div>
+                <div class="text-2xl font-bold text-ink">{v}</div>
+                <div class="text-sm text-muted mt-0.5">{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Carte identité. TODO Alexandre : ajouter public/alexandre.jpg (photo carrée, 600px). -->
+        <aside class="reveal d3 hidden xl:block bg-mist border border-line rounded-lg p-8">
+          <div class="w-20 h-20 rounded-full bg-signal-soft mb-5 overflow-hidden flex items-center justify-center text-signal text-xl font-bold" aria-hidden="true">AG</div>
+          <p class="font-semibold text-ink">Alexandre Gire</p>
+          <p class="text-sm text-muted mt-1 mb-5">Analytics engineer · Tracking</p>
+          <p class="text-sm text-body leading-relaxed">
+            Je pose des architectures de mesure en agence : GTM server-side,
+            Meta CAPI, GA4, BigQuery. Je travaille seul sur vos comptes, sans sous-traitance.
+          </p>
+          {/* TODO Alexandre : certifications vérifiables à lister ici (Google Analytics, Google Ads, Meta Blueprint, diplôme). */}
+        </aside>
       </div>
+    </div>
+  </section>
 
-      <!-- Stats strip -->
-      <div class="reveal d4 grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-10 border-t border-[#E2E8F0]">
-        {[
-          { v: '+40', l: 'projets livrés' },
-          { v: '3×', l: 'ROAS moyen' },
-          { v: '97%', l: 'données récupérées' },
-          { v: '< 24h', l: 'délai de réponse' },
-        ].map(({ v, l }) => (
+  <!-- ═══════════ 2 · STACK (remplace les logos clients) ═══════════ -->
+  <section class="py-16 border-y border-line bg-paper">
+    <div class="container">
+      <p class="label mb-8">Ce que je manipule au quotidien</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-x-8 gap-y-10">
+        {STACK.map((g) => (
           <div>
-            <div class="text-2xl md:text-3xl font-bold text-[#0A2540]">{v}</div>
-            <div class="text-sm text-[#8898AA] mt-1">{l}</div>
+            <p class="text-xs font-semibold text-signal uppercase tracking-widest mb-3">{g.groupe}</p>
+            <ul class="space-y-1.5">
+              {g.outils.map((o) => (
+                <li class="text-sm text-body">{o}</li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ MARQUEE ═══════════ -->
-  <div class="border-y border-[#E2E8F0] py-5 overflow-hidden bg-white">
-    <div class="marquee-track select-none" aria-hidden="true">
-      {[...marqueeItems, ...marqueeItems].map((item) => (
-        <span class="inline-flex items-center gap-5 px-6 text-sm font-medium text-[#8898AA] whitespace-nowrap">
-          {item}
-          <span class="w-1 h-1 rounded-full bg-[#635BFF] opacity-50"></span>
-        </span>
-      ))}
-    </div>
-  </div>
-
-  <!-- ═══════════ HOW IT WORKS ═══════════ -->
-  <section class="py-32 bg-white">
+  <!-- ═══════════ 3 · LE PROBLÈME ═══════════ -->
+  <section class="py-28 md:py-32 bg-paper">
     <div class="container">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-20">
-        <div>
-          <p class="reveal label mb-4">Méthode</p>
-          <h2 class="reveal d1">Comment<br />ça marche</h2>
-        </div>
-        <p class="reveal d2 text-[#425466] max-w-sm md:text-right">
-          Un process en 3 étapes, transparent et sans surprise.
+      <div class="mb-16 max-w-2xl">
+        <p class="reveal label mb-4">Le problème</p>
+        <h2 class="reveal d1">Trois symptômes,<br />presque toujours les mêmes</h2>
+        <p class="reveal d2 text-body mt-6 leading-relaxed">
+          Si l'un d'eux vous parle, l'appel de 30 minutes suffira à confirmer d'où il vient.
         </p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-px bg-[#E2E8F0]">
-        {steps.map((step, i) => (
-          <div class={`reveal d${i + 1} bg-white p-10 md:p-12`}>
-            <span class="text-5xl font-black text-[#E2E8F0] block mb-8 leading-none select-none">
-              {step.n}
-            </span>
-            <h3 class="text-[#0A2540] mb-4 text-xl">{step.title}</h3>
-            <p class="text-[#425466] text-sm leading-relaxed">{step.desc}</p>
+      <div class="grid gap-px bg-line border border-line rounded-lg overflow-hidden">
+        {SYMPTOMES.map((s, i) => (
+          <div class={`reveal d${i + 1} bg-white p-8 md:p-11 grid md:grid-cols-3 gap-8 items-start`}>
+            <p class="text-ink font-semibold leading-snug text-lg">{s.probleme}</p>
+            <div class="md:col-span-2 grid sm:grid-cols-2 gap-8">
+              <div>
+                <p class="label mb-2">Cause fréquente</p>
+                <p class="text-sm text-body leading-relaxed">{s.cause}</p>
+              </div>
+              <div>
+                <p class="label mb-2">Le correctif</p>
+                <p class="text-sm text-body leading-relaxed">{s.geste}</p>
+              </div>
+            </div>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ SERVICES ═══════════ -->
-  <section class="py-32 bg-[#F6F8FA]">
+  <!-- ═══════════ 4 · EXPERTISES ═══════════ -->
+  <section class="py-28 md:py-32 bg-mist">
     <div class="container">
-      <div class="mb-20">
-        <p class="reveal label mb-4">Services</p>
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <h2 class="reveal d1">Ce que je<br />fais pour vous</h2>
-          <a href="/services" class="reveal d2 btn-ghost self-start md:self-auto">
-            Voir tous les services →
-          </a>
-        </div>
+      <div class="mb-16 max-w-2xl">
+        <p class="reveal label mb-4">Interventions</p>
+        <h2 class="reveal d1">Ce que je fais,<br />en détail</h2>
+        <p class="reveal d2 text-body mt-6 leading-relaxed">
+          Quatre types de mission. La plupart des projets commencent par la première
+          et s'arrêtent là où vous décidez.
+        </p>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6">
-        {services.map((s, i) => (
-          <a
-            href={s.href}
-            class={`reveal d${(i % 2) + 1} group bg-white rounded-2xl p-10 border border-transparent hover:border-[#635BFF] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`}
-          >
-            <div class="flex items-start justify-between mb-8">
-              <div class="w-12 h-12 rounded-xl bg-[#EEF2FF] flex items-center justify-center text-[#635BFF] text-xl group-hover:bg-[#635BFF] group-hover:text-white transition-all duration-300">
-                {s.icon}
-              </div>
-              <span class="text-[#635BFF] text-xl translate-x-0 group-hover:translate-x-1 transition-transform duration-300 opacity-0 group-hover:opacity-100">→</span>
-            </div>
-            <h3 class="text-[#0A2540] mb-3">{s.title}</h3>
-            <p class="text-sm text-[#425466] leading-relaxed mb-6">{s.desc}</p>
-            <div class="flex gap-2 flex-wrap">
-              {s.tags.map((tag) => (
-                <span class="text-xs bg-[#F6F8FA] border border-[#E2E8F0] text-[#8898AA] px-3 py-1 rounded-full">
-                  {tag}
-                </span>
+        {EXPERTISES.map((e, i) => (
+          <article class={`reveal d${(i % 2) + 1} bg-white rounded-lg border border-line p-9 md:p-10 flex flex-col`}>
+            <h3 class="text-xl text-ink mb-2">{e.titre}</h3>
+            <p class="text-signal text-sm font-medium mb-5">{e.accroche}</p>
+
+            <p class="text-sm text-muted mb-6 pb-6 border-b border-line">
+              <span class="font-semibold text-body">Pour qui : </span>{e.pourQui}
+            </p>
+
+            <ul class="space-y-3 mb-7">
+              {e.contenu.map((c) => (
+                <li class="flex items-start gap-3 text-sm text-body leading-relaxed">
+                  <span class="text-signal mt-0.5 shrink-0">✓</span>
+                  {c}
+                </li>
               ))}
+            </ul>
+
+            <div class="mt-auto pt-6 border-t border-line">
+              <p class="label mb-3">Vous repartez avec</p>
+              <div class="flex flex-wrap gap-2">
+                {e.livrables.map((l) => (
+                  <span class="text-xs bg-mist border border-line text-body px-3 py-1.5 rounded-full">{l}</span>
+                ))}
+              </div>
             </div>
-          </a>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ TESTIMONIALS ═══════════ -->
-  <section class="py-32 bg-white">
+  <!-- ═══════════ 5 · MÉTHODE ═══════════ -->
+  <section class="py-28 md:py-32 bg-paper">
     <div class="container">
-      <div class="mb-20">
-        <p class="reveal label mb-4">Résultats</p>
-        <h2 class="reveal d1">Ce que ça<br />change vraiment</h2>
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div class="max-w-xl">
+          <p class="reveal label mb-4">Méthode</p>
+          <h2 class="reveal d1">Comment<br />ça se passe</h2>
+        </div>
+        <p class="reveal d2 text-body max-w-sm md:text-right leading-relaxed">
+          Quatre étapes, des délais annoncés, et un point de sortie à chacune.
+        </p>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-8">
-        {testimonials.map((t, i) => (
-          <div class={`reveal d${i + 1} bg-[#F6F8FA] rounded-2xl p-10 md:p-12 flex flex-col justify-between min-h-[320px]`}>
-            <div>
-              <p class="text-4xl font-serif text-[#635BFF] leading-none mb-6 select-none">"</p>
-              <p class="text-[#0A2540] text-lg font-medium leading-relaxed mb-8">
-                {t.quote}
-              </p>
-            </div>
-            <div class="flex items-center justify-between gap-4 pt-8 border-t border-[#E2E8F0]">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-[#635BFF] flex items-center justify-center text-white text-xs font-bold shrink-0">
-                  {t.initials}
-                </div>
-                <div>
-                  <p class="text-sm font-semibold text-[#0A2540]">{t.name}</p>
-                  <p class="text-xs text-[#8898AA]">{t.role}</p>
-                </div>
-              </div>
-              <span class="text-xs font-bold text-[#635BFF] bg-[#EEF2FF] px-3 py-1.5 rounded-full shrink-0">
-                {t.kpi}
-              </span>
-            </div>
+      <div class="grid md:grid-cols-4 gap-px bg-line border border-line rounded-lg overflow-hidden">
+        {METHODE.map((m, i) => (
+          <div class={`reveal d${i + 1} bg-white p-8 md:p-9`}>
+            <span class="text-4xl font-black text-line block mb-6 leading-none select-none">{m.n}</span>
+            <h3 class="text-ink mb-1.5 text-lg">{m.titre}</h3>
+            <p class="text-xs font-semibold text-signal mb-4">{m.duree}</p>
+            <p class="text-sm text-body leading-relaxed">{m.contenu}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ CTA ═══════════ -->
-  <section class="py-32 bg-[#0A2540]">
-    <div class="container text-center">
-      <p class="reveal label text-white/30 mb-6">On démarre ?</p>
-      <h2 class="reveal d1 text-white mb-6">
-        Prêt à décider<br />sur de vraies données ?
+  <!-- ═══════════ 6 · CAS CLIENTS (masqué tant que non rempli) ═══════════ -->
+  {CAS_PUBLIABLES.length > 0 && (
+    <section class="py-28 md:py-32 bg-ink">
+      <div class="container">
+        <div class="mb-16 max-w-2xl">
+          <p class="reveal label text-white/30 mb-4">Missions</p>
+          <h2 class="reveal d1 text-white">Ce que ça a donné,<br />sur de vrais comptes</h2>
+          <p class="reveal d2 text-white/50 mt-6 leading-relaxed">
+            Clients anonymisés par obligation de confidentialité. Les chiffres, eux, sont relevés.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          {CAS_PUBLIABLES.map((c, i) => (
+            <article class={`reveal d${i + 1} bg-white/[0.04] border border-white/10 rounded-lg p-8 flex flex-col`}>
+              <p class="text-xs font-semibold text-signal uppercase tracking-widest mb-6">{c.secteur}</p>
+              <dl class="space-y-5 flex-1">
+                {[
+                  ['Symptôme', c.symptome],
+                  ['Trouvé', c.trouve],
+                  ['Fait', c.fait],
+                ].map(([k, v]) => (
+                  <div>
+                    <dt class="text-[0.6875rem] font-semibold uppercase tracking-widest text-white/30 mb-1.5">{k}</dt>
+                    <dd class="text-sm text-white/70 leading-relaxed">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div class="mt-7 pt-6 border-t border-white/10">
+                <p class="text-[0.6875rem] font-semibold uppercase tracking-widest text-white/30 mb-1.5">Résultat</p>
+                <p class="text-white font-medium leading-snug">{c.resultat}</p>
+                <p class="text-xs text-white/40 mt-3">{c.duree}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ═══════════ 7 · ENGAGEMENTS ═══════════ -->
+  <section class="py-28 md:py-32 bg-mist">
+    <div class="container">
+      <div class="mb-16 max-w-2xl">
+        <p class="reveal label mb-4">Engagements</p>
+        <h2 class="reveal d1">Ce sur quoi<br />vous pouvez compter</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        {ENGAGEMENTS.map((e, i) => (
+          <div class={`reveal d${(i % 2) + 1} bg-white rounded-lg border border-line p-9`}>
+            <h3 class="text-ink mb-3 text-lg">{e.titre}</h3>
+            <p class="text-sm text-body leading-relaxed">{e.detail}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 8 · MATRICE DE PROBLÈMES ═══════════ -->
+  <section class="py-28 md:py-32 bg-paper">
+    <div class="container">
+      <div class="mb-16 max-w-2xl">
+        <p class="reveal label mb-4">Périmètre</p>
+        <h2 class="reveal d1">Votre problème est<br />probablement là-dedans</h2>
+        <p class="reveal d2 text-body mt-6 leading-relaxed">
+          La liste de ce que je traite couramment. Si le vôtre n'y est pas, dites-le
+          pendant l'appel : je vous dirai franchement si c'est dans mes cordes.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {PROBLEMES.map((p, i) => (
+          <div class={`reveal d${(i % 3) + 1} border border-line rounded-lg p-7`}>
+            <p class="text-xs font-semibold text-signal uppercase tracking-widest mb-4">{p.cat}</p>
+            <ul class="space-y-2.5">
+              {p.items.map((it) => (
+                <li class="flex items-start gap-2.5 text-sm text-body leading-relaxed">
+                  <span class="text-muted mt-1.5 w-1 h-1 rounded-full bg-muted shrink-0"></span>
+                  {it}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 9 · FAQ ═══════════ -->
+  <section class="py-28 md:py-32 bg-mist">
+    <div class="container max-w-3xl">
+      <div class="mb-14">
+        <p class="reveal label mb-4">Objections</p>
+        <h2 class="reveal d1">Les questions<br />qu'on me pose</h2>
+      </div>
+
+      <div class="space-y-4">
+        {FAQ.map((f, i) => (
+          <details class={`reveal d${(i % 3) + 1} group bg-white border border-line rounded-md overflow-hidden`}>
+            <summary class="cursor-pointer list-none p-7 flex items-start justify-between gap-6">
+              <h3 class="text-ink text-base font-semibold leading-snug">{f.q}</h3>
+              <span class="text-signal text-xl shrink-0 leading-none transition-transform duration-200 group-open:rotate-45">+</span>
+            </summary>
+            <div class="px-7 pb-7 -mt-1">
+              <p class="text-sm text-body leading-relaxed">{f.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 10 · CTA FINAL ═══════════ -->
+  <section class="py-28 md:py-32 bg-ink">
+    <div class="container text-center max-w-2xl">
+      <p class="reveal label text-white/30 mb-6">Première étape</p>
+      <h2 class="reveal d1 text-white mb-7">
+        Trente minutes<br />pour savoir où vous en êtes
       </h2>
-      <p class="reveal d2 text-white/50 max-w-md mx-auto mb-12 text-lg leading-relaxed">
-        Premier échange gratuit et sans engagement. Je réponds sous 24h.
+      <p class="reveal d2 text-white/55 mx-auto mb-11 text-lg leading-relaxed">
+        On ouvre votre site ensemble et je vous dis ce que je vois. Vous repartez avec
+        au moins un problème identifié, que l'on travaille ensemble ensuite ou non.
       </p>
-      <div class="reveal d3 flex flex-wrap gap-4 justify-center">
-        <a href="/contact" class="btn-primary text-base">
-          Prendre contact →
+      <div class="reveal d3 flex flex-col items-center gap-5">
+        <a
+          href={CALENDLY_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-cta="rdv"
+          data-cta-loc="cta-bas-page"
+          class="btn-primary text-base"
+        >
+          Diagnostic gratuit (30 min)
         </a>
-        <a href="/blog" style="display:inline-flex;align-items:center;gap:0.5rem;border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);padding:0.875rem 1.75rem;border-radius:100px;font-weight:500;font-size:0.9375rem;transition:all 0.2s ease;" onmouseover="this.style.borderColor='rgba(255,255,255,0.5)';this.style.color='white'" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='rgba(255,255,255,0.7)'">
-          Lire le blog
-        </a>
+        <p class="text-sm text-white/40">
+          Ou écrivez-moi depuis la <a href="/contact" class="text-white/70 underline underline-offset-4 hover:text-white">page contact</a>.
+        </p>
       </div>
     </div>
   </section>

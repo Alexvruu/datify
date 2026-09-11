@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { LEGAL, CONTACT_EMAIL, SITE_URL, GTM_ID } from '../../site.config.mjs'
+
+const derniereMaj = '10 septembre 2026'
+---
+
+<BaseLayout
+  title="Mentions légales"
+  description="Mentions légales, hébergement, traitement des données personnelles et gestion des cookies du site Datify."
+>
+  <section class="py-20">
+    <div class="container max-w-2xl">
+      <span class="text-signal text-sm font-semibold uppercase tracking-widest">Informations légales</span>
+      <h1 class="mt-2 text-ink">Mentions légales</h1>
+      <p class="mt-4 text-sm text-muted">Dernière mise à jour : {derniereMaj}</p>
+
+      <div class="mt-14 space-y-12">
+
+        <div>
+          <h2 class="text-ink mb-4">Éditeur du site</h2>
+          <ul class="space-y-2 text-sm text-body">
+            <li><strong class="text-ink font-semibold">Nom :</strong> {LEGAL.nom}</li>
+            <li><strong class="text-ink font-semibold">Statut :</strong> {LEGAL.statut}</li>
+            <li><strong class="text-ink font-semibold">Adresse :</strong> {LEGAL.adresse}</li>
+            <li><strong class="text-ink font-semibold">SIRET :</strong> {LEGAL.siret}</li>
+            <li><strong class="text-ink font-semibold">TVA :</strong> {LEGAL.tva}</li>
+            <li><strong class="text-ink font-semibold">Contact :</strong> <a href={`mailto:${CONTACT_EMAIL}`} class="text-signal hover:underline">{CONTACT_EMAIL}</a></li>
+            <li><strong class="text-ink font-semibold">Directeur de la publication :</strong> {LEGAL.directeurPublication}</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-ink mb-4">Hébergement</h2>
+          <p class="text-sm text-body leading-relaxed">
+            Le site est hébergé par {LEGAL.hebergeur.nom}, {LEGAL.hebergeur.adresse}.
+            <a href={LEGAL.hebergeur.site} target="_blank" rel="noopener noreferrer" class="text-signal hover:underline ml-1">{LEGAL.hebergeur.site}</a>
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-ink mb-4">Propriété intellectuelle</h2>
+          <p class="text-sm text-body leading-relaxed">
+            L'ensemble des contenus de ce site, textes et articles de blog inclus, est la propriété
+            de {LEGAL.nom}, sauf mention contraire. Toute reproduction intégrale sans autorisation
+            écrite préalable est interdite. La citation d'extraits est libre sous réserve d'un lien
+            vers la page d'origine.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-ink mb-4">Données personnelles</h2>
+          <p class="text-sm text-body leading-relaxed mb-4">
+            Deux traitements seulement sont mis en œuvre sur ce site.
+          </p>
+          <ul class="space-y-4 text-sm text-body">
+            <li>
+              <strong class="text-ink font-semibold">Formulaire de contact.</strong>
+              Les nom, adresse email, entreprise et message transmis servent uniquement à répondre
+              à votre demande. La base légale est votre consentement. Ces données sont conservées
+              trois ans à compter du dernier échange, puis supprimées. Elles ne sont vendues ni
+              cédées à aucun tiers.
+            </li>
+            <li>
+              <strong class="text-ink font-semibold">Mesure d'audience.</strong>
+              Google Analytics 4 est déployé via Google Tag Manager (conteneur {GTM_ID}) et n'est
+              activé qu'après votre accord explicite. Sans accord, aucun cookie de mesure n'est
+              déposé. La base légale est votre consentement, révocable à tout moment.
+            </li>
+          </ul>
+          <p class="text-sm text-body leading-relaxed mt-4">
+            Conformément au règlement général sur la protection des données, vous disposez d'un
+            droit d'accès, de rectification, d'effacement, de limitation et d'opposition sur vos
+            données. Pour l'exercer, écrivez à
+            <a href={`mailto:${CONTACT_EMAIL}`} class="text-signal hover:underline ml-1">{CONTACT_EMAIL}</a>.
+            Vous pouvez également introduire une réclamation auprès de la CNIL
+            <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" class="text-signal hover:underline ml-1">cnil.fr</a>.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-ink mb-4">Cookies</h2>
+          <p class="text-sm text-body leading-relaxed mb-4">
+            Aucun cookie de mesure d'audience ou publicitaire n'est déposé tant que vous n'avez pas
+            accepté. Le refus est le réglage par défaut, et il est appliqué techniquement via le
+            Consent Mode v2 de Google avant tout chargement de balise.
+          </p>
+          <p class="text-sm text-body leading-relaxed mb-6">
+            Votre choix est conservé dans le stockage local de votre navigateur, sur votre appareil
+            uniquement. Il n'est transmis à personne.
+          </p>
+          <button
+            type="button"
+            id="consent-reopen-page"
+            class="btn-ghost text-sm py-2.5 px-5"
+          >
+            Modifier mon choix
+          </button>
+        </div>
+
+        <div>
+          <h2 class="text-ink mb-4">Liens externes</h2>
+          <p class="text-sm text-body leading-relaxed">
+            La prise de rendez-vous est assurée par Calendly, dont la page s'ouvre dans un nouvel
+            onglet. Les données que vous y saisissez sont traitées par Calendly selon sa propre
+            politique de confidentialité. Aucun cookie Calendly n'est déposé sur ce site.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.getElementById('consent-reopen-page')?.addEventListener('click', () => {
+      const banner = document.getElementById('consent-banner')
+      if (banner) banner.hidden = false
+    })
+  </script>
+</BaseLayout>
