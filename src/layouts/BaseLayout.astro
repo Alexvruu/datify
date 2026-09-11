@@ -385,10 +385,10 @@ const currentPath = Astro.url.pathname
       #site-header {
         background: transparent;
       }
+      /* Fond opaque plutôt qu'un flou d'arrière-plan : le flou recalculé à chaque image
+         de défilement saccadait le scroll, surtout sur Safari et écrans Retina. */
       #site-header.nav-scrolled {
-        background: rgba(255, 255, 255, 0.92);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        background: rgba(247, 248, 246, 0.98);
         box-shadow: 0 1px 0 var(--color-line);
       }
     </style>

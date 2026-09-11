@@ -20,7 +20,6 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -140,33 +139,10 @@
   /* Sur fond sombre, le gris clair reste lisible (5,3:1) */
   .bg-ink .label { color: #8898AA; }
 
-  /* Scroll animations.
-     L'etat masque est conditionne a la classe .js posee par un script inline dans le head :
-     sans JavaScript, ou si le script echoue, le contenu reste visible. */
-  .js .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .js .reveal.in-view {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Respect du reglage systeme "reduire les animations" */
-  @media (prefers-reduced-motion: reduce) {
-    .js .reveal {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
-  .reveal.d1 { transition-delay: 0.08s; }
-  .reveal.d2 { transition-delay: 0.16s; }
-  .reveal.d3 { transition-delay: 0.24s; }
-  .reveal.d4 { transition-delay: 0.32s; }
-  .reveal.d5 { transition-delay: 0.40s; }
+  /* Animations d'apparition au scroll : désactivées (11/09/2026).
+     Le contenu arrivait en retard pendant le défilement (fondu de 0,75 s + délais),
+     ce qui donnait une impression de site lent. Tout est visible immédiatement. */
+  .reveal { opacity: 1; transform: none; }
 }
 
 /* Marquee */
