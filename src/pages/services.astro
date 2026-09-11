@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { CALENDLY_URL } from '../../site.config.mjs'
 import { OFFRES } from '../data/offres'
-import { STACK } from '../data/home'
+import StackLogos from '../components/StackLogos.astro'
 
 const faqs = [
   {
@@ -90,22 +90,7 @@ const faqs = [
   </section>
 
   <!-- STACK -->
-  <section class="py-24 bg-paper">
-    <div class="container">
-      <span class="text-signal text-sm font-semibold uppercase tracking-widest">Stack</span>
-      <h2 class="mt-2 text-ink">Les outils sur lesquels j’interviens</h2>
-      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
-        {STACK.map((g) => (
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-muted mb-3">{g.groupe}</p>
-            <ul class="space-y-2">
-              {g.outils.map((t) => <li class="text-sm text-ink">{t}</li>)}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  <StackLogos titre="Les outils sur lesquels j’interviens" />
 
   <!-- FAQ -->
   <section class="py-24 bg-mist">

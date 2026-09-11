@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { CALENDLY_URL } from '../../site.config.mjs'
+import StackLogos from '../components/StackLogos.astro'
 import {
   HERO, SYMPTOMES, STACK, EXPERTISES, METHODE, ENGAGEMENTS,
   CAS_PUBLIABLES, PROBLEMES, FAQ,
@@ -71,6 +72,14 @@ const faqSchema = {
             </p>
           </div>
 
+          <div class="reveal d3 xl:hidden flex items-center gap-3 mt-8">
+            <img src="/alexandre.jpg" alt="Alexandre Gire" width="48" height="48" class="w-12 h-12 rounded-full object-cover shrink-0" />
+            <div>
+              <p class="text-sm font-semibold text-ink leading-tight">Alexandre Gire</p>
+              <p class="text-sm text-muted leading-tight">Consultant tracking · Lyon, à distance</p>
+            </div>
+          </div>
+
           <div class="reveal d4 flex flex-wrap gap-x-10 gap-y-4 mt-14 pt-10 border-t border-line">
             {HERO.chiffres.map(({ v, l }) => (
               <div>
@@ -81,9 +90,9 @@ const faqSchema = {
           </div>
         </div>
 
-        <!-- Carte identité. TODO Alexandre : ajouter public/alexandre.jpg (photo carrée, 600px). -->
+        <!-- Carte identité (écrans larges). Sur les écrans plus petits, la photo apparaît sous le bouton. -->
         <aside class="reveal d3 hidden xl:block bg-mist border border-line rounded-lg p-8">
-          <div class="w-20 h-20 rounded-full bg-signal-soft mb-5 overflow-hidden flex items-center justify-center text-signal text-xl font-bold" aria-hidden="true">AG</div>
+          <img src="/alexandre.jpg" alt="Alexandre Gire" width="80" height="80" class="w-20 h-20 rounded-full object-cover mb-5" />
           <p class="font-semibold text-ink">Alexandre Gire</p>
           <p class="text-sm text-muted mt-1 mb-5">Analytics engineer · Tracking</p>
           <p class="text-sm text-body leading-relaxed">
@@ -96,24 +105,8 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- ═══════════ 2 · STACK (remplace les logos clients) ═══════════ -->
-  <section class="py-16 border-y border-line bg-paper">
-    <div class="container">
-      <p class="label mb-8">Ce que je manipule au quotidien</p>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-x-8 gap-y-10">
-        {STACK.map((g) => (
-          <div>
-            <p class="text-xs font-semibold text-signal uppercase tracking-widest mb-3">{g.groupe}</p>
-            <ul class="space-y-1.5">
-              {g.outils.map((o) => (
-                <li class="text-sm text-body">{o}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  <!-- ═══════════ 2 · STACK (logos, Google Cloud en vedette) ═══════════ -->
+  <StackLogos />
 
   <!-- ═══════════ 3 · LE PROBLÈME ═══════════ -->
   <section class="py-28 md:py-32 bg-paper">

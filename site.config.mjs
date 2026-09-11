@@ -6,8 +6,8 @@
 export const SITE_URL = 'https://datify-brown.vercel.app'
 // export const SITE_URL = 'https://datify.fr'   // ← à activer une fois le domaine branché
 
-/** Lien de réservation Calendly. À remplacer par votre vrai lien. */
-export const CALENDLY_URL = 'https://calendly.com/A-REMPLACER/30min'
+/** Lien de réservation Calendly (diagnostic gratuit de 30 min). */
+export const CALENDLY_URL = 'https://calendly.com/gire-alexandre/30min'
 
 /** Endpoint du formulaire de contact (Formspree). À remplacer par votre vrai ID. */
 export const FORM_ENDPOINT = 'https://formspree.io/f/A-REMPLACER'

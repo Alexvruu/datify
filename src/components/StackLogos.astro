@@ -1,0 +1,63 @@
+---
+// Stack avec logos, partagée entre l'accueil et la page Offres.
+// Données et règles : src/data/stack.ts
+import { STACK_LOGOS, type Outil } from '../data/stack'
+
+interface Props { titre?: string }
+const { titre = 'Les outils que je manipule au quotidien' } = Astro.props
+const vedette = STACK_LOGOS.find((g) => g.vedette)
+const autres = STACK_LOGOS.filter((g) => !g.vedette)
+const initiales = (o: Outil) => o.name.split(/\s+/).map((m) => m[0]).join('').slice(0, 2).toUpperCase()
+---
+
+<section class="py-24 border-y border-line bg-paper">
+  <div class="container">
+    <div class="max-w-2xl mb-12">
+      <p class="label mb-3">Stack</p>
+      <h2>{titre}</h2>
+    </div>
+
+    {vedette && (
+      <div class="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] gap-10 bg-white border border-line rounded-lg p-8 md:p-10 mb-6">
+        <div>
+          <div class="flex items-center gap-3 mb-5">
+            <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true"><path fill="#4285F4" d={vedette.outils.find((o) => o.name.startsWith("Cloud"))?.path} /></svg>
+            <p class="font-mono text-sm uppercase tracking-wider text-muted">{vedette.groupe}</p>
+          </div>
+          <h3 class="text-2xl md:text-3xl leading-tight mb-4">{vedette.accroche}</h3>
+          <p class="text-body">{vedette.detail}</p>
+        </div>
+        <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 content-start">
+          {vedette.outils.map((o) => (
+            <li class="flex flex-col items-start gap-3 rounded-md border border-line bg-paper px-4 py-4 min-h-[96px]">
+              {o.path
+                ? <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill={o.hex} d={o.path} /></svg>
+                : <span class="w-7 h-7 rounded bg-mist text-muted font-mono text-[11px] flex items-center justify-center">{initiales(o)}</span>}
+              <span class="text-[15px] font-medium text-ink leading-tight">{o.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <div class="grid md:grid-cols-3 gap-6">
+      {autres.map((g) => (
+        <div class="bg-white border border-line rounded-lg p-7">
+          <p class="font-mono text-sm uppercase tracking-wider text-muted mb-5">{g.groupe}</p>
+          <ul class="flex flex-col gap-3">
+            {g.outils.map((o) => (
+              <li class="flex items-center gap-3">
+                {o.path
+                  ? <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" class="shrink-0"><path fill={o.hex} d={o.path} /></svg>
+                  : <span class="w-[26px] h-[26px] shrink-0 rounded bg-mist text-muted font-mono text-[10px] flex items-center justify-center">{initiales(o)}</span>}
+                <span class="text-[16px] font-medium text-ink">{o.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-6 text-xs text-muted">Marques citées à titre informatif, sans affiliation ni partenariat.</p>
+  </div>
+</section>
