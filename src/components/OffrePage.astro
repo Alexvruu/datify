@@ -1,0 +1,272 @@
+---
+// Gabarit des pages d'offre détaillées (/offres/<slug>).
+// Contenu : src/data/offres-detail.ts. Une seule mise en page pour les 4 offres,
+// pour qu'un prospect qui passe de l'une à l'autre retrouve les mêmes repères.
+import BaseLayout from '../layouts/BaseLayout.astro'
+import OutilsChips from './OutilsChips.astro'
+import { CALENDLY_URL, SITE_URL } from '../../site.config.mjs'
+import { ETAPES } from '../data/stack'
+import { PLAN_OFFRES, type OffreDetail } from '../data/offres-detail'
+
+interface Props { offre: OffreDetail }
+const { offre: o } = Astro.props
+const etapesOutils = ETAPES.filter((e) => o.etapesStack.includes(e.num))
+const autres = PLAN_OFFRES.filter((p) => p.slug !== o.slug)
+const url = new URL(`/offres/${o.slug}`, SITE_URL).toString()
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: o.nom,
+  serviceType: o.nom,
+  description: o.metaDescription,
+  url,
+  areaServed: 'FR',
+  provider: { '@type': 'Person', name: 'Alexandre Gire', brand: 'Datify', url: SITE_URL },
+  mainEntityOfPage: url,
+}
+const jsonLdFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: o.faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+}
+---
+
+<BaseLayout title={o.metaTitre} description={o.metaDescription}>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLdFaq)} />
+
+  <!-- HERO -->
+  <section class="nuit pt-20 pb-20 md:pt-28 md:pb-24">
+    <div class="container">
+      <nav aria-label="Fil d’Ariane" class="mb-8 font-mono text-xs uppercase tracking-wider">
+        <a href="/offres" class="text-night-muted hover:text-white transition-colors">Offres</a>
+        <span class="text-night-muted mx-2">/</span>
+        <span class="text-white">{o.nom}</span>
+      </nav>
+      <div class="max-w-3xl">
+        <p class="label mb-6">{o.surtitre}</p>
+        <h1 class="text-white" style="font-size:clamp(2.2rem,4.4vw,3.6rem);line-height:1.06;letter-spacing:-0.03em;">{o.h1}</h1>
+        <p class="mt-6 text-lg leading-relaxed max-w-2xl">{o.chapo}</p>
+        <div class="mt-9 flex flex-wrap gap-4">
+          <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" data-cta="rdv" data-cta-loc={`offre-${o.slug}-hero`} class="btn-primary">Diagnostic gratuit (30 min)</a>
+          <a href="#livrables" class="inline-flex items-center px-6 py-3 rounded border border-white/25 text-white font-medium hover:bg-white/10 transition-colors">Ce qui est livré</a>
+        </div>
+      </div>
+      <dl class="mt-14 grid sm:grid-cols-3 gap-6 max-w-3xl">
+        {o.reperes.map((r) => (
+          <div class="border-t border-white/15 pt-4">
+            <dt class="font-mono text-2xl text-white">{r.valeur}</dt>
+            <dd class="text-sm text-night-muted mt-1">{r.libelle}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- PROBLÈME -->
+  <section class="py-24 bg-paper">
+    <div class="container">
+      <div class="max-w-2xl mb-12">
+        <p class="label mb-3">Le problème</p>
+        <h2>{o.question}</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        {o.symptomes.map((s) => (
+          <div class="bg-white border border-line rounded-lg p-7">
+            <h3 class="text-lg text-ink leading-snug mb-3">{s.titre}</h3>
+            <p class="text-body text-[15px]">{s.texte}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVRABLES -->
+  <section id="livrables" class="scroll-mt-24 py-24 bg-mist border-y border-line">
+    <div class="container">
+      <div class="max-w-2xl mb-12">
+        <p class="label mb-3">Ce qui est livré</p>
+        <h2>Le détail, poste par poste</h2>
+        <p class="text-body mt-4">Chaque bloc est dans le devis, avec son périmètre. Rien n’est facturé en plus en cours de route.</p>
+      </div>
+      <div class="bg-white border border-line rounded-lg divide-y divide-line">
+        {o.livrables.map((l, i) => (
+          <details open={i === 0} class="group">
+            <summary class="flex items-start gap-4 p-6 md:p-7 cursor-pointer list-none">
+              <span class="font-mono text-sm text-signal mt-1 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+              <span class="flex-1">
+                <span class="block text-lg font-semibold text-ink leading-snug">{l.titre}</span>
+                <span class="block text-[15px] text-body mt-1">{l.resume}</span>
+              </span>
+              <span class="shrink-0 text-muted text-xl leading-none mt-1 group-open:rotate-45 transition-transform" aria-hidden="true">+</span>
+            </summary>
+            <ul class="px-6 md:px-7 pb-7 pl-14 md:pl-16 space-y-2.5">
+              {l.points.map((p) => (
+                <li class="flex items-start gap-3 text-[15px] text-body">
+                  <span class="text-signal mt-0.5 shrink-0" aria-hidden="true">✓</span>{p}
+                </li>
+              ))}
+            </ul>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- DÉROULÉ -->
+  <section class="py-24 bg-paper">
+    <div class="container">
+      <div class="max-w-2xl mb-12">
+        <p class="label mb-3">Comment ça se passe</p>
+        <h2>Du premier appel à la mesure finale</h2>
+      </div>
+      <ol class="grid md:grid-cols-5 gap-6">
+        {o.etapes.map((e, i) => (
+          <li class="bg-white border border-line rounded-lg p-6 flex flex-col">
+            <span class="font-mono text-sm text-signal">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="text-base text-ink mt-3 leading-snug">{e.titre}</h3>
+            <p class="text-sm text-body mt-2 flex-1">{e.texte}</p>
+            <p class="text-xs font-mono text-muted mt-4 pt-3 border-t border-line">{e.delai}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- PREUVES -->
+  <section class="py-24 nuit">
+    <div class="container">
+      <div class="max-w-2xl mb-12">
+        <p class="label mb-3">Déjà vu sur de vrais comptes</p>
+        <h2 class="text-white">Trois cas, anonymisés</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        {o.preuves.map((p) => (
+          <div class="rounded-lg border border-white/12 bg-white/5 p-7">
+            <p class="font-mono text-xs uppercase tracking-wider text-night-muted mb-3">Symptôme</p>
+            <p class="text-white leading-snug">{p.probleme}</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-night-muted mt-6 mb-2">Vraie cause</p>
+            <p class="text-[15px]">{p.cause}</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-night-muted mt-6 mb-2">Correctif</p>
+            <p class="text-[15px]">{p.correctif}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-8 text-sm text-night-muted max-w-2xl">Missions menées en agence, volontairement anonymisées : aucun nom de client, aucun chiffre permettant d’en identifier un. Je ne publie un cas nommé qu’avec l’accord écrit du client.</p>
+    </div>
+  </section>
+
+  <!-- LIMITES -->
+  <section class="py-24 bg-mist border-y border-line">
+    <div class="container grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-10">
+      <div>
+        <p class="label mb-3">Honnêteté</p>
+        <h2>Ce que ça ne fait pas</h2>
+        <p class="text-body mt-4">Mieux vaut le savoir avant de signer qu’après.</p>
+      </div>
+      <ul class="space-y-4">
+        {o.limites.map((l) => (
+          <li class="flex items-start gap-4 bg-white border border-line rounded-lg p-6">
+            <span class="font-mono text-ecart shrink-0" aria-hidden="true">—</span>
+            <span class="text-[15px] text-body">{l}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- OUTILS -->
+  <section class="py-24 bg-paper">
+    <div class="container">
+      <div class="max-w-2xl mb-10">
+        <p class="label mb-3">Outils</p>
+        <h2>Ce que je manipule sur cette offre</h2>
+      </div>
+      <div class="bg-white border border-line rounded-lg divide-y divide-line">
+        {etapesOutils.map((e) => (
+          <div class="grid md:grid-cols-[260px_minmax(0,1fr)] gap-5 md:gap-10 p-6 md:p-8">
+            <div>
+              <p class="font-mono text-sm uppercase tracking-wider text-ink">{e.titre}</p>
+              <p class="text-sm text-muted mt-2 leading-snug">{e.role}</p>
+            </div>
+            <div class="flex flex-col gap-5">
+              {e.blocs.map((b) => (
+                <div>
+                  {b.titre && <p class="font-mono text-xs uppercase tracking-wider text-muted mb-2.5">{b.titre}</p>}
+                  <OutilsChips outils={b.outils} />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="mt-6 text-sm"><a href="/offres#stack-titre" class="text-signal font-medium hover:underline">Voir la stack complète, étape par étape →</a></p>
+    </div>
+  </section>
+
+  <!-- PRIX -->
+  <section class="py-24 bg-mist border-y border-line">
+    <div class="container">
+      <div class="max-w-2xl mb-12">
+        <p class="label mb-3">Ce que ça coûte</p>
+        <h2>Un prix annoncé avant de commencer</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        {o.prix.map((p) => (
+          <div class="bg-white border border-line rounded-lg p-7">
+            <h3 class="text-lg text-ink mb-3">{p.titre}</h3>
+            <p class="text-[15px] text-body">{p.texte}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-8 text-xs text-muted">Prix nets. TVA non applicable, article 293 B du CGI. Les montants d’hébergement sont indicatifs et relèvent de leurs éditeurs.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-24 bg-paper">
+    <div class="container max-w-2xl">
+      <div class="mb-12">
+        <p class="label mb-3">FAQ</p>
+        <h2>Les questions qu’on me pose</h2>
+      </div>
+      <div class="space-y-5">
+        {o.faqs.map((f) => (
+          <div class="border border-line bg-white rounded-md p-7">
+            <h3 class="text-ink mb-3 text-lg leading-snug">{f.q}</h3>
+            <p class="text-[15px]">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTRES OFFRES -->
+  <section class="py-20 bg-mist border-t border-line">
+    <div class="container">
+      <p class="label mb-6">Les autres offres</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {autres.map((p) => (
+          <a href={p.pret ? `/offres/${p.slug}` : `/offres#${p.ancre}`} class="block bg-white border border-line rounded-lg p-7 hover:border-signal transition-colors">
+            <h3 class="text-lg text-ink leading-snug">{p.nom}</h3>
+            <p class="text-[15px] text-body mt-2">{p.accroche}</p>
+            <span class="inline-block mt-4 text-sm font-medium text-signal">{p.pret ? 'Voir la page →' : 'Voir sur la page Offres →'}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24 nuit">
+    <div class="container text-center max-w-2xl">
+      <h2 class="text-white mb-4">{o.ctaTitre}</h2>
+      <p class="mb-8">{o.ctaTexte}</p>
+      <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" data-cta="rdv" data-cta-loc={`offre-${o.slug}-final`} class="btn-primary">Diagnostic gratuit (30 min)</a>
+    </div>
+  </section>
+</BaseLayout>

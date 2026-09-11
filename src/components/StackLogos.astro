@@ -2,14 +2,11 @@
 // Stack, partagée entre l'accueil et la page Offres.
 // Présentée comme le trajet de la donnée, de la boutique au tableau de bord.
 // Données et règles : src/data/stack.ts
-import { ETAPES, NB_OUTILS, type Outil } from '../data/stack'
+import { ETAPES, NB_OUTILS } from '../data/stack'
+import OutilsChips from './OutilsChips.astro'
 
 interface Props { titre?: string }
 const { titre = 'Les outils que j’utilise, étape par étape' } = Astro.props
-const initiales = (o: Outil) => {
-  const mots = o.name.replace(/[^\p{L}\p{N}\s]/gu, '').split(/\s+/).filter(Boolean)
-  return (mots.length > 1 ? mots.map((m) => m[0]).join('') : mots[0]).slice(0, 2).toUpperCase()
-}
 ---
 
 <section class="py-24 border-y border-line bg-paper" aria-labelledby="stack-titre">
@@ -47,17 +44,7 @@ const initiales = (o: Outil) => {
             {e.blocs.map((b) => (
               <div>
                 {b.titre && <p class="font-mono text-xs uppercase tracking-wider text-muted mb-2.5">{b.titre}</p>}
-                <ul class="flex flex-wrap gap-2.5">
-                  {b.outils.map((o) => (
-                    <li class="inline-flex items-center gap-2.5 rounded-md border border-line bg-paper px-3 py-2 max-w-full">
-                      {o.path
-                        ? <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="shrink-0"><path fill={o.hex} d={o.path} /></svg>
-                        : <span class="w-5 h-5 shrink-0 rounded bg-mist text-muted font-mono text-[9px] flex items-center justify-center" aria-hidden="true">{initiales(o)}</span>}
-                      <span class="text-[15px] font-medium text-ink leading-tight whitespace-nowrap">{o.name}</span>
-                      {o.detail && <span class="hidden sm:inline text-[13px] text-muted leading-tight">{o.detail}</span>}
-                    </li>
-                  ))}
-                </ul>
+                <OutilsChips outils={b.outils} />
               </div>
             ))}
           </div>

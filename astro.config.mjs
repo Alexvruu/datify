@@ -8,6 +8,8 @@ import { SITE_URL } from './site.config.mjs';
 
 export default defineConfig({
   site: SITE_URL,
+  // Ancienne URL de la page Offres, conservée pour ne pas casser les liens existants.
+  redirects: { '/services': '/offres' },
   vite: {
     plugins: [tailwindcss()]
   },

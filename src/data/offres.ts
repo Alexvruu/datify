@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Échelle d'offres Datify. Source unique pour la page /services (Offres),
+// Échelle d'offres Datify. Source unique pour la page /offres,
 // la FAQ de l'accueil et la landing /audit.
 // Décision du 11/09/2026 : seul l'audit est chiffré publiquement, le reste est sur devis.
 // Micro-entreprise en franchise de TVA : prix nets, TVA non applicable (art. 293 B du CGI).

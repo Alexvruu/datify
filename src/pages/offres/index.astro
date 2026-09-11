@@ -1,8 +1,9 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'
-import { CALENDLY_URL } from '../../site.config.mjs'
-import { OFFRES } from '../data/offres'
-import StackLogos from '../components/StackLogos.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { CALENDLY_URL } from '../../../site.config.mjs'
+import { OFFRES } from '../../data/offres'
+import { PLAN_OFFRES } from '../../data/offres-detail'
+import StackLogos from '../../components/StackLogos.astro'
 
 const faqs = [
   {
@@ -70,6 +71,9 @@ const faqs = [
               ))}
             </ul>
             <p class="mt-6 pt-5 border-t border-line text-sm font-medium text-ink">Délai : {o.delai}</p>
+            {PLAN_OFFRES.filter((p) => p.pret && p.ancre === o.cle).map((p) => (
+              <a href={`/offres/${p.slug}`} class="mt-4 inline-block text-sm font-medium text-signal hover:underline">Le détail de cette offre →</a>
+            ))}
           </article>
         ))}
       </div>

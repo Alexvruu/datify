@@ -128,7 +128,7 @@ const currentPath = Astro.url.pathname
         {!landing && (
           <div class="hidden md:flex items-center gap-10">
             {[
-              { href: '/services', label: 'Offres' },
+              { href: '/offres', label: 'Offres' },
               { href: '/blog', label: 'Blog' },
               { href: '/contact', label: 'Contact' },
             ].map(({ href, label }) => (
@@ -170,7 +170,7 @@ const currentPath = Astro.url.pathname
       {!landing && (
         <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-line">
           <div class="container py-6 flex flex-col gap-5">
-            <a href="/services" class="text-base font-medium text-body hover:text-ink">Offres</a>
+            <a href="/offres" class="text-base font-medium text-body hover:text-ink">Offres</a>
             <a href="/blog" class="text-base font-medium text-body hover:text-ink">Blog</a>
             <a href="/contact" class="text-base font-medium text-body hover:text-ink">Contact</a>
             <a
@@ -209,7 +209,7 @@ const currentPath = Astro.url.pathname
             <div class="flex flex-col gap-3">
               {[
                 { href: '/', label: 'Accueil' },
-                { href: '/services', label: 'Offres' },
+                { href: '/offres', label: 'Offres' },
                 { href: '/blog', label: 'Blog' },
                 { href: '/contact', label: 'Contact' },
               ].map(({ href, label }) => (
