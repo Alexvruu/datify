@@ -122,10 +122,7 @@ const currentPath = Astro.url.pathname
       <nav class="container flex items-center justify-between h-[72px]">
 
         <!-- Logo -->
-        <a href="/" class="flex items-center gap-2.5 shrink-0 font-mono text-[1.05rem] font-medium text-ink" aria-label="Datify, accueil">
-          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" class="shrink-0"><rect x="2" y="3" width="6" height="16" rx="1" fill="#DCE2DF"/><rect x="10" y="8" width="6" height="11" rx="1" fill="#0F766E"/><rect x="18" y="3" width="2" height="5" rx="1" fill="#C2410C"/></svg>
-          <span>datify</span>
-        </a>
+        <a href="/" class="shrink-0 text-[1.2rem] font-semibold tracking-tight text-white" aria-label="Datify, accueil">Dati<span class="text-[#7C75FF]">fy</span></a>
 
         <!-- Nav links (desktop) — absents du DOM sur les landings de prospection -->
         {!landing && (
@@ -139,8 +136,8 @@ const currentPath = Astro.url.pathname
                 href={href}
                 class={`text-sm font-medium transition-colors ${
                   currentPath.startsWith(href)
-                    ? 'text-signal'
-                    : 'text-body hover:text-ink'
+                    ? 'text-white'
+                    : 'text-white/70 hover:text-white'
                 }`}
               >
                 {label}
@@ -163,9 +160,9 @@ const currentPath = Astro.url.pathname
           </a>
           <!-- Mobile menu button -->
           {!landing && (
-            <button id="menu-toggle" class="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-mist transition-colors" aria-label="Menu">
-              <span class="menu-bar w-5 h-0.5 bg-ink rounded-full transition-all duration-300"></span>
-              <span class="menu-bar w-5 h-0.5 bg-ink rounded-full transition-all duration-300"></span>
+            <button id="menu-toggle" class="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu">
+              <span class="menu-bar w-5 h-0.5 bg-white rounded-full transition-all duration-300"></span>
+              <span class="menu-bar w-5 h-0.5 bg-white rounded-full transition-all duration-300"></span>
             </button>
           )}
         </div>
@@ -174,11 +171,11 @@ const currentPath = Astro.url.pathname
 
       <!-- Mobile menu — absent sur les landings -->
       {!landing && (
-        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-line">
+        <div id="mobile-menu" class="md:hidden hidden nuit border-t border-white/10">
           <div class="container py-6 flex flex-col gap-5">
-            <a href="/services" class="text-base font-medium text-body hover:text-ink">Offres</a>
-            <a href="/blog" class="text-base font-medium text-body hover:text-ink">Blog</a>
-            <a href="/contact" class="text-base font-medium text-body hover:text-ink">Contact</a>
+            <a href="/services" class="text-base font-medium text-white/80 hover:text-white">Offres</a>
+            <a href="/blog" class="text-base font-medium text-white/80 hover:text-white">Blog</a>
+            <a href="/contact" class="text-base font-medium text-white/80 hover:text-white">Contact</a>
             <a
               href={CALENDLY_URL}
               target="_blank"
@@ -197,17 +194,14 @@ const currentPath = Astro.url.pathname
     </main>
 
     <!-- FOOTER -->
-    <footer class={`bg-ink text-white ${landing ? 'pt-10' : 'pt-20'} pb-10 mt-0`}>
+    <footer class={`nuit text-white ${landing ? 'pt-10' : 'pt-20'} pb-10 mt-0`}>
       <div class="container">
         <!-- Top — absent sur les landings : chaque lien y est une sortie -->
         {!landing && (
         <div class="grid md:grid-cols-3 gap-12 pb-16 border-b border-white/10">
           <!-- Brand -->
           <div>
-            <p class="flex items-center gap-2.5 font-mono text-lg font-medium mb-3">
-              <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" class="shrink-0"><rect x="2" y="3" width="6" height="16" rx="1" fill="#DCE2DF"/><rect x="10" y="8" width="6" height="11" rx="1" fill="#0F766E"/><rect x="18" y="3" width="2" height="5" rx="1" fill="#C2410C"/></svg>
-              <span>datify</span>
-            </p>
+            <p class="text-xl font-semibold tracking-tight mb-3 text-white">Dati<span class="text-[#7C75FF]">fy</span></p>
             <p class="text-sm text-white/50 leading-relaxed max-w-xs">
               Tracking server-side et data Google Cloud pour les e-commerçants qui investissent en Meta et Google Ads.
             </p>
@@ -383,13 +377,13 @@ const currentPath = Astro.url.pathname
 
     <style>
       #site-header {
-        background: transparent;
+        background: var(--color-night);
       }
       /* Fond opaque plutôt qu'un flou d'arrière-plan : le flou recalculé à chaque image
          de défilement saccadait le scroll, surtout sur Safari et écrans Retina. */
       #site-header.nav-scrolled {
-        background: rgba(247, 248, 246, 0.98);
-        box-shadow: 0 1px 0 var(--color-line);
+        background: var(--color-night);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
       }
     </style>
 

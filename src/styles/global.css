@@ -1,16 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  /* Charte Signal (validée le 11/09/2026). Changer de charte = modifier ce bloc. */
+  /* Charte Datify (11/09/2026) : Signal pour la structure, ambiance « nuit » + violet de la preview. Changer de charte = modifier ce bloc. */
   --color-ink: #0B1B2B;
   --color-body: #2B3A4A;
   --color-muted: #5B6B80;
   --color-line: #DCE2DF;
   --color-mist: #F1F4F2;
   --color-paper: #F7F8F6;
-  --color-signal: #0F766E;
-  --color-signal-dark: #0B5E57;
-  --color-signal-soft: #E3F1EF;
+  --color-signal: #635BFF;
+  --color-signal-dark: #4F46E5;
+  --color-signal-soft: #EEEDFF;
+  --color-night: #0B1633;
+  --color-night-text: #C6CEE0;
+  --color-night-muted: #8C97B5;
   --color-ecart: #C2410C;
   --color-ecart-soft: #FBEAE1;
   --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
@@ -137,7 +140,7 @@
     color: var(--color-muted);
   }
   /* Sur fond sombre, le gris clair reste lisible (5,3:1) */
-  .bg-ink .label { color: #8898AA; }
+  .nuit .label { color: var(--color-night-muted); }
 
   /* Animations d'apparition au scroll : désactivées (11/09/2026).
      Le contenu arrivait en retard pendant le défilement (fondu de 0,75 s + délais),
@@ -161,3 +164,19 @@
 
 /* L'écart : réservé à ce qui sépare le déclaré de l'encaissé */
 .hl-ecart { box-shadow: inset 0 -0.12em 0 var(--color-ecart-soft); }
+
+/* ── Ambiance « nuit » (hero, bandeau final, header, footer) ──────────────────
+   Reprend l'image de partage : bleu nuit en dégradé, halo violet en haut à droite.
+   Règles hors @layer : elles priment sur les utilitaires clairs à l'intérieur d'un bloc .nuit. */
+.nuit {
+  background:
+    radial-gradient(1100px 620px at 88% -12%, rgba(99, 91, 255, 0.30), transparent 62%),
+    linear-gradient(180deg, #0B1633 0%, #0F1D42 100%);
+  color: #fff;
+}
+.nuit h1, .nuit h2, .nuit h3, .nuit .text-ink { color: #fff; }
+.nuit p, .nuit .text-body { color: var(--color-night-text); }
+.nuit .text-muted { color: var(--color-night-muted); }
+.nuit .border-line { border-color: rgba(255, 255, 255, 0.12); }
+.nuit .bg-mist { background: rgba(255, 255, 255, 0.05); }
+.nuit .text-signal { color: #7C75FF; } /* violet légèrement éclairci : lisible sur le bleu nuit */

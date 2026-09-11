@@ -25,10 +25,7 @@ const faqSchema = {
   <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
   <!-- ═══════════ 1 · HERO ═══════════ -->
-  <section class="relative pt-24 pb-24 md:pt-32 md:pb-32 overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div style="position:absolute;top:-25%;right:-12%;width:60vw;height:60vw;max-width:880px;max-height:880px;border-radius:50%;background:radial-gradient(circle,rgba(15,118,110,0.07) 0%,transparent 70%);"></div>
-    </div>
+  <section class="nuit relative pt-24 pb-24 md:pt-32 md:pb-32 overflow-hidden">
 
     <div class="container relative z-10">
       <div class="grid xl:grid-cols-[minmax(0,1fr)_320px] gap-16 items-start">
@@ -40,7 +37,7 @@ const faqSchema = {
                 coule naturellement, sinon un mot se retrouve seul sur sa ligne. */}
             {HERO.titre.map((ligne, i) => (
               <>
-                <span class={i === HERO.ligneAccentuee ? 'text-ecart hl-ecart' : ''}>{ligne}</span>
+                <span class={i === HERO.ligneAccentuee ? 'text-signal' : ''}>{ligne}</span>
                 {i < HERO.titre.length - 1 && (
                   <>
                     {' '}
@@ -212,7 +209,7 @@ const faqSchema = {
 
   <!-- ═══════════ 6 · CAS CLIENTS (masqué tant que non rempli) ═══════════ -->
   {CAS_PUBLIABLES.length > 0 && (
-    <section class="py-28 md:py-32 bg-ink">
+    <section class="py-28 md:py-32 nuit">
       <div class="container">
         <div class="mb-16 max-w-2xl">
           <p class="reveal label text-white/30 mb-4">Missions</p>
@@ -324,7 +321,7 @@ const faqSchema = {
   </section>
 
   <!-- ═══════════ 10 · CTA FINAL ═══════════ -->
-  <section class="py-28 md:py-32 bg-ink">
+  <section class="py-28 md:py-32 nuit">
     <div class="container text-center max-w-2xl">
       <p class="reveal label text-white/30 mb-6">Première étape</p>
       <h2 class="reveal d1 text-white mb-7">
