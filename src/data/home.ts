@@ -9,6 +9,11 @@
 /**
  * Accroche de la page d'accueil.
  *
+ * Choix du 12/09/2026 : accroche ramenée à deux lignes, formulée comme une
+ * promesse plutôt que comme un constat. « Banque » sortait du vocabulaire du
+ * lecteur et laissait entendre une fraude des régies, alors que l'offre traite
+ * d'abord des ventes qui ne remontent pas.
+ *
  * Choix du 10/09/2026 : ne nommer aucune plateforme dans le titre.
  * Nommer Meta y enfermait le positionnement dans la partie la plus banalisée
  * de l'offre (app Meta native de Shopify, CAPI Gateway) et laissait dehors
@@ -18,14 +23,18 @@
  * Pour changer d'accroche, ne modifier que ce bloc.
  */
 export const HERO = {
-  surtitre: 'Tracking · GA4 · Server-side',
-  /** Coupes calées pour trois lignes d'environ 20 à 23 signes : au-delà, la ligne
-   *  se replie toute seule et casse le rythme. Vérifier au navigateur après édition. */
-  titre: ['Vos campagnes déclarent', 'des ventes que votre', 'banque ne voit jamais.'],
+  surtitre: 'Tracking · BigQuery · Automatisation',
+  /** Choix du 12/09/2026 : accroche élargie à la data, aux outils et à l'IA,
+   *  pour couvrir les deux univers d'offres sans perdre la promesse concrète.
+   *  Variantes prêtes à coller :
+   *  B. ['Je répare le tracking', 'qui ment à vos campagnes.'] (accent : 1, plus étroit mais plus percutant)
+   *  C. ['Vos régies et votre boutique', 'ne comptent pas', 'les mêmes ventes.'] (accent : 2)
+   *  Vérifier au navigateur après édition : au-delà de ~28 signes, la ligne se replie. */
+  titre: ['Je rends vos données justes.', 'Puis je les rends utiles.'],
   /** Index de la ligne mise en couleur : on accentue la chute. */
-  ligneAccentuee: 2,
+  ligneAccentuee: 1,
   sousTitre:
-    'Meta, Google Ads, GA4 : l’écart entre ce qui est déclaré et ce que vous encaissez se chiffre. Je le mesure, je vous dis d’où il vient, et je le corrige.',
+    'D’abord la mesure : l’écart entre ce que déclarent Meta et Google Ads et ce que vous encaissez. Ensuite l’usage : entrepôt BigQuery, tableaux de bord, automatisations et IA branchée sur vos chiffres.',
   ctaNote: ['Gratuit, sans engagement.', 'On regarde votre site en direct.'],
   chiffres: [
     { v: '72 h', l: 'pour une intervention express' },

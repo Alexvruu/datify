@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { CALENDLY_URL } from '../../site.config.mjs'
 import StackLogos from '../components/StackLogos.astro'
+import { UNIVERS, offresParUnivers } from '../data/offres-detail'
 import {
   HERO, SYMPTOMES, STACK, EXPERTISES, METHODE, ENGAGEMENTS,
   CAS_PUBLIABLES, PROBLEMES, FAQ,
@@ -32,7 +33,7 @@ const faqSchema = {
         <div>
           <p class="reveal label mb-7">{HERO.surtitre}</p>
 
-          <h1 class="reveal d1 mb-8" style="font-size:clamp(2.6rem,6vw,4.8rem);line-height:1.02;letter-spacing:-0.01em;">
+          <h1 class="reveal d1 mb-8" style="font-size:clamp(2.3rem,4.6vw,3.9rem);line-height:1.02;letter-spacing:-0.01em;">
             {/* Les coupes ne s'appliquent qu'a partir de 640px : en dessous, le texte
                 coule naturellement, sinon un mot se retrouve seul sur sa ligne. */}
             {HERO.titre.map((ligne, i) => (
@@ -73,7 +74,7 @@ const faqSchema = {
             <img src="/alexandre.jpg" alt="Alexandre Gire" width="48" height="48" class="w-12 h-12 rounded-full object-cover shrink-0" />
             <div>
               <p class="text-sm font-semibold text-ink leading-tight">Alexandre Gire</p>
-              <p class="text-sm text-muted leading-tight">Consultant tracking · Lyon, à distance</p>
+              <p class="text-sm text-muted leading-tight">Tracking et data · Lyon, à distance</p>
             </div>
           </div>
 
@@ -91,7 +92,7 @@ const faqSchema = {
         <aside class="reveal d3 hidden xl:block bg-mist border border-line rounded-lg p-8">
           <img src="/alexandre.jpg" alt="Alexandre Gire" width="80" height="80" class="w-20 h-20 rounded-full object-cover mb-5" />
           <p class="font-semibold text-ink">Alexandre Gire</p>
-          <p class="text-sm text-muted mt-1 mb-5">Analytics engineer · Tracking</p>
+          <p class="text-sm text-muted mt-1 mb-5">Analytics engineer · Tracking et data</p>
           <p class="text-sm text-body leading-relaxed">
             Je pose des architectures de mesure en agence : GTM server-side,
             Meta CAPI, GA4, BigQuery. Je travaille seul sur vos comptes, sans sous-traitance.
@@ -103,6 +104,39 @@ const faqSchema = {
   </section>
 
   <!-- ═══════════ 2 · STACK (logos, Google Cloud en vedette) ═══════════ -->
+  <!-- DEUX UNIVERS -->
+  <section class="py-24 bg-mist border-b border-line">
+    <div class="container">
+      <div class="max-w-2xl mb-12">
+        <p class="label mb-3">Deux façons de travailler ensemble</p>
+        <h2>La mesure d’abord, l’usage ensuite</h2>
+        <p class="text-body mt-4">Beaucoup d’entreprises m’appellent pour la première, et restent pour la seconde. Les deux se tiennent : des chiffres justes ne servent à rien s’ils dorment dans un export, et un bel outil bâti sur des données fausses ne fait qu’accélérer les mauvaises décisions.</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        {UNIVERS.map((u, i) => (
+          <div class="bg-white border border-line rounded-lg p-8">
+            <p class="font-mono text-sm text-signal">{String(i + 1).padStart(2, '0')}</p>
+            <h3 class="text-2xl text-ink mt-3 leading-snug">{u.nom}</h3>
+            <p class="text-body mt-3">{u.promesse}</p>
+            <ul class="mt-6 space-y-3.5">
+              {offresParUnivers(u.cle).map((p) => (
+                <li>
+                  <a href={`/offres/${p.slug}`} class="block group">
+                    <span class="flex items-baseline gap-3">
+                      <span class="text-signal shrink-0" aria-hidden="true">→</span>
+                      <span class="text-[15px] text-ink font-medium group-hover:text-signal transition-colors">{p.nom}</span>
+                    </span>
+                    <span class="block pl-7 text-sm text-muted leading-snug">{p.accroche}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <StackLogos />
 
   <!-- ═══════════ 3 · LE PROBLÈME ═══════════ -->

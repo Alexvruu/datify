@@ -8,7 +8,7 @@ import '@fontsource/ibm-plex-mono/400.css'
 import '@fontsource/ibm-plex-mono/500.css'
 import '../styles/global.css'
 import { SITE_URL, GTM_ID, CALENDLY_URL, CONTACT_EMAIL, LINKEDIN_URL } from '../../site.config.mjs'
-import { PLAN_OFFRES } from '../data/offres-detail'
+import { UNIVERS, offresParUnivers } from '../data/offres-detail'
 
 interface Props {
   title: string
@@ -177,26 +177,31 @@ const currentPath = Astro.url.pathname
 
       </nav>
 
-      <!-- Panneau des offres (desktop) — quatre univers, comme quatre portes d'entrée -->
+      <!-- Panneau des offres (desktop) — deux univers : mesure d'un côté, data et IA de l'autre -->
       {!landing && (
         <div id="offres-panneau" class="hidden md:block absolute left-0 right-0 top-[72px] bg-white border-t border-line shadow-[0_12px_32px_rgba(11,27,43,0.10)]" hidden>
           <div class="container py-8">
-            <div class="grid lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] gap-8">
-              <ul class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {PLAN_OFFRES.map((p, i) => (
-                  <li>
-                    <a href={`/offres/${p.slug}`} class="group block h-full rounded-md border border-line bg-paper p-5 hover:border-signal hover:bg-signal-soft transition-colors">
-                      <span class="font-mono text-xs text-signal">{String(i + 1).padStart(2, '0')}</span>
-                      <span class="block text-[15px] font-semibold text-ink mt-2 leading-snug">{p.nom}</span>
-                      <span class="block text-sm text-body mt-1.5 leading-snug">{p.accroche}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
+            <div class="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_240px] gap-8">
+              {UNIVERS.map((u) => (
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-wider text-muted">{u.nom}</p>
+                  <p class="text-sm text-body mt-1.5 mb-4 leading-snug">{u.promesse}</p>
+                  <ul class="grid sm:grid-cols-2 gap-2.5">
+                    {offresParUnivers(u.cle).map((p) => (
+                      <li>
+                        <a href={`/offres/${p.slug}`} class="block h-full rounded-md border border-line bg-paper p-4 hover:border-signal hover:bg-signal-soft transition-colors">
+                          <span class="block text-[15px] font-semibold text-ink leading-snug">{p.nom}</span>
+                          <span class="block text-[13px] text-body mt-1 leading-snug">{p.accroche}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
               <div class="rounded-md border border-line p-5 flex flex-col justify-between gap-4">
                 <div>
                   <p class="text-[15px] font-semibold text-ink leading-snug">Vous ne savez pas laquelle ?</p>
-                  <p class="text-sm text-body mt-1.5 leading-snug">30 minutes, votre site ouvert en direct, et je vous dis ce qui se justifie chez vous.</p>
+                  <p class="text-sm text-body mt-1.5 leading-snug">30 minutes, votre situation en direct, et je vous dis ce qui se justifie.</p>
                 </div>
                 <div class="flex flex-col gap-2">
                   <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" data-cta="rdv" data-cta-loc="menu-offres" class="btn-primary text-sm py-2.5 px-5 w-fit">Diagnostic gratuit</a>
@@ -214,11 +219,16 @@ const currentPath = Astro.url.pathname
           <div class="container py-6 flex flex-col gap-5">
             <div>
               <a href="/offres" class="text-base font-medium text-body hover:text-ink">Offres</a>
-              <ul class="mt-3 pl-4 border-l border-line space-y-2.5">
-                {PLAN_OFFRES.map((p) => (
-                  <li><a href={`/offres/${p.slug}`} class="block text-sm text-body hover:text-ink">{p.nom}</a></li>
-                ))}
-              </ul>
+              {UNIVERS.map((u) => (
+                <div class="mt-3 pl-4 border-l border-line">
+                  <p class="font-mono text-[11px] uppercase tracking-wider text-muted mb-2">{u.nom}</p>
+                  <ul class="space-y-2.5 mb-3">
+                    {offresParUnivers(u.cle).map((p) => (
+                      <li><a href={`/offres/${p.slug}`} class="block text-sm text-body hover:text-ink">{p.nom}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
             <a href="/blog" class="text-base font-medium text-body hover:text-ink">Blog</a>
             <a href="/contact" class="text-base font-medium text-body hover:text-ink">Contact</a>

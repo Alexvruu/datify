@@ -6,12 +6,14 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import OutilsChips from './OutilsChips.astro'
 import { CALENDLY_URL, SITE_URL } from '../../site.config.mjs'
 import { ETAPES } from '../data/stack'
-import { PLAN_OFFRES, type OffreDetail } from '../data/offres-detail'
+import { UNIVERS, offresParUnivers, type OffreDetail } from '../data/offres-detail'
 
 interface Props { offre: OffreDetail }
 const { offre: o } = Astro.props
 const etapesOutils = ETAPES.filter((e) => o.etapesStack.includes(e.num))
-const autres = PLAN_OFFRES.filter((p) => p.slug !== o.slug)
+const autres = offresParUnivers(o.univers).filter((p) => p.slug !== o.slug)
+const universCourant = UNIVERS.find((u) => u.cle === o.univers)!
+const autreUnivers = UNIVERS.find((u) => u.cle !== o.univers)!
 const url = new URL(`/offres/${o.slug}`, SITE_URL).toString()
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -258,13 +260,19 @@ const jsonLdFaq = {
   <!-- AUTRES OFFRES -->
   <section class="py-20 bg-mist border-t border-line">
     <div class="container">
-      <p class="label mb-6">Les autres offres</p>
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
+        <div>
+          <p class="label mb-2">Même univers · {universCourant.nom}</p>
+          <p class="text-body text-[15px] max-w-xl">{universCourant.promesse}</p>
+        </div>
+        <a href={`/offres#univers-${autreUnivers.cle}`} class="text-sm font-medium text-signal hover:underline">Voir l’univers « {autreUnivers.nom} » →</a>
+      </div>
       <div class="grid md:grid-cols-3 gap-6">
         {autres.map((p) => (
-          <a href={p.pret ? `/offres/${p.slug}` : `/offres#${p.ancre}`} class="block bg-white border border-line rounded-lg p-7 hover:border-signal transition-colors">
+          <a href={`/offres/${p.slug}`} class="block bg-white border border-line rounded-lg p-7 hover:border-signal transition-colors">
             <h3 class="text-lg text-ink leading-snug">{p.nom}</h3>
             <p class="text-[15px] text-body mt-2">{p.accroche}</p>
-            <span class="inline-block mt-4 text-sm font-medium text-signal">{p.pret ? 'Voir la page →' : 'Voir sur la page Offres →'}</span>
+            <span class="inline-block mt-4 text-sm font-medium text-signal">Voir la page →</span>
           </a>
         ))}
       </div>

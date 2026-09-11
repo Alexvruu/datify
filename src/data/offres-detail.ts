@@ -10,8 +10,16 @@ export interface Etape { titre: string; texte: string; delai: string }
 export interface Preuve { probleme: string; cause: string; correctif: string }
 export interface Faq { q: string; a: string }
 
+export type Univers = 'mesure' | 'data'
+
+export const UNIVERS: { cle: Univers; nom: string; promesse: string }[] = [
+  { cle: 'mesure', nom: 'Mesure et acquisition', promesse: 'Que vos campagnes reçoivent les bons signaux, et que vos chiffres disent vrai.' },
+  { cle: 'data', nom: 'Data, outils et IA', promesse: 'Que vos données servent tous les jours à quelqu’un, dans un outil ou dans une décision.' },
+]
+
 export interface OffreDetail {
   slug: string
+  univers: Univers
   nom: string
   navTitre: string
   accroche: string
@@ -38,6 +46,7 @@ export interface OffreDetail {
 export const OFFRES_PAGES: OffreDetail[] = [
   {
     slug: 'tracking-server-side',
+    univers: 'mesure',
     nom: 'Tracking server-side',
     navTitre: 'Tracking server-side',
     accroche: 'GTM server-side, API Conversions Meta et Enhanced Conversions : vos conversions arrivent aux régies.',
@@ -185,6 +194,7 @@ export const OFFRES_PAGES: OffreDetail[] = [
   },
   {
     slug: 'audit-tracking',
+    univers: 'mesure',
     nom: 'Audit tracking',
     navTitre: 'Audit tracking',
     accroche: 'L’état des lieux chiffré, avant toute décision.',
@@ -328,6 +338,7 @@ export const OFFRES_PAGES: OffreDetail[] = [
   },
   {
     slug: 'conversions-offline',
+    univers: 'mesure',
     nom: 'Conversions offline',
     navTitre: 'Conversions offline',
     accroche: 'Enchérir sur les leads qui signent, pas sur les formulaires.',
@@ -474,6 +485,7 @@ export const OFFRES_PAGES: OffreDetail[] = [
   },
   {
     slug: 'dashboard-roas-reel',
+    univers: 'data',
     nom: 'Dashboard et ROAS réel',
     navTitre: 'Dashboard et ROAS réel',
     accroche: 'Piloter sur la marge, pas sur le revenu déclaré par les régies.',
@@ -615,15 +627,594 @@ export const OFFRES_PAGES: OffreDetail[] = [
     ctaTitre: 'Sur quel chiffre décidez-vous ?',
     ctaTexte: '30 minutes, gratuit. On regarde votre reporting actuel et ce qu’il faudrait pour qu’il devienne fiable.',
   },
+  {
+    slug: 'outils-sur-mesure',
+    univers: 'data',
+    nom: 'Outils et dashboards sur mesure',
+    navTitre: 'Outils sur mesure',
+    accroche: 'L’outil que votre équipe ouvre tous les matins.',
+    metaTitre: 'Outils et dashboards sur mesure : l’application interne qui remplace vos fichiers',
+    metaDescription:
+      'Application interne bâtie sur vos données : accès par utilisateur, cloisonnement par compte, alertes, indicateurs métier. Construite sur votre Google Cloud, documentée, reprenable.',
+    surtitre: 'Offre · Data, outils et IA',
+    h1: 'Quand le tableau de bord ne suffit plus : l’outil que votre équipe ouvre tous les matins.',
+    chapo:
+      'Un tableau de bord montre. Un outil fait agir : chaque personne voit ce qui la concerne, reçoit une alerte quand un chiffre dérape, et prend sa décision sans demander d’export à personne. C’est ce que je construis, sur vos données, dans votre cloud.',
+    reperes: [
+      { valeur: '4 à 8 semaines', libelle: 'Première version utilisable' },
+      { valeur: 'Chez vous', libelle: 'Votre cloud, votre dépôt, vos accès' },
+      { valeur: 'Par utilisateur', libelle: 'Chacun ne voit que son périmètre' },
+    ],
+    question: 'Combien de fichiers votre équipe s’échange pour prendre une décision ?',
+    symptomes: [
+      {
+        titre: 'Chacun a sa version du chiffre',
+        texte:
+          'Les exports circulent par messagerie, les copies divergent, et la réunion commence par un débat sur la source plutôt que sur la décision.',
+      },
+      {
+        titre: 'Vos outils ne parlent pas la même langue',
+        texte:
+          'Régies, boutique, CRM, ERP : chacun a son vocabulaire et ses identifiants. Personne n’a la vue d’ensemble sans y passer la journée.',
+      },
+      {
+        titre: 'Les outils du marché ne collent pas',
+        texte:
+          'Trop généralistes, trop chers par utilisateur, ou incapables d’afficher votre indicateur maison. Vous payez pour 80 % de fonctions inutilisées.',
+      },
+    ],
+    livrables: [
+      {
+        titre: 'Cadrage par les décisions',
+        resume: 'On part de ce que les gens doivent décider, pas des écrans.',
+        points: [
+          'Entretiens courts avec ceux qui utiliseront l’outil, pas seulement avec ceux qui le commandent',
+          'Liste des décisions à prendre, et de l’indicateur qui les éclaire',
+          'Ce qu’on ne construira pas : la moitié du cadrage sert à ça',
+        ],
+      },
+      {
+        titre: 'Socle de données',
+        resume: 'Un entrepôt alimenté tout seul, avant toute interface.',
+        points: [
+          'Sources connectées et historisées dans votre BigQuery : régies, boutique, CRM, ERP',
+          'Tables métier aux définitions écrites, recalculables et vérifiables',
+          'Contrôles de cohérence à chaque exécution, avant que les chiffres n’arrivent à l’écran',
+        ],
+      },
+      {
+        titre: 'Application',
+        resume: 'Une interface web, pas un fichier partagé de plus.',
+        points: [
+          'Connexion nominative, et cloisonnement : chaque utilisateur ne voit que son périmètre',
+          'Écrans pensés par usage : vue d’ensemble, détail par campagne ou par compte, export quand c’est utile',
+          'Hébergement sur votre infrastructure, code livré dans votre dépôt',
+        ],
+      },
+      {
+        titre: 'Alertes et surveillance',
+        resume: 'L’outil vous prévient, vous n’allez pas le consulter par acquit de conscience.',
+        points: [
+          'Seuils définis avec vous : budget consommé, effondrement de volume, source muette',
+          'Notifications par e-mail ou sur votre messagerie d’équipe',
+          'Journal des exécutions consultable, pour savoir pourquoi un chiffre a bougé',
+        ],
+      },
+      {
+        titre: 'Industrialisation et passation',
+        resume: 'Un outil qu’un autre prestataire peut reprendre.',
+        points: [
+          'Infrastructure décrite en Terraform, déploiement reproductible',
+          'Documentation technique et guide d’utilisation, dans votre espace',
+          'Formation des utilisateurs, puis 30 jours d’ajustements inclus',
+        ],
+      },
+    ],
+    etapes: [
+      { titre: 'Cadrage', texte: 'Décisions à éclairer, utilisateurs, périmètre. On fige ce qui sera construit, et ce qui ne le sera pas.', delai: '3 à 5 jours' },
+      { titre: 'Socle de données', texte: 'Connexions, historique, tables métier, contrôles.', delai: '1 à 2 semaines' },
+      { titre: 'Première version utilisable', texte: 'Un écran qui sert vraiment, mis entre les mains des utilisateurs le plus tôt possible.', delai: '2 à 3 semaines' },
+      { titre: 'Itérations', texte: 'On ajuste avec les retours d’usage, pas avec des suppositions.', delai: '2 à 4 semaines' },
+      { titre: 'Passation', texte: 'Documentation, formation, et accès qui restent à vous.', delai: 'Inclus' },
+    ],
+    preuves: [
+      {
+        probleme: 'Une équipe suivait des dizaines de comptes publicitaires à coups d’exports manuels.',
+        cause: 'Aucun socle commun : chaque compte avait son fichier, ses définitions et son rythme de mise à jour.',
+        correctif: 'Application interne multi-comptes : flux automatisés vers l’entrepôt, connexion nominative, cloisonnement par compte, alertes hebdomadaires et suivi de consommation des budgets.',
+      },
+      {
+        probleme: 'Un historique de données s’est retrouvé dupliqué après une modification technique.',
+        cause: 'Un changement de clé d’unicité dans le pipeline d’alimentation.',
+        correctif: 'Garde-fou qui refuse d’écrire quand le volume varie anormalement, et journal d’exécution consultable.',
+      },
+      {
+        probleme: 'Le chiffre d’affaires affiché ne correspondait pas à celui de l’ERP.',
+        cause: 'Les commandes modifiées après coup n’étaient jamais relues par la synchronisation.',
+        correctif: 'Relecture glissante des dernières 48 heures et script de rapprochement automatique entre l’ERP et l’entrepôt.',
+      },
+    ],
+    limites: [
+      'Ce n’est pas un logiciel métier. Si un outil du marché couvre 90 % de votre besoin, je vous le dis et vous économisez le budget.',
+      'Un outil vit : comptez un peu de maintenance chaque mois, ne serait-ce que parce que les API changent. C’est chiffré dès le devis, pas découvert après.',
+      'La première version est volontairement réduite. Un projet qui tente tout d’un coup sort tard et sert peu.',
+      'Sans données fiables en entrée, une belle interface ne fait qu’afficher de fausses certitudes plus vite.',
+    ],
+    etapesStack: ['05', '06'],
+    prix: [
+      { titre: 'Cadrage', texte: 'Forfait court, déduit du projet si vous poursuivez. Il produit le périmètre écrit et le chiffrage.' },
+      { titre: 'Construction', texte: 'Sur devis, au forfait par lot. Vous validez un lot avant de lancer le suivant, et vous pouvez vous arrêter entre deux.' },
+      { titre: 'Fonctionnement', texte: 'Hébergement et exécution facturés par Google Cloud, à l’usage. Maintenance en option, au mois.' },
+    ],
+    faqs: [
+      {
+        q: 'Pourquoi pas simplement Looker Studio ?',
+        a: 'Souvent, Looker Studio suffit, et je vous le dirai. On passe à une application quand il faut des accès cloisonnés par utilisateur, des actions dans l’outil, des alertes, ou des écrans que Looker ne sait pas rendre. Le socle de données, lui, reste le même.',
+      },
+      {
+        q: 'À qui appartient le code ?',
+        a: 'À vous. Le dépôt est à votre nom, l’infrastructure aussi, et la documentation est livrée avec. Rien ne dépend de mon accès, y compris si on arrête de travailler ensemble.',
+      },
+      {
+        q: 'Combien d’utilisateurs ?',
+        a: 'Il n’y a pas de licence par personne : vous payez la construction et l’hébergement, pas le nombre de comptes. C’est souvent ce qui rend l’outil sur mesure moins cher qu’un abonnement au bout de deux ans.',
+      },
+      {
+        q: 'Et si on veut le faire évoluer plus tard ?',
+        a: 'Le code est standard et documenté, votre développeur ou un autre prestataire peut reprendre. Je reste disponible au forfait pour les évolutions, sans que ce soit une dépendance.',
+      },
+      {
+        q: 'Vous travaillez seul ?',
+        a: 'Oui, et c’est assumé : vous parlez à la personne qui construit. Pour un chantier qui dépasse ce que je peux tenir, je vous le dis au cadrage plutôt que d’étirer les délais.',
+      },
+    ],
+    ctaTitre: 'Décrivez-moi la décision que vous n’arrivez pas à prendre',
+    ctaTexte: '30 minutes, gratuit. On regarde vos fichiers actuels, et je vous dis si un outil se justifie ou si un tableau de bord suffit.',
+  },
+  {
+    slug: 'automatisation',
+    univers: 'data',
+    nom: 'Automatisation',
+    navTitre: 'Automatisation',
+    accroche: 'Les tâches du lundi matin, faites sans vous.',
+    metaTitre: 'Automatisation des tâches data : exports, synchros, rapports et alertes',
+    metaDescription:
+      'Suppression des tâches répétitives : exports, synchronisations, rapprochements et rapports automatisés sur Google Cloud et Apps Script, avec contrôles et alertes en cas d’anomalie.',
+    surtitre: 'Offre · Data, outils et IA',
+    h1: 'Les tâches qui reviennent tous les lundis n’ont pas besoin de vous.',
+    chapo:
+      'Copier un export, recoller un tableau, vérifier que le rapport est parti : une heure par semaine, c’est près de cinquante heures par an, et autant d’occasions de se tromper. Je remplace ces gestes par des exécutions programmées, contrôlées, qui vous préviennent quand quelque chose cloche.',
+    reperes: [
+      { valeur: '1 à 3 semaines', libelle: 'Selon le nombre de tâches' },
+      { valeur: 'Contrôlé', libelle: 'Alerte à la moindre anomalie' },
+      { valeur: 'Documenté', libelle: 'Reprenable sans moi' },
+    ],
+    question: 'Combien d’heures par mois passez-vous à déplacer des données ?',
+    symptomes: [
+      {
+        titre: 'Le rapport du lundi mobilise quelqu’un tout le matin',
+        texte:
+          'Un même enchaînement d’exports et de copies, refait chaque semaine, avec le risque d’erreur qui va avec.',
+      },
+      {
+        titre: 'Vos outils ne se parlent pas',
+        texte:
+          'Les mêmes informations sont ressaisies d’un logiciel à l’autre, et les écarts apparaissent au pire moment.',
+      },
+      {
+        titre: 'Personne ne voit passer les erreurs',
+        texte:
+          'Un fichier vide, une synchronisation en échec, une source muette : ça se découvre en réunion, plusieurs jours trop tard.',
+      },
+    ],
+    livrables: [
+      {
+        titre: 'Inventaire des tâches',
+        resume: 'On chiffre avant d’automatiser.',
+        points: [
+          'Liste des tâches répétitives, avec leur fréquence et le temps réellement passé',
+          'Tri par gain : ce qui vaut d’être automatisé, ce qui coûterait plus cher à maintenir qu’à faire à la main',
+          'Ce qui doit d’abord être simplifié plutôt qu’automatisé en l’état',
+        ],
+      },
+      {
+        titre: 'Automatisation des flux',
+        resume: 'Les données circulent toutes seules, à heure fixe.',
+        points: [
+          'Exports et synchronisations programmés entre vos outils et votre entrepôt',
+          'Traitements en Python sur Cloud Run ou en Apps Script quand un entrepôt serait surdimensionné',
+          'Reprise sur erreur : une exécution ratée se rejoue sans tout casser',
+        ],
+      },
+      {
+        titre: 'Rapports et envois',
+        resume: 'Le bon document, au bon moment, sans intervention.',
+        points: [
+          'Rapports générés et déposés là où vos équipes les cherchent déjà',
+          'Diffusion programmée par e-mail ou messagerie d’équipe',
+          'Mise en forme figée : plus de fichier retouché à la main avant envoi',
+        ],
+      },
+      {
+        titre: 'Contrôles et alertes',
+        resume: 'Une automatisation silencieuse qui échoue est pire que pas d’automatisation.',
+        points: [
+          'Vérifications à chaque exécution : volumes, doublons, champs obligatoires',
+          'Blocage de l’écriture en cas d’anomalie, plutôt qu’une donnée fausse publiée',
+          'Alerte immédiate, avec le message d’erreur en clair',
+        ],
+      },
+      {
+        titre: 'Documentation et reprise',
+        resume: 'Vous n’êtes pas dépendant de moi pour la suite.',
+        points: [
+          'Code dans votre dépôt, secrets dans un coffre, rien en clair',
+          'Notice courte : à quoi sert chaque automatisation, quand elle tourne, qui prévenir',
+          'Transfert à votre équipe technique si vous en avez une',
+        ],
+      },
+    ],
+    etapes: [
+      { titre: 'Inventaire', texte: 'On liste les tâches, on mesure le temps passé, on garde celles qui valent le coup.', delai: '2 à 3 jours' },
+      { titre: 'Première automatisation', texte: 'On commence par la plus coûteuse en temps, pour que le gain soit visible tout de suite.', delai: '3 à 5 jours' },
+      { titre: 'Les suivantes', texte: 'Une par une, avec contrôle et alerte à chaque fois.', delai: '1 à 2 semaines' },
+      { titre: 'Passation', texte: 'Documentation, accès, et essai à blanc devant vous.', delai: 'Inclus' },
+    ],
+    preuves: [
+      {
+        probleme: 'L’historique d’une régie publicitaire ne se chargeait plus, avec des erreurs serveur à répétition.',
+        cause: 'Les limites de débit de l’API sur les longues périodes demandées.',
+        correctif: 'Ingestion découpée en fenêtres de 30 jours, avec reprise par compte et par niveau de détail.',
+      },
+      {
+        probleme: 'Les noms de campagnes ne respectaient pas la convention interne, ce qui faussait tous les regroupements.',
+        cause: 'Contrôle fait à l’œil, quand quelqu’un y pensait.',
+        correctif: 'Vérificateur automatique de nomenclature, qui signale les écarts avant qu’ils ne polluent le reporting.',
+      },
+      {
+        probleme: 'Un fichier client mal exporté faisait entrer des montants transformés en dates.',
+        cause: 'Un tableur en langue française réinterprétait les valeurs à l’ouverture.',
+        correctif: 'Validation du format à l’entrée du pipeline, rejet du fichier et alerte plutôt qu’un chiffre faux publié.',
+      },
+    ],
+    limites: [
+      'Automatiser un processus bancal le rend seulement plus rapide. Quand c’est le cas, on le simplifie d’abord.',
+      'Une automatisation a un coût de maintenance : les API changent, les fichiers évoluent. Si le gain annuel ne couvre pas ce coût, je vous le dis.',
+      'Je n’automatise pas ce qui exige un jugement humain : un arbitrage reste un arbitrage.',
+      'Je n’utilise aucune méthode contraire aux conditions d’utilisation de vos outils, même quand c’est techniquement possible.',
+    ],
+    etapesStack: ['01', '05'],
+    prix: [
+      { titre: 'Inventaire', texte: 'Forfait court : la liste des tâches, le temps qu’elles coûtent, et le gain attendu. Déduit si vous poursuivez.' },
+      { titre: 'Par automatisation', texte: 'Prix fixe par tâche, annoncé avant de commencer. Vous pouvez n’en faire qu’une.' },
+      { titre: 'Fonctionnement', texte: 'Quelques euros par mois d’exécution chez Google Cloud dans la plupart des cas (estimation, chiffrée dans le devis).' },
+    ],
+    faqs: [
+      {
+        q: 'Comment savoir si une tâche vaut d’être automatisée ?',
+        a: 'Un calcul simple : temps passé par an, multiplié par le coût horaire, comparé au coût de mise en place et de maintenance. Une heure par semaine représente près de cinquante heures par an, ce qui rend rentables beaucoup d’automatisations. Des tâches plus rares, presque jamais.',
+      },
+      {
+        q: 'Vous utilisez des outils comme Zapier ou Make ?',
+        a: 'Je peux, mais je préfère du code court et documenté, exécuté chez vous : pas d’abonnement par déclenchement, pas de limite arbitraire, et vous gardez la main. Pour un besoin simple et ponctuel, un outil du marché reste parfois le bon choix, et je le dirai.',
+      },
+      {
+        q: 'Que se passe-t-il si l’automatisation tombe en panne ?',
+        a: 'Vous êtes prévenu tout de suite, avec l’erreur en clair, et rien de faux n’est publié : en cas d’anomalie, l’écriture est bloquée. La procédure de reprise manuelle est décrite dans la notice.',
+      },
+      {
+        q: 'Faut-il déjà avoir un entrepôt de données ?',
+        a: 'Non. Beaucoup d’automatisations utiles tiennent dans un Apps Script et un tableur. L’entrepôt devient utile quand le volume ou le croisement de sources le justifie.',
+      },
+      {
+        q: 'Et nos données sensibles ?',
+        a: 'Elles restent dans vos environnements. Les identifiants vont dans un coffre à secrets, jamais dans le code, et je n’emporte aucune copie de vos données.',
+      },
+    ],
+    ctaTitre: 'Quelle tâche vous coûte le plus de temps ?',
+    ctaTexte: '30 minutes, gratuit. Décrivez-moi votre lundi matin, je vous dis ce qui peut disparaître.',
+  },
+  {
+    slug: 'ia-sur-vos-donnees',
+    univers: 'data',
+    nom: 'IA branchée sur vos données',
+    navTitre: 'IA sur vos données',
+    accroche: 'Un assistant qui répond sur vos chiffres, pas sur Internet.',
+    metaTitre: 'IA branchée sur vos données : un assistant qui répond sur vos chiffres',
+    metaDescription:
+      'Mise en place d’un assistant connecté à votre entrepôt de données : réponses sourcées, périmètre maîtrisé, coûts contrôlés. Analyses récurrentes automatisées, sans décision prise à votre place.',
+    surtitre: 'Offre · Data, outils et IA',
+    h1: 'Un assistant qui répond sur vos chiffres, pas sur Internet.',
+    chapo:
+      'L’intérêt de l’IA en entreprise n’est pas de rédiger des textes : c’est de répondre à « pourquoi les ventes ont baissé la semaine dernière » en interrogeant vos propres données, et de citer les lignes sur lesquelles elle s’appuie. Ça suppose un socle de données propre et des garde-fous. C’est ce que je mets en place.',
+    reperes: [
+      { valeur: '3 à 6 semaines', libelle: 'Du cas d’usage à la mise en service' },
+      { valeur: 'Sourcé', libelle: 'Chaque réponse renvoie aux données' },
+      { valeur: 'Périmètre fermé', libelle: 'L’assistant ne voit que ce qu’on lui ouvre' },
+    ],
+    question: 'Vos équipes attendent-elles un chiffre, ou une réponse ?',
+    symptomes: [
+      {
+        titre: 'Les questions simples prennent des jours',
+        texte:
+          'Savoir quel produit a décroché le mois dernier suppose une demande, une requête, un export. La plupart des questions ne sont donc jamais posées.',
+      },
+      {
+        titre: 'L’IA est testée sans jamais servir',
+        texte:
+          'Un abonnement, quelques essais, puis l’abandon : sans accès aux données de l’entreprise, l’assistant reste une curiosité.',
+      },
+      {
+        titre: 'Vous n’osez pas y mettre vos données',
+        texte:
+          'Confidentialité, hallucinations, coûts imprévisibles : les craintes sont légitimes, et elles se traitent par la technique, pas par la promesse.',
+      },
+    ],
+    livrables: [
+      {
+        titre: 'Cas d’usage cadrés',
+        resume: 'Deux ou trois questions récurrentes, pas un assistant qui saurait tout faire.',
+        points: [
+          'Les questions que vos équipes posent vraiment, recueillies auprès d’elles',
+          'Pour chacune : la donnée nécessaire, la forme de la réponse attendue, et comment on saura que c’est juste',
+          'Ce qu’on écarte volontairement, notamment tout ce qui relève d’une décision humaine',
+        ],
+      },
+      {
+        titre: 'Socle de données',
+        resume: 'Une IA branchée sur des données fausses produit des réponses fausses, en plus convaincantes.',
+        points: [
+          'Tables métier propres et documentées dans votre entrepôt, avec des définitions écrites',
+          'Périmètre de données explicitement ouvert à l’assistant, le reste lui est inaccessible',
+          'Données personnelles exclues par défaut du périmètre',
+        ],
+      },
+      {
+        titre: 'Assistant connecté',
+        resume: 'Le modèle ne devine pas : il interroge vos tables et montre son travail.',
+        points: [
+          'Interrogation de votre entrepôt par des outils dédiés, avec requêtes tracées',
+          'Réponses accompagnées des chiffres et de la source, vérifiables en un clic',
+          'Intégration là où vos équipes travaillent : messagerie interne, outil existant ou interface dédiée',
+        ],
+      },
+      {
+        titre: 'Garde-fous',
+        resume: 'Ce qui rend le dispositif acceptable en entreprise.',
+        points: [
+          'Droits d’accès respectés : chacun n’obtient que ce qu’il a le droit de voir',
+          'Plafond de dépense et suivi du coût par question',
+          'Refus explicite quand la donnée manque, plutôt qu’une réponse inventée',
+        ],
+      },
+      {
+        titre: 'Adoption',
+        resume: 'Un outil que personne n’utilise ne vaut rien.',
+        points: [
+          'Formation courte, avec les bonnes et les mauvaises façons de poser une question',
+          'Mesure de l’usage réel après un mois, et ajustement des cas d’usage',
+          'Documentation et code livrés chez vous',
+        ],
+      },
+    ],
+    etapes: [
+      { titre: 'Cadrage des cas d’usage', texte: 'Entretiens avec les équipes, choix de deux ou trois questions à fort volume.', delai: '3 à 5 jours' },
+      { titre: 'Préparation des données', texte: 'Tables métier, définitions, périmètre ouvert à l’assistant.', delai: '1 à 2 semaines' },
+      { titre: 'Mise en place de l’assistant', texte: 'Connexion aux données, traçabilité, garde-fous, tests sur des questions réelles.', delai: '1 à 2 semaines' },
+      { titre: 'Essai encadré', texte: 'Un groupe restreint l’utilise pendant deux semaines, on corrige à partir des vraies questions.', delai: '2 semaines' },
+      { titre: 'Ouverture et suivi', texte: 'Déploiement, formation, puis mesure d’usage à un mois.', delai: 'Inclus' },
+    ],
+    preuves: [
+      {
+        probleme: 'Chaque question sur les ventes passait par une demande à la personne qui savait écrire des requêtes.',
+        cause: 'Les données étaient dans un entrepôt, mais accessibles seulement à qui maîtrisait le langage de requête.',
+        correctif: 'Assistant connecté à l’entrepôt par des outils dédiés, capable d’aller chercher lui-même la donnée et de montrer d’où vient sa réponse.',
+      },
+      {
+        probleme: 'Les analyses publicitaires étaient refaites de zéro à chaque fois, avec des résultats inégaux.',
+        cause: 'Aucune méthode écrite : chacun regardait ce qu’il jugeait pertinent.',
+        correctif: 'Trames d’analyse standardisées et réutilisables, appliquées au même jeu de données à chaque cycle.',
+      },
+      {
+        probleme: 'La production de documents de restitution mobilisait des heures de mise en forme.',
+        cause: 'Assemblage manuel de tableaux et de graphiques à chaque échéance.',
+        correctif: 'Génération automatique de la partie répétitive, l’humain gardant l’analyse et les recommandations.',
+      },
+    ],
+    limites: [
+      'L’IA ne répare pas des données fausses : si le socle est bancal, on le corrige avant, sinon l’assistant accélère la propagation des erreurs.',
+      'Elle ne décide pas à votre place. Elle répond, cite ses sources, et laisse l’arbitrage à un humain.',
+      'Chaque question a un coût. Il est faible à l’échelle d’une équipe, mais il est réel, et il est plafonné dès la mise en place.',
+      'Je n’ouvre pas de données personnelles à un modèle sans base légale claire, et je ne monte pas de dispositif de surveillance des salariés.',
+    ],
+    etapesStack: ['05', '06'],
+    prix: [
+      { titre: 'Cadrage', texte: 'Forfait court : cas d’usage retenus, données nécessaires, faisabilité. Déduit si vous poursuivez.' },
+      { titre: 'Mise en place', texte: 'Sur devis, selon le nombre de cas d’usage et l’état de vos données. Les deux premiers cas coûtent plus cher que les suivants : c’est le socle qui se paie.' },
+      { titre: 'Fonctionnement', texte: 'Vous payez directement le fournisseur du modèle, à l’usage, avec un plafond que l’on fixe ensemble.' },
+    ],
+    faqs: [
+      {
+        q: 'Nos données servent-elles à entraîner le modèle ?',
+        a: 'Non, et c’est un point à vérifier contractuellement avec le fournisseur retenu, pas à supposer. Je configure le dispositif pour que seules les données strictement nécessaires à la question soient transmises, et je vous remets la liste de ce qui sort de chez vous.',
+      },
+      {
+        q: 'Comment éviter les réponses inventées ?',
+        a: 'En ne laissant pas le modèle répondre de mémoire : il interroge vos tables, et la réponse affiche les chiffres obtenus et la requête utilisée. Quand la donnée n’existe pas, il doit le dire plutôt que de combler le vide. C’est ce qu’on teste pendant l’essai encadré.',
+      },
+      {
+        q: 'Quel modèle utilisez-vous ?',
+        a: 'Celui qui convient à votre contrainte principale : coût, hébergement, ou qualité de raisonnement. Le dispositif est construit pour qu’on puisse en changer sans tout refaire, parce que ce marché bouge tous les trimestres.',
+      },
+      {
+        q: 'Faut-il un entrepôt de données pour commencer ?',
+        a: 'Pour un assistant qui répond sur vos chiffres, oui : il faut des tables fiables et documentées. Si vous n’en avez pas, on commence par là, et c’est utile même sans IA.',
+      },
+      {
+        q: 'Est-ce que ça remplace un analyste ?',
+        a: 'Non. Ça supprime les allers-retours pour des questions simples et répétitives, ce qui libère l’analyste pour ce qui demande du jugement. Présenter ça comme un remplacement serait vous mentir.',
+      },
+    ],
+    ctaTitre: 'Quelles questions revient-on vous poser chaque semaine ?',
+    ctaTexte: '30 minutes, gratuit. On regarde si vos données permettent déjà d’y répondre automatiquement.',
+  },
+  {
+    slug: 'accompagnement-data',
+    univers: 'data',
+    nom: 'Accompagnement data',
+    navTitre: 'Accompagnement data',
+    accroche: 'Quelques jours par mois, la compétence que vous n’avez pas en interne.',
+    metaTitre: 'Accompagnement data : quelques jours par mois dans votre équipe',
+    metaDescription:
+      'Accompagnement data au mois : priorisation, exécution, montée en compétence de l’équipe et définitions partagées. Sans recruter un profil data à temps plein.',
+    surtitre: 'Offre · Data, outils et IA',
+    h1: 'Quelques jours par mois, la compétence data que vous n’avez pas en interne.',
+    chapo:
+      'Recruter un profil data coûte cher et se justifie rarement en dessous d’une certaine taille. Rester sans personne coûte autrement : chantiers repoussés, chiffres discutés, outils sous-utilisés. Entre les deux, quelques jours par mois, avec quelqu’un qui connaît vos données et qui exécute.',
+    reperes: [
+      { valeur: '2 à 4 jours', libelle: 'Par mois, ajustables' },
+      { valeur: '3 mois', libelle: 'Engagement minimum, pour que ça serve' },
+      { valeur: 'Votre équipe', libelle: 'Formée au passage, pas dépendante' },
+    ],
+    question: 'Qui s’occupe de vos données, aujourd’hui, en vrai ?',
+    symptomes: [
+      {
+        titre: 'Le sujet data revient à celui qui a le temps',
+        texte:
+          'Souvent un profil marketing ou finance, compétent mais déjà chargé. Les chantiers avancent par à-coups, entre deux urgences.',
+      },
+      {
+        titre: 'Vous hésitez à recruter',
+        texte:
+          'Un poste à temps plein représente un engagement lourd, difficile à justifier tant que le besoin n’est pas cadré, et difficile à évaluer sans compétence data en interne.',
+      },
+      {
+        titre: 'Les outils sont là, mais mal utilisés',
+        texte:
+          'Vous payez des licences et un cloud, et les équipes retournent quand même à leurs fichiers, faute de quelqu’un pour faire le lien.',
+      },
+    ],
+    livrables: [
+      {
+        titre: 'Un point mensuel qui tranche',
+        resume: 'Une heure pour décider, pas pour faire le tour de la table.',
+        points: [
+          'Ce qui a avancé, ce qui bloque, ce qui passe devant ce mois-ci',
+          'Chaque chantier chiffré en jours, pour arbitrer en connaissance de cause',
+          'Compte rendu écrit, court, qui sert de mémoire au fil des mois',
+        ],
+      },
+      {
+        titre: 'De l’exécution, pas seulement du conseil',
+        resume: 'Les jours passés servent à livrer.',
+        points: [
+          'Correctifs de mesure, flux de données, tableaux de bord, automatisations',
+          'Reprise des chantiers en cours plutôt que tout refaire',
+          'Priorité donnée à ce qui débloque quelqu’un dans l’équipe',
+        ],
+      },
+      {
+        titre: 'Montée en compétence de l’équipe',
+        resume: 'L’objectif est que vous ayez de moins en moins besoin de moi.',
+        points: [
+          'Sessions courtes sur vos propres cas, pas de formation générique',
+          'Documentation laissée dans votre espace, pas dans ma tête',
+          'Un interlocuteur formé chez vous sur chaque chantier livré',
+        ],
+      },
+      {
+        titre: 'Définitions partagées',
+        resume: 'La gouvernance utile, sans le vocabulaire de cabinet.',
+        points: [
+          'Un endroit unique où sont écrits vos indicateurs et leur mode de calcul',
+          'Conventions de nommage et qualité des données, contrôlées automatiquement quand c’est possible',
+          'Traçabilité : qui produit quoi, à partir de quelle source',
+        ],
+      },
+      {
+        titre: 'Disponibilité',
+        resume: 'Un interlocuteur joignable, avec des règles claires.',
+        points: [
+          'Réponse sous 24 h ouvrées sur les questions courantes',
+          'Fenêtres d’intervention convenues à l’avance',
+          'Pas d’astreinte : ce qui est urgent la nuit relève d’un autre contrat, et je vous le dirai plutôt que de faire semblant',
+        ],
+      },
+    ],
+    etapes: [
+      { titre: 'Cadrage initial', texte: 'État des lieux de vos données, de vos outils et de vos chantiers en cours.', delai: '2 à 3 jours' },
+      { titre: 'Feuille de route à 3 mois', texte: 'Ce qu’on traite, dans quel ordre, avec le gain attendu pour chaque point.', delai: 'Inclus' },
+      { titre: 'Rythme mensuel', texte: 'Jours planifiés à l’avance, exécution, point mensuel de pilotage.', delai: 'Chaque mois' },
+      { titre: 'Bilan trimestriel', texte: 'Ce qui a été livré, ce que ça a changé, et si l’accompagnement doit continuer, changer de format ou s’arrêter.', delai: 'Tous les 3 mois' },
+    ],
+    preuves: [
+      {
+        probleme: 'Les chiffres d’une direction et ceux d’une autre ne tombaient jamais pareil.',
+        cause: 'Des définitions implicites, différentes d’un service à l’autre, et aucun endroit où trancher.',
+        correctif: 'Entrepôt organisé en couches, des données brutes aux tables métier, avec définitions écrites et contrôles de qualité.',
+      },
+      {
+        probleme: 'Chaque nouveau projet repartait de zéro, avec des semaines de mise en place.',
+        cause: 'Aucun socle réutilisable : infrastructure, accès et connexions refaits à la main à chaque fois.',
+        correctif: 'Kit d’installation reproductible : infrastructure décrite en code, procédure d’accueil standardisée, mise en route en quelques heures.',
+      },
+      {
+        probleme: 'Un tableau de bord livré n’était plus utilisé six mois plus tard.',
+        cause: 'Personne n’avait été formé, et aucune documentation n’avait survécu au départ de l’interlocuteur.',
+        correctif: 'Documentation dans l’espace du client, formation d’un référent interne, et vérification de l’usage réel après quelques semaines.',
+      },
+    ],
+    limites: [
+      'Ce n’est pas un directeur data à temps partiel. Je livre et je forme ; la stratégie d’entreprise reste la vôtre.',
+      'En dessous de deux jours par mois, l’effet se dilue : on passe le temps à se remettre dans le contexte.',
+      'Pas d’astreinte ni d’engagement de disponibilité en dehors des fenêtres convenues.',
+      'Au-delà d’un certain volume, un recrutement devient plus pertinent. Je vous le dirai, et je peux aider à cadrer le poste et à évaluer les candidats.',
+    ],
+    etapesStack: ['05', '06'],
+    prix: [
+      { titre: 'Cadrage initial', texte: 'Forfait court, avec la feuille de route à 3 mois. Déduit du premier mois si vous poursuivez.' },
+      { titre: 'Forfait mensuel', texte: 'Sur devis, selon le nombre de jours. Engagement de 3 mois, puis reconductible au mois. Les jours non utilisés dans le mois ne sont pas reportés : c’est ce qui garantit la régularité.' },
+      { titre: 'Hors forfait', texte: 'Un chantier lourd sort du forfait et fait l’objet d’un devis séparé, pour ne pas dévorer les jours du mois.' },
+    ],
+    faqs: [
+      {
+        q: 'Combien de jours faut-il prévoir ?',
+        a: 'Deux jours par mois suffisent pour maintenir et faire avancer un sujet à la fois. Quatre permettent de mener un chantier de front tout en assurant le courant. On ajuste au trimestre, dans un sens comme dans l’autre.',
+      },
+      {
+        q: 'Vous travaillez sur site ou à distance ?',
+        a: 'À distance par défaut, depuis Lyon, ce qui garde le coût bas. Des journées sur site sont possibles pour un lancement ou un atelier, avec les frais de déplacement annoncés à l’avance.',
+      },
+      {
+        q: 'Et si on finit par recruter ?',
+        a: 'C’est souvent l’issue souhaitable, et elle n’est pas un échec. Je peux aider à définir le poste, faire passer la partie technique des entretiens, puis accompagner la prise de fonction avant de m’effacer.',
+      },
+      {
+        q: 'Peut-on commencer petit ?',
+        a: 'Oui : le cadrage initial existe pour ça. Il vous donne une feuille de route utilisable, même si vous décidez ensuite de ne pas prendre l’accompagnement.',
+      },
+      {
+        q: 'Travaillez-vous avec nos prestataires existants ?',
+        a: 'Oui, agence média, développeurs ou intégrateur compris. Mon rôle est souvent de faire le lien technique entre eux, avec des spécifications écrites plutôt que des échanges qui se perdent.',
+      },
+    ],
+    ctaTitre: 'Parlons de vos chantiers en attente',
+    ctaTexte: '30 minutes, gratuit. On regarde ce qui bloque, et je vous dis si quelques jours par mois suffisent.',
+  },
 ]
 
 export const getOffrePage = (slug: string) => OFFRES_PAGES.find((o) => o.slug === slug)
 
-// Les 4 pages d'offre prévues. `pret: false` tant que la page n'est pas écrite :
-// le lien pointe alors vers l'ancre correspondante sur /offres.
-export const PLAN_OFFRES: { slug: string; nom: string; accroche: string; pret: boolean; ancre: string }[] = [
-  { slug: 'audit-tracking', nom: 'Audit tracking', accroche: 'L’état des lieux chiffré, avant toute décision.', pret: true, ancre: 'audit' },
-  { slug: 'tracking-server-side', nom: 'Tracking server-side', accroche: 'Vos conversions arrivent aux régies, sans doublons.', pret: true, ancre: 'setup' },
-  { slug: 'conversions-offline', nom: 'Conversions offline', accroche: 'Enchérir sur les leads qui signent, pas sur les formulaires.', pret: true, ancre: 'setup' },
-  { slug: 'dashboard-roas-reel', nom: 'Dashboard et ROAS réel', accroche: 'Piloter sur la marge, pas sur le revenu déclaré.', pret: true, ancre: 'dashboard' },
+// Les pages d'offre, par univers. `pret: false` tant que la page n'est pas écrite.
+export const PLAN_OFFRES: { slug: string; nom: string; accroche: string; univers: Univers; pret: boolean }[] = [
+  { slug: 'audit-tracking', nom: 'Audit tracking', accroche: 'L’état des lieux chiffré, avant toute décision.', univers: 'mesure', pret: true },
+  { slug: 'tracking-server-side', nom: 'Tracking server-side', accroche: 'Vos conversions arrivent aux régies, sans doublons.', univers: 'mesure', pret: true },
+  { slug: 'conversions-offline', nom: 'Conversions offline', accroche: 'Enchérir sur les leads qui signent, pas sur les formulaires.', univers: 'mesure', pret: true },
+  { slug: 'dashboard-roas-reel', nom: 'Dashboard et ROAS réel', accroche: 'Piloter sur la marge, pas sur le revenu déclaré.', univers: 'data', pret: true },
+  { slug: 'outils-sur-mesure', nom: 'Outils et dashboards sur mesure', accroche: 'L’outil que votre équipe ouvre tous les matins.', univers: 'data', pret: true },
+  { slug: 'automatisation', nom: 'Automatisation', accroche: 'Les tâches du lundi matin, faites sans vous.', univers: 'data', pret: true },
+  { slug: 'ia-sur-vos-donnees', nom: 'IA branchée sur vos données', accroche: 'Un assistant qui répond sur vos chiffres, pas sur Internet.', univers: 'data', pret: true },
+  { slug: 'accompagnement-data', nom: 'Accompagnement data', accroche: 'Quelques jours par mois, la compétence que vous n’avez pas en interne.', univers: 'data', pret: true },
 ]
+
+export const offresParUnivers = (u: Univers) => PLAN_OFFRES.filter((p) => p.univers === u)

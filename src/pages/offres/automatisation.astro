@@ -1,0 +1,7 @@
+---
+import OffrePage from '../../components/OffrePage.astro'
+import { getOffrePage } from '../../data/offres-detail'
+
+const offre = getOffrePage('automatisation')!
+---
+<OffrePage offre={offre} />
