@@ -118,11 +118,11 @@ const currentPath = Astro.url.pathname
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- NAVBAR -->
-    <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <header id="site-header" class="fixed top-0 left-0 right-0 z-50">
       <nav class="container flex items-center justify-between h-[72px]">
 
         <!-- Logo -->
-        <a href="/" class="shrink-0 text-[1.2rem] font-semibold tracking-tight text-white" aria-label="Datify, accueil">Dati<span class="text-[#7C75FF]">fy</span></a>
+        <a href="/" class="logo shrink-0 text-[1.2rem] font-semibold tracking-tight" aria-label="Datify, accueil">Dati<span>fy</span></a>
 
         <!-- Nav links (desktop) — absents du DOM sur les landings de prospection -->
         {!landing && (
@@ -134,11 +134,8 @@ const currentPath = Astro.url.pathname
             ].map(({ href, label }) => (
               <a
                 href={href}
-                class={`text-sm font-medium transition-colors ${
-                  currentPath.startsWith(href)
-                    ? 'text-white'
-                    : 'text-white/70 hover:text-white'
-                }`}
+                class="nav-link text-sm font-medium"
+                aria-current={currentPath.startsWith(href) ? 'page' : undefined}
               >
                 {label}
               </a>
@@ -160,9 +157,9 @@ const currentPath = Astro.url.pathname
           </a>
           <!-- Mobile menu button -->
           {!landing && (
-            <button id="menu-toggle" class="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-white/10 transition-colors" aria-label="Menu">
-              <span class="menu-bar w-5 h-0.5 bg-white rounded-full transition-all duration-300"></span>
-              <span class="menu-bar w-5 h-0.5 bg-white rounded-full transition-all duration-300"></span>
+            <button id="menu-toggle" class="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-lg" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+              <span class="menu-bar w-5 h-0.5 rounded-full transition-transform duration-300"></span>
+              <span class="menu-bar w-5 h-0.5 rounded-full transition-transform duration-300"></span>
             </button>
           )}
         </div>
@@ -171,11 +168,11 @@ const currentPath = Astro.url.pathname
 
       <!-- Mobile menu — absent sur les landings -->
       {!landing && (
-        <div id="mobile-menu" class="md:hidden hidden nuit border-t border-white/10">
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-line">
           <div class="container py-6 flex flex-col gap-5">
-            <a href="/services" class="text-base font-medium text-white/80 hover:text-white">Offres</a>
-            <a href="/blog" class="text-base font-medium text-white/80 hover:text-white">Blog</a>
-            <a href="/contact" class="text-base font-medium text-white/80 hover:text-white">Contact</a>
+            <a href="/services" class="text-base font-medium text-body hover:text-ink">Offres</a>
+            <a href="/blog" class="text-base font-medium text-body hover:text-ink">Blog</a>
+            <a href="/contact" class="text-base font-medium text-body hover:text-ink">Contact</a>
             <a
               href={CALENDLY_URL}
               target="_blank"
@@ -334,16 +331,23 @@ const currentPath = Astro.url.pathname
 
     <!-- Navbar scroll behavior -->
     <script>
+      // Header : transparent tant qu'il survole le hero sombre, blanc dès qu'il passe
+      // sur du contenu clair. Un seul IntersectionObserver, rien de calculé au scroll.
       const header = document.getElementById('site-header')
-      const updateHeader = () => {
-        if (window.scrollY > 24) {
-          header?.classList.add('nav-scrolled')
-        } else {
-          header?.classList.remove('nav-scrolled')
-        }
+      const hero = document.querySelector('main > section.nuit:first-of-type')
+      const HEADER_H = 72
+      let heroObserver: IntersectionObserver | null = null
+      const watchHero = () => {
+        heroObserver?.disconnect()
+        if (!hero || !header) return
+        heroObserver = new IntersectionObserver(
+          ([e]) => header.classList.toggle('is-light', !e.isIntersecting),
+          { rootMargin: `0px 0px -${Math.max(window.innerHeight - HEADER_H, 0)}px 0px` }
+        )
+        heroObserver.observe(hero)
       }
-      window.addEventListener('scroll', updateHeader, { passive: true })
-      updateHeader()
+      watchHero()
+      window.addEventListener('resize', watchHero, { passive: true })
 
       // Mobile menu
       const toggle = document.getElementById('menu-toggle')
@@ -354,10 +358,12 @@ const currentPath = Astro.url.pathname
       toggle?.addEventListener('click', () => {
         open = !open
         mobileMenu?.classList.toggle('hidden', !open)
+        header?.classList.toggle('menu-open', open)
+        toggle.setAttribute('aria-expanded', String(open))
         bars[0]?.classList.toggle('rotate-45', open)
-        bars[0]?.classList.toggle('translate-y-2', open)
+        bars[0]?.classList.toggle('translate-y-[4px]', open)
         bars[1]?.classList.toggle('-rotate-45', open)
-        bars[1]?.classList.toggle('-translate-y-2', open)
+        bars[1]?.classList.toggle('-translate-y-[4px]', open)
       })
 
       // Scroll reveal
@@ -375,17 +381,6 @@ const currentPath = Astro.url.pathname
       document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
     </script>
 
-    <style>
-      #site-header {
-        background: var(--color-night);
-      }
-      /* Fond opaque plutôt qu'un flou d'arrière-plan : le flou recalculé à chaque image
-         de défilement saccadait le scroll, surtout sur Safari et écrans Retina. */
-      #site-header.nav-scrolled {
-        background: var(--color-night);
-        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
-      }
-    </style>
 
   </body>
 </html>

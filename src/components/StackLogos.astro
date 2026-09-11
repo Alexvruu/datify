@@ -1,68 +1,66 @@
 ---
-// Stack avec logos, partagée entre l'accueil et la page Offres.
+// Stack, partagée entre l'accueil et la page Offres.
+// Présentée comme le trajet de la donnée, de la boutique au tableau de bord.
 // Données et règles : src/data/stack.ts
-import { STACK_LOGOS, NB_OUTILS, type Outil } from '../data/stack'
+import { ETAPES, NB_OUTILS, type Outil } from '../data/stack'
 
 interface Props { titre?: string }
-const { titre = 'Les outils sur lesquels j’interviens' } = Astro.props
-const vedette = STACK_LOGOS.find((g) => g.vedette)
-const autres = STACK_LOGOS.filter((g) => !g.vedette)
+const { titre = 'Les outils que j’utilise, étape par étape' } = Astro.props
 const initiales = (o: Outil) => {
   const mots = o.name.replace(/[^\p{L}\p{N}\s]/gu, '').split(/\s+/).filter(Boolean)
   return (mots.length > 1 ? mots.map((m) => m[0]).join('') : mots[0]).slice(0, 2).toUpperCase()
 }
-const gcpPath = vedette?.outils.find((o) => o.name.startsWith('Cloud Run'))?.path
 ---
 
-<section class="py-24 border-y border-line bg-paper">
+<section class="py-24 border-y border-line bg-paper" aria-labelledby="stack-titre">
   <div class="container">
-    <div class="max-w-2xl mb-12">
+    <div class="max-w-2xl mb-10">
       <p class="label mb-3">Stack · {NB_OUTILS} outils</p>
-      <h2>{titre}</h2>
-      <p class="text-body mt-4">Régies, tracking, CRM, boutique, entrepôt de données : j’interviens partout où passent les données qui pilotent vos campagnes.</p>
+      <h2 id="stack-titre">{titre}</h2>
+      <p class="text-body mt-4">Vos données font un trajet : de votre boutique aux régies publicitaires, puis jusqu’à votre tableau de bord. Voici où j’interviens, et avec quoi.</p>
     </div>
 
-    {vedette && (
-      <div class="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] gap-10 bg-white border border-line rounded-lg p-8 md:p-10 mb-6">
-        <div>
-          <div class="flex items-center gap-3 mb-5">
-            <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true"><path fill="#4285F4" d={gcpPath} /></svg>
-            <p class="font-mono text-sm uppercase tracking-wider text-muted">{vedette.groupe}</p>
-          </div>
-          <h3 class="text-2xl md:text-3xl leading-tight mb-4">{vedette.accroche}</h3>
-          <p class="text-body">{vedette.detail}</p>
-        </div>
-        <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 content-start">
-          {vedette.outils.map((o) => (
-            <li class="flex flex-col items-start gap-3 rounded-md border border-line bg-paper px-4 py-4 min-h-[92px]">
-              {o.path
-                ? <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill={o.hex} d={o.path} /></svg>
-                : <span class="w-[26px] h-[26px] rounded bg-mist text-muted font-mono text-[10px] flex items-center justify-center">{initiales(o)}</span>}
-              <span class="text-[15px] font-medium text-ink leading-tight">{o.name}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
+    <!-- Le trajet en un coup d'œil : chaque étape renvoie à son détail -->
+    <ol class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 lg:gap-0 mb-8" aria-label="Les 6 étapes">
+      {ETAPES.map((e, i) => (
+        <li class="flex items-center">
+          <a href={`#stack-${e.num}`} class={`group flex-1 flex items-center gap-2.5 rounded-md border px-3 py-2.5 transition-colors ${e.vedette ? 'border-signal/40 bg-signal-soft' : 'border-line bg-white hover:border-signal/40'}`}>
+            <span class="font-mono text-xs text-signal">{e.num}</span>
+            <span class="text-sm font-medium text-ink leading-tight">{e.court}</span>
+          </a>
+          {i < ETAPES.length - 1 && <span class="hidden lg:block px-1.5 text-muted" aria-hidden="true">→</span>}
+        </li>
+      ))}
+    </ol>
 
-    <div class="bg-white border border-line rounded-lg divide-y divide-line">
-      {autres.map((g) => (
-        <div class="grid md:grid-cols-[230px_minmax(0,1fr)] gap-5 md:gap-10 p-6 md:p-8">
-          <div>
-            <p class="font-mono text-sm uppercase tracking-wider text-ink">{g.groupe}</p>
-            {g.detail && <p class="text-sm text-muted mt-2 leading-snug">{g.detail}</p>}
+    <div class="bg-white border border-line rounded-lg overflow-hidden">
+      {ETAPES.map((e, i) => (
+        <div id={`stack-${e.num}`} class={`scroll-mt-24 grid md:grid-cols-[300px_minmax(0,1fr)] gap-6 md:gap-10 p-6 md:p-10 ${i > 0 ? 'border-t border-line' : ''} ${e.vedette ? 'bg-signal-soft/60' : ''}`}>
+          <div class="relative pl-14">
+            <span class={`absolute left-0 top-0 w-10 h-10 rounded-full flex items-center justify-center font-mono text-sm ${e.vedette ? 'bg-signal text-white' : 'border-2 border-signal/60 text-signal bg-white'}`}>{e.num}</span>
+            {i < ETAPES.length - 1 && <span class="hidden md:block absolute left-[19px] top-12 -bottom-10 w-0.5 bg-signal/15" aria-hidden="true"></span>}
+            <h3 class="text-xl md:text-2xl leading-tight">{e.titre}</h3>
+            <p class="text-body text-[15px] mt-2 leading-snug">{e.role}</p>
+            {e.accroche && <p class="mt-4 text-ink font-semibold leading-snug">{e.accroche}</p>}
           </div>
-          <ul class="flex flex-wrap gap-2.5 content-start">
-            {g.outils.map((o) => (
-              <li class="inline-flex items-center gap-2.5 rounded-md border border-line bg-paper px-3 py-2 max-w-full">
-                {o.path
-                  ? <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="shrink-0"><path fill={o.hex} d={o.path} /></svg>
-                  : <span class="w-5 h-5 shrink-0 rounded bg-mist text-muted font-mono text-[9px] flex items-center justify-center">{initiales(o)}</span>}
-                <span class="text-[15px] font-medium text-ink leading-tight whitespace-nowrap">{o.name}</span>
-                {o.detail && <span class="hidden sm:inline text-[13px] text-muted leading-tight">{o.detail}</span>}
-              </li>
+          <div class="flex flex-col gap-5">
+            {e.blocs.map((b) => (
+              <div>
+                {b.titre && <p class="font-mono text-xs uppercase tracking-wider text-muted mb-2.5">{b.titre}</p>}
+                <ul class="flex flex-wrap gap-2.5">
+                  {b.outils.map((o) => (
+                    <li class="inline-flex items-center gap-2.5 rounded-md border border-line bg-paper px-3 py-2 max-w-full">
+                      {o.path
+                        ? <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="shrink-0"><path fill={o.hex} d={o.path} /></svg>
+                        : <span class="w-5 h-5 shrink-0 rounded bg-mist text-muted font-mono text-[9px] flex items-center justify-center" aria-hidden="true">{initiales(o)}</span>}
+                      <span class="text-[15px] font-medium text-ink leading-tight whitespace-nowrap">{o.name}</span>
+                      {o.detail && <span class="hidden sm:inline text-[13px] text-muted leading-tight">{o.detail}</span>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       ))}
     </div>

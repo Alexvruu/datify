@@ -180,3 +180,39 @@
 .nuit .border-line { border-color: rgba(255, 255, 255, 0.12); }
 .nuit .bg-mist { background: rgba(255, 255, 255, 0.05); }
 .nuit .text-signal { color: #7C75FF; } /* violet légèrement éclairci : lisible sur le bleu nuit */
+
+/* ── Header ───────────────────────────────────────────────────────────────────
+   Par défaut : blanc, texte encre (pages claires, et partout après le hero).
+   Au-dessus d'un hero sombre (premier <section> de <main> en .nuit) : transparent, texte blanc.
+   Le passage de l'un à l'autre est piloté par la classe .is-light (IntersectionObserver).
+   Fond opaque, pas de flou d'arrière-plan : le flou faisait saccader le scroll. */
+#site-header {
+  background: #fff;
+  box-shadow: 0 1px 0 var(--color-line);
+  transition: background-color .25s ease, box-shadow .25s ease;
+}
+#site-header .logo { color: var(--color-ink); transition: color .25s ease; }
+#site-header .logo span { color: var(--color-signal); transition: color .25s ease; }
+#site-header .nav-link { position: relative; color: var(--color-body); transition: color .2s ease; }
+#site-header .nav-link:hover,
+#site-header .nav-link[aria-current="page"] { color: var(--color-ink); }
+#site-header .nav-link[aria-current="page"]::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -8px; height: 2px;
+  border-radius: 2px; background: var(--color-signal);
+}
+#site-header .menu-bar { background: var(--color-ink); }
+
+body:has(main > section.nuit:first-of-type) #site-header:not(.is-light):not(.menu-open) {
+  background: transparent;
+  box-shadow: none;
+}
+body:has(main > section.nuit:first-of-type) #site-header:not(.is-light):not(.menu-open) .logo { color: #fff; }
+body:has(main > section.nuit:first-of-type) #site-header:not(.is-light):not(.menu-open) .logo span { color: #7C75FF; }
+body:has(main > section.nuit:first-of-type) #site-header:not(.is-light):not(.menu-open) .nav-link { color: rgba(255, 255, 255, .72); }
+body:has(main > section.nuit:first-of-type) #site-header:not(.is-light):not(.menu-open) .nav-link:hover,
+body:has(main > section.nuit:first-of-type) #site-header:not(.is-light):not(.menu-open) .nav-link[aria-current="page"] { color: #fff; }
+body:has(main > section.nuit:first-of-type) #site-header:not(.is-light):not(.menu-open) .menu-bar { background: #fff; }
+
+/* Le hero sombre remonte sous le header transparent (le halo violet passe dessous). */
+main:has(> section.nuit:first-of-type) { padding-top: 0; }
+main > section.nuit:first-of-type { border-top: 72px solid transparent; background-origin: border-box; }
