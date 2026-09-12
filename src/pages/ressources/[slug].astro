@@ -1,0 +1,11 @@
+---
+import RessourcePage from '../../components/RessourcePage.astro'
+import { RESSOURCES } from '../../data/ressources'
+
+export function getStaticPaths() {
+  return RESSOURCES.map((r) => ({ params: { slug: r.slug }, props: { ressource: r } }))
+}
+
+const { ressource } = Astro.props
+---
+<RessourcePage ressource={ressource} />
