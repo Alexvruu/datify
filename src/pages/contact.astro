@@ -5,7 +5,7 @@ import { SITE_URL, CALENDLY_URL, FORM_ENDPOINT, CONTACT_EMAIL, LINKEDIN_URL } fr
 const contactSchema = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
-  name: 'Contact — Datify',
+  name: 'Contact · Datify',
   url: new URL('/contact', SITE_URL).toString(),
   mainEntity: {
     '@type': 'Person',
@@ -18,7 +18,7 @@ const contactSchema = {
 ---
 
 <BaseLayout
-  title="Contact — Parlons de votre projet"
+  title="Contact : parlons de votre projet"
   description="Audit tracking, setup server-side (GTM, Meta CAPI, GA4) ou intervention express BigQuery. Appel de cadrage gratuit, réponse sous 24 h."
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(contactSchema)} />
@@ -27,7 +27,7 @@ const contactSchema = {
     <div class="container">
       <div class="grid md:grid-cols-2 gap-16 max-w-5xl">
 
-        <!-- Left — copy -->
+        <!-- Colonne gauche : texte -->
         <div>
           <span class="text-signal text-sm font-semibold uppercase tracking-widest">Contact</span>
           <h1 class="mt-2 text-ink">Parlons de votre projet</h1>
@@ -95,7 +95,7 @@ const contactSchema = {
           </div>
         </div>
 
-        <!-- Right — RDV + formulaire -->
+        <!-- Colonne droite : rendez-vous et formulaire -->
         <div>
           <!-- Voie rapide : réservation directe -->
           <div class="nuit rounded-md p-8 mb-8">

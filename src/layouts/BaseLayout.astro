@@ -127,7 +127,7 @@ const currentPath = Astro.url.pathname
         <!-- Logo -->
         <a href="/" class="logo shrink-0 text-[1.2rem] font-semibold tracking-tight" aria-label="Datify, accueil">Dati<span>fy</span></a>
 
-        <!-- Nav links (desktop) — absents du DOM sur les landings de prospection -->
+        <!-- Nav links (desktop) : absents du DOM sur les landings de prospection -->
         {!landing && (
           <div class="hidden md:flex items-center gap-8">
             {UNIVERS.map((u) => (
@@ -212,7 +212,7 @@ const currentPath = Astro.url.pathname
         </div>
       ))}
 
-      <!-- Mobile menu — absent sur les landings -->
+      <!-- Mobile menu : absent sur les landings -->
       {!landing && (
         <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-line">
           <div class="container py-6 flex flex-col gap-5">
@@ -252,7 +252,7 @@ const currentPath = Astro.url.pathname
     <!-- FOOTER -->
     <footer class={`nuit text-white ${landing ? 'pt-10' : 'pt-20'} pb-10 mt-0`}>
       <div class="container">
-        <!-- Top — absent sur les landings : chaque lien y est une sortie -->
+        <!-- Top : absent sur les landings, chaque lien y est une sortie -->
         {!landing && (
         <div class="grid md:grid-cols-3 gap-12 pb-16 border-b border-white/10">
           <!-- Brand -->
@@ -298,7 +298,7 @@ const currentPath = Astro.url.pathname
         <!-- Bottom -->
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-8">
           <p class="text-xs text-white/30">
-            © {new Date().getFullYear()} Datify — Alexandre Gire
+            © {new Date().getFullYear()} Datify · Alexandre Gire
           </p>
           <div class="flex gap-6">
             <a href="/mentions-legales" class="text-xs text-white/30 hover:text-white/60 transition-colors">Mentions légales</a>

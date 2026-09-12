@@ -46,22 +46,22 @@ Dans Google Tag Manager, créez un **nouveau conteneur** de type *Serveur*.
 1. Allez dans votre compte GTM → *Créer un conteneur*
 2. Sélectionnez la plateforme **Serveur**
 3. Nommez-le (ex. `Datify - Server`)
-4. GTM génère un **URL de configuration** — conservez-le précieusement
+4. GTM génère un **URL de configuration**, à conserver précieusement
 
 ## Étape 2 : Déployer le serveur de tagging
 
-### Option A — Google Cloud Run (recommandé)
+### Option A : Google Cloud Run (recommandé)
 
 GTM propose un déploiement automatique sur Cloud Run :
 
 1. Dans votre conteneur serveur → *Paramètres* → *Configurer automatiquement le serveur de tagging*
 2. Connectez votre projet GCP
 3. Choisissez la région (europe-west1 pour la France)
-4. Validez — le conteneur est déployé en quelques minutes
+4. Validez, le conteneur est déployé en quelques minutes
 
 Le coût est généralement **inférieur à 10 €/mois** pour un site e-commerce standard.
 
-### Option B — Auto-hébergé (Stape, Railway, etc.)
+### Option B : hébergé chez un tiers (Stape, Railway, etc.)
 
 Des solutions comme [Stape.io](https://stape.io) simplifient le déploiement si vous préférez éviter GCP. Elles proposent des plans à partir de 20 $/mois avec CDN intégré.
 
@@ -133,6 +133,6 @@ Après mise en place sur un e-commerce type :
 
 ## Conclusion
 
-Le server-side tagging n'est plus une option avancée réservée aux grands comptes — c'est devenu **indispensable** pour maintenir des données analytics fiables en 2025. L'investissement est modeste (setup initial 2-3 jours, coût serveur < 15 €/mois) pour un gain de qualité data considérable.
+Le server-side tagging n'est plus une option avancée réservée aux grands comptes : c'est devenu **indispensable** pour maintenir des données analytics fiables en 2025. L'investissement est modeste (setup initial 2-3 jours, coût serveur < 15 €/mois) pour un gain de qualité data considérable.
 
-Si vous voulez mettre en place le tracking server-side sur votre site sans vous perdre dans la configuration GCP, [contactez-moi](/contact) — c'est exactement le type de mission que je réalise au quotidien.
+Si vous voulez mettre en place le tracking server-side sur votre site sans vous perdre dans la configuration GCP, [contactez-moi](/contact), c'est exactement le type de mission que je réalise au quotidien.

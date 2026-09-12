@@ -51,7 +51,7 @@ export const RESSOURCES: Ressource[] = [
     ],
     quandCaNeSertPas: [
       'Si votre budget publicitaire mensuel se compte en centaines d’euros, le coût d’hébergement et de mise en place dépassera le gain. L’intégration native de votre plateforme suffit.',
-      'Si votre tracking côté navigateur est déjà faux — mauvais événements, valeurs en centimes, achats manqués — le server-side enverra les mêmes erreurs, plus vite.',
+      'Si votre tracking côté navigateur est déjà faux (mauvais événements, valeurs en centimes, achats manqués), le server-side enverra les mêmes erreurs, plus vite.',
       'Le server-side ne contourne pas un refus de consentement. Si l’essentiel de votre perte vient des refus, le chantier ne changera presque rien, et il faut le savoir avant de payer.',
     ],
     pannes: [
@@ -246,7 +246,7 @@ export const RESSOURCES: Ressource[] = [
     ],
     quandCaNeSertPas: [
       'Si votre plateforme propose déjà une intégration native correctement configurée et que vous dépensez peu, le gain sera marginal.',
-      'Si vos événements sont faux au départ — mauvaise valeur, mauvais moment, achat manqué — la déduplication ne réparera rien.',
+      'Si vos événements sont faux au départ (mauvaise valeur, mauvais moment, achat manqué), la déduplication ne réparera rien.',
       'Aucun envoi serveur ne rattrape un refus de consentement, et ce n’est pas l’objectif.',
     ],
     pannes: [

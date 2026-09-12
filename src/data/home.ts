@@ -24,7 +24,7 @@
  */
 export const HERO = {
   surtitre: 'Tracking · BigQuery · Automatisation',
-  /** Choix du 12/09/2026 : registre « expertise sobre » — un groupe nominal qui nomme
+  /** Choix du 12/09/2026 : registre « expertise sobre » : un groupe nominal qui nomme
    *  la discipline, puis une maxime qui requalifie le chiffre. « Fiabilisation du
    *  tracking » est une formule descriptive commune au métier ; la seconde ligne, elle,
    *  doit rester propre à Datify : ne jamais reprendre la signature d'un concurrent.
@@ -37,7 +37,7 @@ export const HERO = {
   /** Index de la ligne mise en couleur : on accentue la chute. */
   ligneAccentuee: 1,
   sousTitre:
-    'Meta et Google Ads déclarent des ventes, votre caisse en enregistre d’autres. Je mesure l’écart, je vous dis d’où il vient, et je le corrige — avec un avant / après. Ensuite vos données servent à décider : BigQuery, tableaux de bord, automatisations.',
+    'Meta et Google Ads déclarent des ventes, votre caisse en enregistre d’autres. Je mesure l’écart, je vous dis d’où il vient, et je le corrige, avec un avant / après. Ensuite vos données servent à décider : BigQuery, tableaux de bord, automatisations.',
   ctaNote: ['Gratuit, sans engagement.', 'On regarde votre site en direct.'],
   chiffres: [
     { v: '72 h', l: 'pour une intervention express' },
@@ -209,12 +209,12 @@ export const ENGAGEMENTS = [
  */
 export const CAS = [
   {
-    secteur: 'À REMPLIR — secteur et ordre de grandeur, ex. « E-commerce mode · ~1,2 M€ de CA »',
-    symptome: 'À REMPLIR — ce que le client constatait et qui l’a poussé à appeler',
-    trouve: 'À REMPLIR — ce que l’audit a révélé, précisément',
-    fait: 'À REMPLIR — le geste technique posé',
-    resultat: 'À REMPLIR — le chiffre avant et le chiffre après',
-    duree: 'À REMPLIR — durée de la mission',
+    secteur: 'À REMPLIR : secteur et ordre de grandeur, ex. « E-commerce mode · ~1,2 M€ de CA »',
+    symptome: 'À REMPLIR : ce que le client constatait et qui l’a poussé à appeler',
+    trouve: 'À REMPLIR : ce que l’audit a révélé, précisément',
+    fait: 'À REMPLIR : le geste technique posé',
+    resultat: 'À REMPLIR : le chiffre avant et le chiffre après',
+    duree: 'À REMPLIR : durée de la mission',
   },
   {
     secteur: 'À REMPLIR',

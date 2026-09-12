@@ -13,16 +13,25 @@ export const CALENDLY_URL = 'https://calendly.com/gire-alexandre/30min'
 export const FORM_ENDPOINT = 'https://formspree.io/f/A-REMPLACER'
 
 /** Adresse de contact affichée. Ne fonctionnera qu'une fois datify.fr acheté. */
-export const CONTACT_EMAIL = 'alexandre@datify.fr'
+// Adresse de contact affichée sur le site. Provisoire : l'adresse personnelle est
+// utilisée tant que le domaine datify.fr n'est pas acheté. À remplacer par
+// alexandre@datify.fr dès que le domaine et sa boîte mail existent.
+export const CONTACT_EMAIL = 'gire.alexandre@gmail.com'
 
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/alexandre-gire-1203851b9/'
 
-/** Identité légale — à compléter avant mise en ligne des mentions légales. */
+/** Identité légale, à compléter avant mise en ligne des mentions légales. */
 export const LEGAL = {
   nom: 'Alexandre Gire',
   statut: 'Entrepreneur individuel (micro-entreprise)',
-  adresse: 'A-REMPLACER',
-  siret: 'A-REMPLACER',
+  // Adresse : obligatoire dans les mentions légales (LCEN). Alexandre a opté pour la
+  // non-diffusion de son adresse auprès de l'INSEE : publier son domicile ici annulerait
+  // ce choix. Décision à prendre : domicile, ou société de domiciliation.
+  adresse: 'A-REMPLACER : domicile ou domiciliation, voir commentaire',
+  siret: '993 427 624 00016',
+  siren: '993 427 624',
+  ape: '7311Z, activités des agences de publicité',
+  immatriculation: 'Entreprise individuelle immatriculée le 3 novembre 2025',
   tva: 'TVA non applicable, article 293 B du CGI',
   directeurPublication: 'Alexandre Gire',
   hebergeur: {
