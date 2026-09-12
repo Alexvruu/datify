@@ -24,20 +24,20 @@
  */
 export const HERO = {
   surtitre: 'Tracking · BigQuery · Automatisation',
-  /** Choix du 12/09/2026 : accroche provocante plutôt que descriptive. Elle vise
-   *  le geste que le dirigeant fait vraiment — couper un budget — et suggère qu'il
-   *  l'a peut-être fait sur des chiffres faux. Écarte aussi l'angle « vos données
-   *  mentent », déjà utilisé par un concurrent direct.
-   *  Variantes prêtes à coller :
-   *  B. ['Vous payez des ventes', 'que personne ne compte.'] (accent : 1)
-   *  C. ['Arrêtez d’arbitrer', 'sur des chiffres faux.'] (accent : 1)
-   *  D. ['Vos campagnes optimisent', 'sur ce qu’elles ne voient pas.'] (accent : 1)
+  /** Choix du 12/09/2026, après quatre accroches « à effet » écartées : on sort du
+   *  registre slogan. Phrase plate, affirmative, qui décrit le résultat obtenu.
+   *  Elle couvre les deux univers : la mesure d'abord, la fiabilité ensuite.
+   *  Variantes prêtes à coller, dans le même registre :
+   *  B. ['Consultant tracking et data', 'pour e-commerce et lead gen.'] (identité d'abord)
+   *  C. ['Vos campagnes reçoivent', 'les bonnes conversions.'] (bénéfice régie)
+   *  D. ['La mesure d’abord,', 'les décisions ensuite.'] (méthode)
+   *  À trancher pour de bon avec les mots des prospects, après cinq appels découverte.
    *  Vérifier au navigateur : au-delà de ~28 signes, la ligne se replie. */
-  titre: ['Vous avez peut-être coupé', 'vos meilleures campagnes.'],
+  titre: ['Vos conversions remontent.', 'Vos chiffres tiennent.'],
   /** Index de la ligne mise en couleur : on accentue la chute. */
   ligneAccentuee: 1,
   sousTitre:
-    'Quand des ventes ne remontent pas, Meta et Google Ads ne peuvent pas les attribuer, et vous arbitrez sur des chiffres faux. Je mesure l’écart avec vos vraies commandes, je vous dis d’où il vient, et je le corrige. Ensuite, vos données servent à décider : BigQuery, tableaux de bord, automatisations et IA.',
+    'Je fiabilise la mesure de vos campagnes Meta et Google Ads : ce qui se perd est identifié, chiffré et corrigé, avec un avant / après. Ensuite vos données servent à décider, dans BigQuery, un tableau de bord ou une automatisation.',
   ctaNote: ['Gratuit, sans engagement.', 'On regarde votre site en direct.'],
   chiffres: [
     { v: '72 h', l: 'pour une intervention express' },
@@ -277,5 +277,73 @@ export const FAQ = [
   {
     q: 'Que se passe-t-il si on arrête de travailler ensemble ?',
     a: 'Tout est à votre nom depuis le début et tout est documenté. Vous gardez l’infrastructure, les accès et le document de reprise. Aucune dépendance n’est créée volontairement.',
+  },
+]
+
+/**
+ * Preuves publiables : missions menées en agence, anonymisées.
+ * RÈGLE : aucun nom de client, aucun chiffre qui permettrait d'en identifier un,
+ * aucune revendication de mission Datify. C'est la réponse honnête aux murs de
+ * logos des concurrents, tant qu'il n'y a pas de cas client Datify validé par écrit.
+ */
+export const PREUVES = [
+  {
+    symptome: 'Une régie annonçait un retour sur dépense d’environ 190.',
+    cause: 'Elle s’attribuait des ventes réalisées autrement.',
+    correctif: 'Attribution des commandes réelles de la boutique : le chiffre tombait autour de 36.',
+  },
+  {
+    symptome: 'Un canal payant n’affichait presque aucune vente malgré plusieurs milliers d’euros dépensés.',
+    cause: 'Les pixels étaient bloqués pour une grande partie des visiteurs.',
+    correctif: 'Passage en server-side, puis comparaison avec les commandes réelles.',
+  },
+  {
+    symptome: 'Toutes les conversions importées affichaient « aucune conversion récente ».',
+    cause: 'Elles reposaient sur des pages de remerciement dont l’adresse avait changé.',
+    correctif: 'Plan de marquage refait en 13 événements, avec une recette écrite pour les développeurs.',
+  },
+  {
+    symptome: 'Une campagne automatique générait des leads jugés inexploitables.',
+    cause: 'Elle optimisait sur douze objectifs, dont une majorité de simples formulaires.',
+    correctif: 'Enchère recentrée sur les leads qualifiés remontés du CRM.',
+  },
+  {
+    symptome: 'Des cookies étaient déposés avant tout consentement.',
+    cause: 'Douze balises tierces se déclenchaient sans condition, dont six sur toutes les pages.',
+    correctif: 'Consentement câblé, outils en doublon retirés.',
+  },
+  {
+    symptome: 'Le chiffre d’affaires remonté dépassait la réalité.',
+    cause: 'Les commandes annulées après coup restaient comptées comme des ventes.',
+    correctif: 'Relecture glissante des dernières 48 heures et rapprochement automatique avec l’ERP.',
+  },
+]
+
+/**
+ * Chiffres de marché. RÈGLE : uniquement des données publiques, sourcées et datées.
+ * Vérifier chaque source au moins une fois par trimestre : ces chiffres bougent,
+ * et une donnée périmée sur un site de consultant en mesure, c'est rédhibitoire.
+ */
+export const CHIFFRES_MARCHE = [
+  {
+    valeur: '55 à 65 %',
+    libelle: 'des visiteurs acceptent la mesure sur un site e-commerce français',
+    consequence: 'Le reste échappe à la mesure classique, et aucun server-side ne récupère un refus.',
+    source: 'Didomi, State of Data Privacy 2026',
+    url: 'https://www.donneespersonnelles.fr/taux-consentement-cookies',
+  },
+  {
+    valeur: '7 jours',
+    libelle: 'd’usage du navigateur sans interaction, et Safari efface ce que le site a écrit en JavaScript',
+    consequence: 'Un visiteur qui revient plus tard est compté comme nouveau, et le parcours d’achat se casse en deux.',
+    source: 'WebKit, analysé par Simo Ahava (2022)',
+    url: 'https://www.simoahava.com/privacy/first-party-cookies-webkit-revisited/',
+  },
+  {
+    valeur: '15 juin 2026',
+    libelle: 'depuis cette date, l’API Google Ads n’accepte plus de nouveaux arrivants sur l’import de conversions hors ligne',
+    consequence: 'Les intégrations à monter aujourd’hui passent par une autre voie. Beaucoup de prestataires l’ignorent encore.',
+    source: 'Google Ads Developer Blog, mai 2026',
+    url: 'https://ads-developers.googleblog.com/2026/05/changes-to-offline-click-conversion.html',
   },
 ]
