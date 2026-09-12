@@ -12,9 +12,9 @@ export interface Faq { q: string; a: string }
 
 export type Univers = 'mesure' | 'data'
 
-export const UNIVERS: { cle: Univers; nom: string; promesse: string }[] = [
-  { cle: 'mesure', nom: 'Mesure et acquisition', promesse: 'Que vos campagnes reçoivent les bons signaux, et que vos chiffres disent vrai.' },
-  { cle: 'data', nom: 'Data, outils et IA', promesse: 'Que vos données servent tous les jours à quelqu’un, dans un outil ou dans une décision.' },
+export const UNIVERS: { cle: Univers; nom: string; court: string; promesse: string }[] = [
+  { cle: 'mesure', nom: 'Mesure et acquisition', court: 'Mesure', promesse: 'Que vos campagnes reçoivent les bons signaux, et que vos chiffres disent vrai.' },
+  { cle: 'data', nom: 'Data, outils et IA', court: 'Data & IA', promesse: 'Que vos données servent tous les jours à quelqu’un, dans un outil ou dans une décision.' },
 ]
 
 export interface OffreDetail {

@@ -129,27 +129,26 @@ const currentPath = Astro.url.pathname
 
         <!-- Nav links (desktop) — absents du DOM sur les landings de prospection -->
         {!landing && (
-          <div class="hidden md:flex items-center gap-10">
-            <a
-              href="/offres"
-              id="offres-toggle"
-              class="nav-link text-sm font-medium inline-flex items-center gap-1.5"
-              aria-expanded="false"
-              aria-controls="offres-panneau"
-              aria-current={currentPath.startsWith('/offres') ? 'page' : undefined}
-            >
-              Offres
-              <span id="offres-fleche" class="text-[10px] transition-transform duration-200" aria-hidden="true">▾</span>
-            </a>
+          <div class="hidden md:flex items-center gap-8">
+            {UNIVERS.map((u) => (
+              <a
+                href="/offres"
+                id={`toggle-${u.cle}`}
+                data-univers={u.cle}
+                class="nav-link text-sm font-medium inline-flex items-center gap-1.5"
+                aria-expanded="false"
+                aria-controls={`panneau-${u.cle}`}
+                aria-current={offresParUnivers(u.cle).some((p) => currentPath.startsWith(`/offres/${p.slug}`)) ? 'page' : undefined}
+              >
+                {u.court}
+                <span class="fleche text-[10px] transition-transform duration-200" aria-hidden="true">▾</span>
+              </a>
+            ))}
             {[
               { href: '/blog', label: 'Blog' },
               { href: '/contact', label: 'Contact' },
             ].map(({ href, label }) => (
-              <a
-                href={href}
-                class="nav-link text-sm font-medium"
-                aria-current={currentPath.startsWith(href) ? 'page' : undefined}
-              >
+              <a href={href} class="nav-link text-sm font-medium" aria-current={currentPath.startsWith(href) ? 'page' : undefined}>
                 {label}
               </a>
             ))}
@@ -179,41 +178,38 @@ const currentPath = Astro.url.pathname
 
       </nav>
 
-      <!-- Panneau des offres (desktop) — deux univers : mesure d'un côté, data et IA de l'autre -->
-      {!landing && (
-        <div id="offres-panneau" class="hidden md:block absolute left-0 right-0 top-[72px] bg-white border-t border-line shadow-[0_12px_32px_rgba(11,27,43,0.10)]" hidden>
-          <div class="container py-8">
-            <div class="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_240px] gap-8">
-              {UNIVERS.map((u) => (
-                <div>
-                  <p class="font-mono text-xs uppercase tracking-wider text-muted">{u.nom}</p>
-                  <p class="text-sm text-body mt-1.5 mb-4 leading-snug">{u.promesse}</p>
-                  <ul class="grid sm:grid-cols-2 gap-2.5">
-                    {offresParUnivers(u.cle).map((p) => (
-                      <li>
-                        <a href={`/offres/${p.slug}`} class="block h-full rounded-md border border-line bg-paper p-4 hover:border-signal hover:bg-signal-soft transition-colors">
-                          <span class="block text-[15px] font-semibold text-ink leading-snug">{p.nom}</span>
-                          <span class="block text-[13px] text-body mt-1 leading-snug">{p.accroche}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+      <!-- Un panneau par univers, ouvert au survol de son entrée de menu -->
+      {!landing && UNIVERS.map((u) => (
+        <div id={`panneau-${u.cle}`} class="panneau-univers hidden md:block absolute left-0 right-0 top-[72px] bg-white border-t border-line shadow-[0_12px_32px_rgba(11,27,43,0.10)]" hidden>
+          <div class="container py-7">
+            <div class="grid lg:grid-cols-[minmax(0,1fr)_260px] gap-8">
+              <div>
+                <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-4">
+                  <p class="text-lg font-semibold text-ink">{u.nom}</p>
+                  <p class="text-sm text-muted">{u.promesse}</p>
                 </div>
-              ))}
-              <div class="rounded-md border border-line p-5 flex flex-col justify-between gap-4">
-                <div>
-                  <p class="text-[15px] font-semibold text-ink leading-snug">Vous ne savez pas laquelle ?</p>
-                  <p class="text-sm text-body mt-1.5 leading-snug">30 minutes, votre situation en direct, et je vous dis ce qui se justifie.</p>
-                </div>
-                <div class="flex flex-col gap-2">
-                  <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" data-cta="rdv" data-cta-loc="menu-offres" class="btn-primary text-sm py-2.5 px-5 w-fit">Diagnostic gratuit</a>
-                  <a href="/offres" class="text-sm font-medium text-signal hover:underline w-fit">Toutes les offres et les prix →</a>
-                </div>
+                <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {offresParUnivers(u.cle).map((p, i) => (
+                    <li>
+                      <a href={`/offres/${p.slug}`} class="block h-full rounded-md border border-line bg-paper p-4 hover:border-signal hover:bg-signal-soft transition-colors">
+                        <span class="font-mono text-xs text-signal">{String(i + 1).padStart(2, '0')}</span>
+                        <span class="block text-[15px] font-semibold text-ink mt-1.5 leading-snug">{p.nom}</span>
+                        <span class="block text-[13px] text-body mt-1 leading-snug">{p.accroche}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div class="rounded-md border border-line bg-paper p-5 flex flex-col gap-3 self-start">
+                <p class="text-[15px] font-semibold text-ink leading-snug">Vous ne savez pas laquelle ?</p>
+                <p class="text-sm text-body leading-snug">30 minutes, votre situation en direct, et je vous dis ce qui se justifie.</p>
+                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" data-cta="rdv" data-cta-loc={`menu-${u.cle}`} class="btn-primary text-sm py-2.5 px-5 w-fit">Diagnostic gratuit</a>
+                <a href="/offres" class="text-sm font-medium text-signal hover:underline w-fit">Toutes les offres et les prix →</a>
               </div>
             </div>
           </div>
         </div>
-      )}
+      ))}
 
       <!-- Mobile menu — absent sur les landings -->
       {!landing && (
@@ -486,56 +482,67 @@ const currentPath = Astro.url.pathname
       watchHero()
       window.addEventListener('resize', watchHero, { passive: true })
 
-      // Panneau des offres : ouverture au clic, survol sur souris, fermeture par Échap ou clic extérieur.
-      const offresToggle = document.getElementById('offres-toggle')
-      const offresPanneau = document.getElementById('offres-panneau')
-      const offresFleche = document.getElementById('offres-fleche')
-      let offresOuvert = false
+      // Panneaux d'univers : survol pour ouvrir sur souris, clic pour ouvrir sur tactile.
+      // Un seul panneau ouvert à la fois ; le clic sur l'entrée mène à la page Offres.
+      const toggles = Array.from(document.querySelectorAll('[data-univers]')) as HTMLElement[]
+      const panneaux = new Map<string, HTMLElement>()
+      toggles.forEach((t) => {
+        const cle = t.getAttribute('data-univers') || ''
+        const p = document.getElementById(`panneau-${cle}`)
+        if (p) panneaux.set(cle, p)
+      })
+      let ouvert: string | null = null
       let fermeture: ReturnType<typeof setTimeout> | null = null
-      // Échap rend le focus au lien : sans ce verrou, le focus rouvrirait le panneau.
       let verrou = false
 
-      const setOffres = (ouvert: boolean) => {
-        offresOuvert = ouvert
-        if (offresPanneau) offresPanneau.hidden = !ouvert
-        offresToggle?.setAttribute('aria-expanded', String(ouvert))
-        offresFleche?.classList.toggle('rotate-180', ouvert)
-        header?.classList.toggle('menu-open', ouvert)
+      const setPanneau = (cle: string | null) => {
+        ouvert = cle
+        panneaux.forEach((p, k) => { p.hidden = k !== cle })
+        toggles.forEach((t) => {
+          const k = t.getAttribute('data-univers')
+          t.setAttribute('aria-expanded', String(k === cle))
+          t.querySelector('.fleche')?.classList.toggle('rotate-180', k === cle)
+        })
+        header?.classList.toggle('menu-open', cle !== null)
       }
 
-      // Souris : le panneau s'ouvre au survol, le clic sur « Offres » va à la page.
-      // Sans survol (tactile) : le clic ouvre le panneau au lieu de naviguer.
       const avecSurvol = window.matchMedia('(hover: hover) and (pointer: fine)').matches
-      if (avecSurvol) {
-        const ouvrir = () => { if (verrou) return; if (fermeture) clearTimeout(fermeture); setOffres(true) }
-        const fermerPlusTard = () => { if (fermeture) clearTimeout(fermeture); fermeture = setTimeout(() => setOffres(false), 180) }
-        offresToggle?.addEventListener('mouseenter', ouvrir)
-        offresToggle?.addEventListener('mouseleave', fermerPlusTard)
-        offresToggle?.addEventListener('focus', ouvrir)
-        offresPanneau?.addEventListener('mouseenter', ouvrir)
-        offresPanneau?.addEventListener('mouseleave', fermerPlusTard)
-      } else {
-        offresToggle?.addEventListener('click', (e) => { e.preventDefault(); setOffres(!offresOuvert) })
-      }
+      const fermerPlusTard = () => { if (fermeture) clearTimeout(fermeture); fermeture = setTimeout(() => setPanneau(null), 180) }
 
-      // Le panneau se ferme dès que le focus en sort (navigation au clavier).
-      document.addEventListener('focusin', (e) => {
-        if (!offresOuvert) return
-        const cible = e.target as Node
-        if (!offresPanneau?.contains(cible) && !offresToggle?.contains(cible)) setOffres(false)
+      toggles.forEach((t) => {
+        const cle = t.getAttribute('data-univers') || ''
+        const p = panneaux.get(cle)
+        if (avecSurvol) {
+          const ouvrir = () => { if (verrou) return; if (fermeture) clearTimeout(fermeture); setPanneau(cle) }
+          t.addEventListener('mouseenter', ouvrir)
+          t.addEventListener('mouseleave', fermerPlusTard)
+          t.addEventListener('focus', ouvrir)
+          p?.addEventListener('mouseenter', ouvrir)
+          p?.addEventListener('mouseleave', fermerPlusTard)
+        } else {
+          t.addEventListener('click', (e) => { e.preventDefault(); setPanneau(ouvert === cle ? null : cle) })
+        }
       })
 
       document.addEventListener('keydown', (e) => {
-        if (e.key !== 'Escape' || !offresOuvert) return
+        if (e.key !== 'Escape' || !ouvert) return
+        const actif = ouvert
         verrou = true
-        setOffres(false)
-        offresToggle?.focus()
+        setPanneau(null)
+        document.getElementById(`toggle-${actif}`)?.focus()
         setTimeout(() => { verrou = false }, 400)
       })
       document.addEventListener('click', (e) => {
-        if (!offresOuvert) return
+        if (!ouvert) return
         const cible = e.target as Node
-        if (!offresPanneau?.contains(cible) && !offresToggle?.contains(cible)) setOffres(false)
+        const dedans = Array.from(panneaux.values()).some((p) => p.contains(cible)) || toggles.some((t) => t.contains(cible))
+        if (!dedans) setPanneau(null)
+      })
+      document.addEventListener('focusin', (e) => {
+        if (!ouvert) return
+        const cible = e.target as Node
+        const dedans = Array.from(panneaux.values()).some((p) => p.contains(cible)) || toggles.some((t) => t.contains(cible))
+        if (!dedans) setPanneau(null)
       })
 
       // Mobile menu

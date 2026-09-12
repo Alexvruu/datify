@@ -24,17 +24,20 @@
  */
 export const HERO = {
   surtitre: 'Tracking · BigQuery · Automatisation',
-  /** Choix du 12/09/2026 : accroche élargie à la data, aux outils et à l'IA,
-   *  pour couvrir les deux univers d'offres sans perdre la promesse concrète.
+  /** Choix du 12/09/2026 : accroche provocante plutôt que descriptive. Elle vise
+   *  le geste que le dirigeant fait vraiment — couper un budget — et suggère qu'il
+   *  l'a peut-être fait sur des chiffres faux. Écarte aussi l'angle « vos données
+   *  mentent », déjà utilisé par un concurrent direct.
    *  Variantes prêtes à coller :
-   *  B. ['Je répare le tracking', 'qui ment à vos campagnes.'] (accent : 1, plus étroit mais plus percutant)
-   *  C. ['Vos régies et votre boutique', 'ne comptent pas', 'les mêmes ventes.'] (accent : 2)
-   *  Vérifier au navigateur après édition : au-delà de ~28 signes, la ligne se replie. */
-  titre: ['Je rends vos données justes.', 'Puis je les rends utiles.'],
+   *  B. ['Vous payez des ventes', 'que personne ne compte.'] (accent : 1)
+   *  C. ['Arrêtez d’arbitrer', 'sur des chiffres faux.'] (accent : 1)
+   *  D. ['Vos campagnes optimisent', 'sur ce qu’elles ne voient pas.'] (accent : 1)
+   *  Vérifier au navigateur : au-delà de ~28 signes, la ligne se replie. */
+  titre: ['Vous avez peut-être coupé', 'vos meilleures campagnes.'],
   /** Index de la ligne mise en couleur : on accentue la chute. */
   ligneAccentuee: 1,
   sousTitre:
-    'D’abord la mesure : l’écart entre ce que déclarent Meta et Google Ads et ce que vous encaissez. Ensuite l’usage : entrepôt BigQuery, tableaux de bord, automatisations et IA branchée sur vos chiffres.',
+    'Quand des ventes ne remontent pas, Meta et Google Ads ne peuvent pas les attribuer, et vous arbitrez sur des chiffres faux. Je mesure l’écart avec vos vraies commandes, je vous dis d’où il vient, et je le corrige. Ensuite, vos données servent à décider : BigQuery, tableaux de bord, automatisations et IA.',
   ctaNote: ['Gratuit, sans engagement.', 'On regarde votre site en direct.'],
   chiffres: [
     { v: '72 h', l: 'pour une intervention express' },
