@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import { CALENDLY_URL } from '../../../../site.config.mjs'
+import { ETAPES, NB_OUTILS } from '../../../data/stack'
+import { FICHES_OUTILS, ficheParNom } from '../../../data/outils-pages'
+import Compatibilites from '../../../components/Compatibilites.astro'
+
+const titre = 'Les outils que j’utilise, expliqués un par un'
+const description = `Chaque outil de ma stack, rangé à l’étape où il intervient : à quoi il sert, ce que j’en fais, et là où il casse en silence.`
+---
+
+<BaseLayout title={`${titre} | Datify`} description={description}>
+  <section class="nuit pt-20 pb-16 md:pt-24">
+    <div class="container">
+      <nav aria-label="Fil d’Ariane" class="mb-7 font-mono text-xs uppercase tracking-wider">
+        <a href="/ressources" class="text-night-muted hover:text-white transition-colors py-3 inline-block">Ressources</a>
+        <span class="text-night-muted mx-2">/</span>
+        <span class="text-white">Outils</span>
+      </nav>
+      <div class="max-w-3xl">
+        <h1 class="text-white" style="font-size:clamp(2rem,3.8vw,3rem);line-height:1.1;letter-spacing:-0.02em;">{titre}</h1>
+        <p class="mt-5 text-lg leading-relaxed">
+          {NB_OUTILS} outils, rangés dans l’ordre où la donnée les traverse. Pour chacun :
+          à quoi il sert, ce que j’en fais concrètement, et les pannes qu’il provoque sans prévenir.
+        </p>
+        <p class="mt-4 text-sm text-night-muted">
+          Je ne liste que des outils réellement utilisés en mission ou en projet. Les marques citées
+          restent la propriété de leurs détenteurs, sans affiliation ni partenariat.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-paper">
+    <div class="container space-y-16">
+      {ETAPES.map((e) => (
+        <div id={`etape-${e.num}`} class="scroll-mt-24">
+          <div class="flex items-baseline gap-4 pb-4 border-b border-line">
+            <span class="font-mono text-sm text-muted">{e.num}</span>
+            <h2 class="text-2xl">{e.court}</h2>
+          </div>
+          <p class="mt-4 text-[15px] text-body max-w-3xl">{e.role}</p>
+          {e.blocs.map((b) => (
+            <div class="mt-8">
+              {b.titre && <p class="label mb-4">{b.titre}</p>}
+              <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {b.outils.map((o) => {
+                  const fiche = ficheParNom(o.name)
+                  return (
+                    <li>
+                      {fiche ? (
+                        <a href={`/ressources/outils/${fiche.slug}`} class="flex gap-3 items-start bg-white border border-line rounded-lg p-4 h-full hover:border-ink transition-colors group">
+                          {o.path
+                            ? <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" class="shrink-0 mt-0.5"><path fill={o.hex} d={o.path} /></svg>
+                            : <span class="w-[22px] h-[22px] shrink-0 mt-0.5 rounded bg-mist text-muted font-mono text-[9px] flex items-center justify-center" aria-hidden="true">{o.name.slice(0, 2).toUpperCase()}</span>}
+                          <span>
+                            <span class="block font-medium text-ink group-hover:text-signal transition-colors leading-tight">{o.name}</span>
+                            <span class="block text-[13px] text-muted mt-1 leading-snug">{fiche.resume}</span>
+                          </span>
+                        </a>
+                      ) : (
+                        <div class="flex gap-3 items-start bg-mist border border-line rounded-lg p-4 h-full">
+                          {o.path
+                            ? <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" class="shrink-0 mt-0.5 opacity-60"><path fill={o.hex} d={o.path} /></svg>
+                            : <span class="w-[22px] h-[22px] shrink-0 mt-0.5 rounded bg-white text-muted font-mono text-[9px] flex items-center justify-center" aria-hidden="true">{o.name.slice(0, 2).toUpperCase()}</span>}
+                          <span>
+                            <span class="block font-medium text-muted leading-tight">{o.name}</span>
+                            <span class="block text-[13px] text-muted mt-1 leading-snug">Fiche en cours de rédaction.</span>
+                          </span>
+                        </div>
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Compatibilites />
+
+  <section class="nuit py-20">
+    <div class="container max-w-2xl text-center">
+      <h2 class="text-white text-3xl">Votre stack ressemble à ça ?</h2>
+      <p class="mt-4 text-lg">
+        30 minutes, votre configuration ouverte en direct. Je vous dis ce qui remonte faux et pourquoi.
+      </p>
+      <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" data-cta="rdv" data-cta-loc="outils-hub" class="btn-primary mt-8">Diagnostic gratuit (30 min)</a>
+    </div>
+  </section>
+</BaseLayout>

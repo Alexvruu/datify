@@ -1,0 +1,180 @@
+---
+// Gabarit des fiches outils publiées sous /ressources/outils. Contenu : src/data/outils-pages.ts
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { CALENDLY_URL, SITE_URL } from '../../site.config.mjs'
+import { FICHES_OUTILS, ficheParNom, type FicheOutil } from '../data/outils-pages'
+import { ETAPES } from '../data/stack'
+import { RESSOURCES } from '../data/ressources'
+import { PLAN_OFFRES } from '../data/offres-detail'
+
+interface Props { fiche: FicheOutil }
+const { fiche: f } = Astro.props
+
+const etape = ETAPES.find((e) => e.num === f.etape)
+const voisines = FICHES_OUTILS.filter((x) => x.slug !== f.slug && x.etape === f.etape).slice(0, 6)
+const guide = f.guide ? RESSOURCES.find((r) => r.slug === f.guide) : undefined
+const offre = f.offre ? PLAN_OFFRES.find((o) => o.slug === f.offre) : undefined
+
+// Un outil cité dans « je le combine avec » devient un lien s'il a sa propre fiche.
+const lien = (nom: string) => {
+  const cible = ficheParNom(nom)
+  return cible ? `/ressources/outils/${cible.slug}` : null
+}
+
+const url = new URL(`/ressources/outils/${f.slug}`, SITE_URL).toString()
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: f.metaTitre,
+  description: f.metaDescription,
+  url,
+  inLanguage: 'fr',
+  about: { '@type': 'SoftwareApplication', name: f.nom, applicationCategory: f.categorie },
+  author: { '@type': 'Person', name: 'Alexandre Gire' },
+  publisher: { '@type': 'Organization', name: 'Datify', url: SITE_URL },
+}
+const jsonLdFil = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Ressources', item: new URL('/ressources', SITE_URL).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Outils', item: new URL('/ressources/outils', SITE_URL).toString() },
+    { '@type': 'ListItem', position: 3, name: f.nom, item: url },
+  ],
+}
+---
+
+<BaseLayout title={f.metaTitre} description={f.metaDescription}>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLdFil)} />
+
+  <section class="nuit pt-20 pb-16 md:pt-24">
+    <div class="container">
+      <nav aria-label="Fil d’Ariane" class="mb-7 font-mono text-xs uppercase tracking-wider">
+        <a href="/ressources" class="text-night-muted hover:text-white transition-colors py-3 inline-block">Ressources</a>
+        <span class="text-night-muted mx-2">/</span>
+        <a href="/ressources/outils" class="text-night-muted hover:text-white transition-colors py-3 inline-block">Outils</a>
+        <span class="text-night-muted mx-2">/</span>
+        <span class="text-white">{f.nom}</span>
+      </nav>
+      <div class="max-w-3xl">
+        <p class="label mb-4">Étape {f.etape} · {etape?.court} · {f.categorie}</p>
+        <h1 class="text-white" style="font-size:clamp(2rem,3.8vw,3rem);line-height:1.1;letter-spacing:-0.02em;">{f.nom}</h1>
+        <p class="mt-5 text-lg leading-relaxed">{f.resume}</p>
+        {f.editeur && <p class="mt-4 text-sm text-night-muted">Éditeur : {f.editeur}. Marque citée à titre informatif, sans affiliation ni partenariat.</p>}
+      </div>
+    </div>
+  </section>
+
+  <!-- OÙ ÇA SE PLACE -->
+  <section class="py-10 bg-mist border-b border-line">
+    <div class="container">
+      <p class="label mb-4">Où ça se place dans le trajet de la donnée</p>
+      <ol class="flex flex-wrap gap-2">
+        {ETAPES.map((e) => (
+          <li>
+            <a
+              href={`/ressources/outils#etape-${e.num}`}
+              class={`inline-flex items-center gap-2 rounded-md border px-3 py-2.5 text-[15px] leading-tight transition-colors ${
+                e.num === f.etape
+                  ? 'border-ink bg-ink text-white font-medium'
+                  : 'border-line bg-paper text-muted hover:text-ink hover:border-ink'
+              }`}
+            >
+              <span class="font-mono text-[13px] opacity-70">{e.num}</span>
+              <span>{e.court}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      {etape && <p class="mt-4 text-[15px] text-body max-w-3xl">{etape.role}</p>}
+    </div>
+  </section>
+
+  <section class="py-20 bg-paper">
+    <div class="container grid lg:grid-cols-[minmax(0,1fr)_300px] gap-12">
+      <div class="max-w-2xl">
+        <h2 class="mb-6">À quoi ça sert</h2>
+        <ul class="space-y-3">
+          {f.aQuoiCaSert.map((p) => (
+            <li class="flex gap-3">
+              <span class="text-signal mt-1.5 shrink-0" aria-hidden="true">▸</span>
+              <span>{p}</span>
+            </li>
+          ))}
+        </ul>
+
+        <h2 class="mt-16 mb-4">Ce que j’en fais</h2>
+        <p class="leading-relaxed">{f.ceQueJenFais}</p>
+
+        <h2 class="mt-16 mb-4">Là où ça coince</h2>
+        <p class="text-[15px] text-muted mb-5">Les points que je vérifie systématiquement, parce qu’ils cassent en silence.</p>
+        <ul class="space-y-4">
+          {f.laOuCaCoince.map((p) => (
+            <li class="border-l-2 border-ecart pl-4 py-1 text-[15px]">{p}</li>
+          ))}
+        </ul>
+
+        {f.combineAvec && f.combineAvec.length > 0 && (
+          <>
+            <h2 class="mt-16 mb-4">Avec quoi je le combine</h2>
+            <ul class="flex flex-wrap gap-2">
+              {f.combineAvec.map((nom) => {
+                const href = lien(nom)
+                return (
+                  <li>
+                    {href
+                      ? <a href={href} class="inline-flex items-center rounded-md border border-line bg-white px-3 py-3 text-[15px] text-ink hover:border-ink hover:text-signal transition-colors">{nom}</a>
+                      : <span class="inline-flex items-center rounded-md border border-line bg-mist px-3 py-3 text-[15px] text-muted">{nom}</span>}
+                  </li>
+                )
+              })}
+            </ul>
+          </>
+        )}
+
+        {f.alternatives && f.alternatives.length > 0 && (
+          <>
+            <h2 class="mt-16 mb-4">Les alternatives</h2>
+            <p class="text-[15px] leading-relaxed">{f.alternatives.join(', ')}. Le choix se fait sur votre contexte, pas sur une préférence de prestataire.</p>
+          </>
+        )}
+
+        <p class="mt-14 text-xs text-muted">Fiche vérifiée le {f.verifieLe}. Les outils changent vite : si vous lisez ceci bien plus tard, redemandez-moi.</p>
+      </div>
+
+      <aside class="lg:sticky lg:top-24 self-start space-y-6">
+        {guide && (
+          <div class="bg-white border border-line rounded-lg p-6">
+            <p class="label mb-3">Le guide complet</p>
+            <h3 class="text-lg text-ink leading-snug">{guide.titre}</h3>
+            <a href={`/ressources/${guide.slug}`} class="inline-block mt-4 text-sm font-medium text-signal hover:underline py-2.5 inline-block">Lire le guide →</a>
+          </div>
+        )}
+        {offre && (
+          <div class="bg-white border border-line rounded-lg p-6">
+            <p class="label mb-3">L’offre liée</p>
+            <h3 class="text-lg text-ink leading-snug">{offre.nom}</h3>
+            <p class="text-[15px] text-body mt-2">{offre.accroche}</p>
+            <a href={`/offres/${offre.slug}`} class="inline-block mt-4 text-sm font-medium text-signal hover:underline py-2.5 inline-block">Voir l’offre →</a>
+          </div>
+        )}
+        <div class="nuit rounded-lg p-6">
+          <p class="text-white font-semibold leading-snug">Cet outil est dans votre stack ?</p>
+          <p class="text-sm mt-2 mb-4">30 minutes, votre configuration ouverte en direct.</p>
+          <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" data-cta="rdv" data-cta-loc={`outil-${f.slug}`} class="btn-primary text-sm py-2.5 px-5">Diagnostic gratuit</a>
+        </div>
+        {voisines.length > 0 && (
+          <div class="bg-white border border-line rounded-lg p-6">
+            <p class="label mb-3">À la même étape</p>
+            <ul class="space-y-1">
+              {voisines.map((v) => (
+                <li><a href={`/ressources/outils/${v.slug}`} class="text-[15px] text-ink hover:text-signal transition-colors leading-snug block py-3">{v.nom}</a></li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

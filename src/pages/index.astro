@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import { CALENDLY_URL } from '../../site.config.mjs'
+import { CALENDLY_URL, LINKEDIN_URL } from '../../site.config.mjs'
 import StackLogos from '../components/StackLogos.astro'
+import Compatibilites from '../components/Compatibilites.astro'
 import { UNIVERS, offresParUnivers } from '../data/offres-detail'
 import {
   HERO, SYMPTOMES, STACK, EXPERTISES, METHODE, ENGAGEMENTS,
@@ -70,13 +71,20 @@ const faqSchema = {
             </p>
           </div>
 
-          <div class="reveal d3 xl:hidden flex items-center gap-3 mt-8">
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-linkedin="hero-mobile"
+            aria-label="Profil LinkedIn d’Alexandre Gire, nouvelle fenêtre"
+            class="reveal d3 xl:hidden flex items-center gap-3 mt-8 -mx-2 px-2 py-2 rounded-lg hover:bg-mist transition-colors group"
+          >
             <img src="/alexandre.jpg" alt="Alexandre Gire" width="48" height="48" class="w-12 h-12 rounded-full object-cover shrink-0" />
             <div>
-              <p class="text-sm font-semibold text-ink leading-tight">Alexandre Gire</p>
+              <p class="text-sm font-semibold text-ink leading-tight group-hover:text-signal transition-colors">Alexandre Gire</p>
               <p class="text-sm text-muted leading-tight">Tracking et data · Lyon, à distance</p>
             </div>
-          </div>
+          </a>
 
           <div class="reveal d4 flex flex-wrap gap-x-10 gap-y-4 mt-14 pt-10 border-t border-line">
             {HERO.chiffres.map(({ v, l }) => (
@@ -90,8 +98,17 @@ const faqSchema = {
 
         <!-- Carte identité (écrans larges). Sur les écrans plus petits, la photo apparaît sous le bouton. -->
         <aside class="reveal d3 hidden xl:block bg-mist border border-line rounded-lg p-8">
-          <img src="/alexandre.jpg" alt="Alexandre Gire" width="80" height="80" class="w-20 h-20 rounded-full object-cover mb-5" />
-          <p class="font-semibold text-ink">Alexandre Gire</p>
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-linkedin="hero-carte"
+            aria-label="Profil LinkedIn d’Alexandre Gire, nouvelle fenêtre"
+            class="block w-fit group"
+          >
+            <img src="/alexandre.jpg" alt="Alexandre Gire" width="80" height="80" class="w-20 h-20 rounded-full object-cover mb-5" />
+            <p class="font-semibold text-ink group-hover:text-signal transition-colors">Alexandre Gire</p>
+          </a>
           <p class="text-sm text-muted mt-1 mb-5">Analytics engineer · Tracking et data</p>
           <p class="text-sm text-body leading-relaxed">
             Je pose des architectures de mesure en agence : GTM server-side,
@@ -138,6 +155,9 @@ const faqSchema = {
   </section>
 
   <StackLogos />
+
+  <!-- ═══════════ 2 bis · COMPATIBILITÉS (ce n’est pas une liste de références) ═══════════ -->
+  <Compatibilites />
 
   <!-- ═══════════ 3 · LE PROBLÈME ═══════════ -->
   <section class="py-28 md:py-32 bg-paper">
@@ -410,7 +430,7 @@ const faqSchema = {
       </h2>
       <p class="reveal d2 text-white/55 mx-auto mb-11 text-lg leading-relaxed">
         On ouvre votre site ensemble et je vous dis ce que je vois. Vous repartez avec
-        au moins un problème identifié, que l'on travaille ensemble ensuite ou non.
+        au moins un problème identifié, que l’on corrige ensemble ensuite.
       </p>
       <div class="reveal d3 flex flex-col items-center gap-5">
         <a

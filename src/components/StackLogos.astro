@@ -15,6 +15,7 @@ const { titre = 'Les outils que j’utilise, étape par étape' } = Astro.props
       <p class="label mb-3">Stack · {NB_OUTILS} outils</p>
       <h2 id="stack-titre">{titre}</h2>
       <p class="text-body mt-4">Vos données font un trajet : de votre boutique aux régies publicitaires, puis jusqu’à votre tableau de bord. Voici où j’interviens, et avec quoi.</p>
+      <p class="text-body mt-3 text-[15px]">Chaque outil est cliquable : à quoi il sert, ce que j’en fais, et là où il casse en silence. <a href="/ressources/outils" class="text-signal font-medium hover:underline">Voir les {NB_OUTILS} fiches</a>.</p>
     </div>
 
     <!-- Le trajet en un coup d'œil : chaque étape renvoie à son détail -->
@@ -51,6 +52,10 @@ const { titre = 'Les outils que j’utilise, étape par étape' } = Astro.props
         </div>
       ))}
     </div>
+
+    <p class="mt-8">
+      <a href="/ressources/outils" class="btn-ghost">Les {NB_OUTILS} fiches outils</a>
+    </p>
 
     <p class="mt-6 text-xs text-muted">Marques citées à titre informatif, sans affiliation ni partenariat.</p>
   </div>

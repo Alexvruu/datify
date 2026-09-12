@@ -1,0 +1,11 @@
+---
+import OutilPage from '../../../components/OutilPage.astro'
+import { FICHES_OUTILS } from '../../../data/outils-pages'
+
+export function getStaticPaths() {
+  return FICHES_OUTILS.map((f) => ({ params: { slug: f.slug }, props: { fiche: f } }))
+}
+
+const { fiche } = Astro.props
+---
+<OutilPage fiche={fiche} />
