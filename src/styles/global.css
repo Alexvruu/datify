@@ -240,3 +240,22 @@ main > section.nuit:first-of-type { border-top: 72px solid transparent; backgrou
   transition: top .15s ease;
 }
 .skip-link:focus { top: 12px; }
+
+/* ── Bandeau de consentement ──────────────────────────────────────────────────
+   Les deux boutons ont exactement le même poids visuel : même taille, même
+   bordure, même fond. Refuser doit être aussi simple qu'accepter, sans mise en
+   avant de l'un des deux choix. */
+.btn-consent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-ink);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--color-ink);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: background-color .15s ease, color .15s ease;
+}
+.btn-consent:hover { background: var(--color-ink); color: #fff; }

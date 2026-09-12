@@ -309,41 +309,60 @@ const currentPath = Astro.url.pathname
       </div>
     </footer>
 
-    <!-- BANNIÈRE DE CONSENTEMENT -->
+    <!-- BANNIÈRE DE CONSENTEMENT
+         Exigences appliquées : refuser aussi simple qu'accepter (deux boutons de même
+         taille, même niveau, même poids visuel), pas de case pré-cochée, finalité
+         annoncée avant le choix, décision réversible depuis le pied de page, et
+         aucune balise déclenchée tant que le choix n'est pas fait. -->
+    <div id="consent-overlay" hidden class="fixed inset-0 z-[99] bg-night/40"></div>
     <div
       id="consent-banner"
       hidden
       role="dialog"
-      aria-modal="false"
+      aria-modal="true"
       aria-labelledby="consent-title"
-      class="fixed bottom-0 left-0 right-0 z-[100] bg-white border-t border-line shadow-[0_-4px_24px_rgba(10,37,64,0.08)]"
+      aria-describedby="consent-desc"
+      class="fixed z-[100] left-4 right-4 bottom-4 md:left-auto md:right-6 md:bottom-6 md:w-[420px] bg-white border border-line rounded-lg shadow-[0_16px_48px_rgba(11,27,43,0.22)]"
     >
-      <div class="container py-6 flex flex-col lg:flex-row lg:items-center gap-5">
-        <div class="flex-1">
-          <p id="consent-title" class="text-sm font-semibold text-ink mb-1.5">Cookies et mesure d'audience</p>
-          <p class="text-sm text-body leading-relaxed max-w-2xl">
-            J'utilise des cookies de mesure d'audience pour comprendre comment le site est utilisé.
-            Rien n'est déposé sans votre accord. Vous pouvez changer d'avis à tout moment depuis le pied de page.
-            <a href="/mentions-legales" class="text-signal hover:underline">En savoir plus</a>.
-          </p>
+      <div class="p-6">
+        <p id="consent-title" class="text-base font-semibold text-ink">Mesure d’audience</p>
+        <p id="consent-desc" class="text-[15px] text-body leading-relaxed mt-2">
+          Je mesure la fréquentation de ce site pour savoir quelles pages servent vraiment.
+          Aucun cookie publicitaire, aucune revente de données, rien n’est déposé avant votre choix.
+        </p>
+        <div class="grid grid-cols-2 gap-3 mt-5">
+          <button type="button" id="consent-refuse" class="btn-consent">Refuser</button>
+          <button type="button" id="consent-accept" class="btn-consent">Accepter</button>
         </div>
-        <div class="flex flex-wrap gap-3 shrink-0">
-          <button type="button" id="consent-refuse" class="btn-ghost text-sm py-2.5 px-5">Refuser</button>
-          <button type="button" id="consent-accept" class="btn-primary text-sm py-2.5 px-5">Accepter</button>
-        </div>
+        <p class="text-xs text-muted mt-4">
+          Choix modifiable à tout moment depuis le pied de page.
+          <a href="/mentions-legales" class="underline hover:text-ink">Détail des données collectées</a>.
+        </p>
       </div>
     </div>
 
     <script>
       const CONSENT_KEY = 'datify_consent_v1'
       const banner = document.getElementById('consent-banner')
+      const overlay = document.getElementById('consent-overlay')
+      let focusPrecedent: HTMLElement | null = null
 
       const hasChoice = () => {
         try { return localStorage.getItem(CONSENT_KEY) !== null } catch (e) { return false }
       }
 
-      const showBanner = () => { if (banner) banner.hidden = false }
-      const hideBanner = () => { if (banner) banner.hidden = true }
+      const showBanner = () => {
+        if (!banner) return
+        focusPrecedent = document.activeElement as HTMLElement
+        banner.hidden = false
+        if (overlay) overlay.hidden = false
+        ;(document.getElementById('consent-refuse') as HTMLElement | null)?.focus()
+      }
+      const hideBanner = () => {
+        if (banner) banner.hidden = true
+        if (overlay) overlay.hidden = true
+        focusPrecedent?.focus()
+      }
 
       const record = (analytics: boolean) => {
         const choice = { analytics, ads: false, ts: Date.now() }
@@ -366,6 +385,12 @@ const currentPath = Astro.url.pathname
       }
 
       if (!hasChoice()) showBanner()
+
+      // Échap vaut refus, jamais acceptation : fermer sans choisir reviendrait à
+      // consentir par défaut, ce qui est exactement ce qui est interdit.
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && banner && !banner.hidden) record(false)
+      })
 
       document.getElementById('consent-accept')?.addEventListener('click', () => record(true))
       document.getElementById('consent-refuse')?.addEventListener('click', () => record(false))
