@@ -39,7 +39,12 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, SITE_URL)
 const ogImage = new URL(image, SITE_URL).toString()
-const fullTitle = `${title} | Datify`
+// Suffixe de marque ajoute seulement s'il reste de la place sous ~60 signes,
+// et jamais si le titre contient deja le nom.
+const titreBrut = String(title)
+const fullTitle = titreBrut.includes('Datify') || titreBrut.length > 50
+  ? titreBrut
+  : `${titreBrut} | Datify`
 const currentPath = Astro.url.pathname
 ---
 
@@ -116,6 +121,17 @@ const currentPath = Astro.url.pathname
       "jobTitle": "Analytics Engineer & Media Buyer",
       "worksFor": { "@type": "Organization", "name": "Datify" },
       "sameAs": [LINKEDIN_URL]
+    })} />
+
+    {/* Entite de site : permet a Google d'associer un nom de marque au domaine. */}
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Datify",
+      "alternateName": "Datify, fiabilisation du tracking",
+      "url": SITE_URL,
+      "inLanguage": "fr-FR",
+      "publisher": { "@type": "Person", "name": "Alexandre Gire", "url": SITE_URL }
     })} />
 
   </head>

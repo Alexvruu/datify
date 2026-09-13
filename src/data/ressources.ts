@@ -41,7 +41,7 @@ export const RESSOURCES: Ressource[] = [
     titre: 'GTM server-side : Stape, Addingwell ou votre propre Cloud Run ?',
     chapo: 'Les trois hébergent le même conteneur. Ce qui change, c’est le coût, la durée de vie de vos cookies et ce que vous pouvez encore faire le jour où ça casse.',
     metaTitre: 'GTM server-side : Stape, Addingwell ou Cloud Run ?',
-    metaDescription: 'Comparatif des trois façons d’héberger un conteneur GTM server-side : coûts réels, durée de vie des cookies, effort de maintenance, et laquelle choisir selon votre trafic.',
+    metaDescription: 'Trois façons d’héberger un conteneur GTM server-side : coûts réels, durée de vie des cookies, maintenance, et laquelle choisir selon votre trafic.',
     famille: 'Server-side',
     reponseCourte: 'Stape pour démarrer vite et sans infrastructure à gérer. Addingwell si vous voulez un acteur européen avec un accompagnement en français. Votre propre projet Google Cloud si vous tenez à la maîtrise complète et que le trafic est élevé. Dans les trois cas, le sous-domaine doit être le vôtre : c’est lui qui fait la différence sur la durée de vie des cookies, pas le fournisseur.',
     aQuoiCaSert: [
@@ -110,8 +110,8 @@ export const RESSOURCES: Ressource[] = [
     slug: 'tracking-shopify',
     titre: 'Tracking Shopify : le tunnel de commande, les doublons et le multi-pays',
     chapo: 'Trois pièges expliquent la majorité des écarts constatés sur Shopify, et aucun ne se voit dans l’interface.',
-    metaTitre: 'Tracking Shopify : checkout, doublons et boutiques multi-pays',
-    metaDescription: 'Pourquoi vos ventes Shopify ne correspondent pas à ce que déclarent Meta et Google Ads : tunnel de commande, événements comptés deux fois, boutiques multi-pays et conteneurs mal cloisonnés.',
+    metaTitre: 'Tracking Shopify : checkout, doublons et multi-pays',
+    metaDescription: 'Pourquoi vos ventes Shopify ne correspondent pas à Meta et Google Ads : tunnel de commande, événements comptés deux fois, boutiques multi-pays.',
     famille: 'Plateformes',
     reponseCourte: 'Sur Shopify, la majorité des écarts vient de trois endroits : le tunnel de commande, où les scripts tiers sont limités ; la double collecte, quand l’application native et votre propre balise envoient le même achat ; et les boutiques multi-pays, où plusieurs conteneurs finissent par attribuer les ventes au mauvais marché.',
     aQuoiCaSert: [
@@ -171,7 +171,7 @@ export const RESSOURCES: Ressource[] = [
     titre: 'Conversions offline Google Ads en 2026 : ce qui a changé',
     chapo: 'Depuis le 15 juin 2026, l’API Google Ads n’accepte plus de nouveaux arrivants sur l’import de conversions hors ligne. Voici les voies qui restent.',
     metaTitre: 'Conversions offline Google Ads 2026 : ce qui a changé',
-    metaDescription: 'Google n’accepte plus de nouveaux intégrateurs sur l’import de conversions hors ligne via son API depuis juin 2026. Les voies possibles, la fenêtre de 90 jours et les pièges de fuseau horaire.',
+    metaDescription: 'Google n’accepte plus de nouveaux intégrateurs sur l’import de conversions hors ligne depuis juin 2026. Les voies possibles, la fenêtre de 90 jours, les pièges.',
     famille: 'Régies',
     reponseCourte: 'Si vous démarrez aujourd’hui, l’API Google Ads vous refusera l’import de conversions hors ligne : depuis le 15 juin 2026, elle n’accepte plus de nouveaux adoptants, et la Data Manager API devient la voie principale. L’import de fichier programmé, lui, reste disponible et suffit dans la plupart des cas.',
     aQuoiCaSert: [
@@ -236,7 +236,7 @@ export const RESSOURCES: Ressource[] = [
     titre: 'API Conversions Meta : déduplication et qualité de correspondance',
     chapo: 'Envoyer les événements deux fois, c’est facile. Les faire reconnaître comme un seul, c’est tout le sujet.',
     metaTitre: 'Meta CAPI : déduplication et qualité de correspondance',
-    metaDescription: 'Comment envoyer vos conversions à Meta depuis le serveur sans les compter deux fois : identifiant d’événement partagé, paramètres de correspondance, et vérification sur des achats réels.',
+    metaDescription: 'Envoyer vos conversions à Meta depuis le serveur sans les compter deux fois : identifiant d’événement partagé, correspondance, vérification sur des achats.',
     famille: 'Régies',
     reponseCourte: 'Le pixel et l’API doivent envoyer le même achat avec le même identifiant d’événement : Meta garde alors une seule conversion, et complète l’une par l’autre. Sans cet identifiant, vos ventes sont comptées deux fois. Ensuite vient la qualité de correspondance, qui détermine combien de ces conversions Meta arrive vraiment à rattacher à une personne.',
     aQuoiCaSert: [
@@ -297,7 +297,7 @@ export const RESSOURCES: Ressource[] = [
     titre: 'Consent Mode v2 : basique ou avancé, et ce qui part vraiment',
     chapo: 'Les deux modes sont conformes. Ils ne donnent pas les mêmes chiffres, ni la même quantité de données envoyées à Google.',
     metaTitre: 'Consent Mode v2 : mode basique ou avancé, que choisir ?',
-    metaDescription: 'Différence concrète entre Consent Mode basique et avancé : ce qui est envoyé quand un visiteur refuse, l’effet sur vos chiffres, et comment vérifier votre installation refus par refus.',
+    metaDescription: 'Consent Mode basique ou avancé : ce qui part quand un visiteur refuse, l’effet sur vos chiffres, et comment vérifier votre installation refus par refus.',
     famille: 'Consentement',
     reponseCourte: 'En mode basique, rien ne part tant que le visiteur n’a pas accepté. En mode avancé, les balises se déclenchent quand même, sans cookie ni identifiant, et Google utilise ces signaux pour estimer ce qu’il ne voit plus. Le basique est le plus protecteur, l’avancé donne des rapports plus complets. Dans les deux cas, un refus reste un refus : aucune donnée personnelle ne doit être envoyée.',
     aQuoiCaSert: [
@@ -361,8 +361,8 @@ export const RESSOURCES: Ressource[] = [
     slug: 'tracking-woocommerce-wordpress',
     titre: 'Tracking WooCommerce et WordPress : les formulaires et les extensions',
     chapo: 'Sur WordPress, le problème vient rarement de la boutique. Il vient des extensions qui envoient, ou n’envoient pas, ce que vous croyez.',
-    metaTitre: 'Tracking WooCommerce et WordPress : formulaires et extensions',
-    metaDescription: 'Pourquoi vos conversions WordPress ne remontent pas : formulaires envoyés en AJAX, extensions qui doublent les événements, et achats WooCommerce manqués sur la page de confirmation.',
+    metaTitre: 'Tracking WooCommerce et WordPress : ce qui casse',
+    metaDescription: 'Pourquoi vos conversions WordPress ne remontent pas : formulaires en AJAX, extensions qui doublent les événements, achats WooCommerce manqués.',
     famille: 'Plateformes',
     reponseCourte: 'Deux causes expliquent la majorité des cas : les formulaires envoyés sans rechargement de page, que les déclencheurs natifs ne voient pas, et l’empilement d’extensions qui posent chacune leur propre mesure. On commence par inventorier ce qui envoie déjà des événements, avant d’ajouter quoi que ce soit.',
     aQuoiCaSert: [
@@ -422,7 +422,7 @@ export const RESSOURCES: Ressource[] = [
     titre: 'Enhanced Conversions : ce que ça change, et ce que ça ne change pas',
     chapo: 'C’est l’un des réglages les plus rentables de Google Ads, et l’un des plus souvent déclarés actifs sans l’être.',
     metaTitre: 'Enhanced Conversions Google Ads : ce que ça change vraiment',
-    metaDescription: 'À quoi servent les Enhanced Conversions, comment vérifier qu’elles fonctionnent réellement, et pourquoi elles ne remplacent ni un tracking propre ni les conversions hors ligne.',
+    metaDescription: 'À quoi servent les Enhanced Conversions, comment vérifier qu’elles fonctionnent, et pourquoi elles ne remplacent ni un tracking propre ni l’offline.',
     famille: 'Régies',
     reponseCourte: 'Les Enhanced Conversions renvoient à Google des données de contact hachées, collectées au moment de la conversion, pour rattacher des conversions que le navigateur seul ne permet plus d’attribuer. C’est un réglage à fort rendement quand la collecte est propre, et strictement inutile quand elle ne l’est pas.',
     aQuoiCaSert: [
@@ -719,7 +719,7 @@ export const RESSOURCES: Ressource[] = [
     titre: 'Comment savoir si un site utilise du tracking server-side',
     chapo: 'Tout se voit depuis l’extérieur, sans aucun accès. C’est la méthode que j’utilise avant un premier rendez-vous.',
     metaTitre: 'Comment savoir si un site a du tracking server-side',
-    metaDescription: 'La méthode pour détecter, depuis l’extérieur, si un site utilise un conteneur server-side : sous-domaine de collecte, requêtes réseau, cookies posés et signaux de consentement.',
+    metaDescription: 'Détecter depuis l’extérieur si un site utilise un conteneur server-side : sous-domaine de collecte, requêtes réseau, cookies posés, signaux de consentement.',
     famille: 'Server-side',
     reponseCourte: 'Ouvrez l’onglet réseau du navigateur et regardez où partent les requêtes de mesure. Si elles vont vers un sous-domaine du site, il y a un conteneur server-side. Si elles partent directement vers les domaines des régies, la collecte est entièrement côté navigateur.',
     aQuoiCaSert: [

@@ -23,11 +23,23 @@ const jsonLdFaq = {
   '@type': 'FAQPage',
   mainEntity: r.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
 }
+// Le fil d'Ariane affiche doit aussi exister en donnees structurees, sinon
+// Google ne peut pas s'en servir pour remplacer l'URL dans ses resultats.
+const jsonLdFil = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Ressources', item: new URL('/ressources', SITE_URL).toString() },
+    { '@type': 'ListItem', position: 2, name: r.famille, item: new URL('/ressources', SITE_URL).toString() },
+    { '@type': 'ListItem', position: 3, name: r.titre, item: url },
+  ],
+}
 ---
 
 <BaseLayout title={r.metaTitre} description={r.metaDescription}>
   <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLdFaq)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLdFil)} />
 
   <section class="nuit pt-20 pb-16 md:pt-24">
     <div class="container">

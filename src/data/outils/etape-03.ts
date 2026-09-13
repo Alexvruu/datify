@@ -8,7 +8,7 @@ export const ETAPE_03: FicheOutil[] = [
     etape: '03',
     editeur: 'Google',
     categorie: 'Serveur de balises',
-    metaTitre: 'GTM server-side : ce que ça répare, ce que ça ne répare pas',
+    metaTitre: 'GTM Server-Side : à quoi sert un conteneur serveur',
     metaDescription: 'Le conteneur serveur expliqué simplement : ce qui change pour vos conversions, ce que ça coûte à faire tourner, et les promesses qu’il ne faut pas croire.',
     resume: 'Un conteneur qui tourne sur votre serveur, pas dans le navigateur du visiteur.',
     aQuoiCaSert: [
@@ -37,7 +37,7 @@ export const ETAPE_03: FicheOutil[] = [
     etape: '03',
     editeur: 'Stape',
     categorie: 'Hébergement server-side',
-    metaTitre: 'Stape : héberger son conteneur GTM server-side sans gérer de serveur',
+    metaTitre: 'Stape : héberger son conteneur GTM server-side',
     metaDescription: 'Ce que Stape apporte concrètement par rapport à un hébergement Cloud Run monté à la main, et les questions à poser avant de s’engager.',
     resume: 'L’hébergement clé en main du conteneur serveur, avec des modules qui font gagner des jours.',
     aQuoiCaSert: [
@@ -90,7 +90,7 @@ export const ETAPE_03: FicheOutil[] = [
     etape: '03',
     editeur: 'Meta',
     categorie: 'Conversions publicitaires',
-    metaTitre: 'API Conversions Meta : la déduplication est tout le sujet',
+    metaTitre: 'API Conversions Meta : à quoi sert le canal serveur',
     metaDescription: 'Envoyer ses conversions à Meta depuis le serveur sans compter deux fois : identifiant d’événement partagé, qualité des correspondances, et ce que le score veut dire.',
     resume: 'Le canal serveur de Meta. Sans déduplication, il double vos ventes au lieu de les fiabiliser.',
     aQuoiCaSert: [
@@ -117,7 +117,7 @@ export const ETAPE_03: FicheOutil[] = [
     etape: '03',
     editeur: 'Google',
     categorie: 'Conversions publicitaires',
-    metaTitre: 'Enhanced Conversions : récupérer les conversions que Google ne voit plus',
+    metaTitre: 'Enhanced Conversions : à quoi ça sert et ce que ça exige',
     metaDescription: 'Le fonctionnement réel des conversions améliorées de Google Ads : ce qui est envoyé, sous quelle forme, ce que ça rapporte et ce que ça exige juridiquement.',
     resume: 'Le rattrapage de Google Ads, quand le cookie ne suffit plus à relier un clic à une vente.',
     aQuoiCaSert: [
@@ -143,7 +143,7 @@ export const ETAPE_03: FicheOutil[] = [
     etape: '03',
     editeur: 'Google Ads et Meta',
     categorie: 'Conversions publicitaires',
-    metaTitre: 'Conversions offline : enchérir sur les leads qui signent, pas sur les formulaires',
+    metaTitre: 'Conversions offline : remonter les ventes réellement signées',
     metaDescription: 'Remonter les affaires gagnées du CRM vers les régies : le trajet de l’identifiant de clic, les délais, et l’effet réel sur le coût d’acquisition.',
     resume: 'La remontée des ventes conclues hors du site, là où se joue la rentabilité en génération de leads.',
     aQuoiCaSert: [

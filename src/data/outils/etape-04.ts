@@ -35,7 +35,7 @@ export const ETAPE_04: FicheOutil[] = [
     etape: '04',
     editeur: 'Meta',
     categorie: 'Régie publicitaire',
-    metaTitre: 'Meta Ads : pourquoi vos ventes déclarées dépassent vos ventes réelles',
+    metaTitre: 'Meta Ads : pourquoi les ventes déclarées sont gonflées',
     metaDescription: 'Attribution par vue, doublons pixel et API, fenêtres d’attribution : les raisons pour lesquelles Meta revendique plus de ventes que votre boutique n’en enregistre.',
     resume: 'La régie qui revendique presque toujours plus de ventes que la boutique n’en compte.',
     aQuoiCaSert: [
@@ -61,7 +61,7 @@ export const ETAPE_04: FicheOutil[] = [
     etape: '04',
     editeur: 'TikTok',
     categorie: 'Régie publicitaire',
-    metaTitre: 'TikTok Ads : mesurer un canal où l’attribution est particulièrement généreuse',
+    metaTitre: 'TikTok Ads : mesurer un canal à l’attribution généreuse',
     metaDescription: 'Events API, fenêtres d’attribution larges et effet de halo : comment mesurer TikTok sans surestimer sa contribution au chiffre d’affaires.',
     resume: 'Canal de découverte, dont l’attribution déclarée demande à être recoupée.',
     aQuoiCaSert: [
@@ -85,7 +85,7 @@ export const ETAPE_04: FicheOutil[] = [
     etape: '04',
     editeur: 'LinkedIn',
     categorie: 'Régie publicitaire',
-    metaTitre: 'LinkedIn Ads : un coût par lead élevé qui ne dit rien de la rentabilité',
+    metaTitre: 'LinkedIn Ads : le coût par lead ne dit pas la rentabilité',
     metaDescription: 'Mesurer LinkedIn Ads en B2B : suivi des formulaires natifs, cycles de vente longs, et pourquoi seules les conversions offline rendent ce canal lisible.',
     resume: 'Le canal B2B, illisible tant qu’on s’arrête au coût par lead.',
     aQuoiCaSert: [
@@ -160,7 +160,7 @@ export const ETAPE_04: FicheOutil[] = [
     etape: '04',
     editeur: 'Google',
     categorie: 'Flux produit',
-    metaTitre: 'Merchant Center : le flux produit décide de la moitié de la performance Shopping',
+    metaTitre: 'Merchant Center : le flux produit fait la moitié du travail',
     metaDescription: 'Ce qu’un flux produit bien tenu change sur Google Shopping : attributs, disponibilité, prix, et les refus qui font disparaître un catalogue sans prévenir.',
     resume: 'Le catalogue tel que Google le voit. Ce qui n’y est pas ne se vend pas.',
     aQuoiCaSert: [
@@ -185,7 +185,7 @@ export const ETAPE_04: FicheOutil[] = [
     etape: '04',
     editeur: 'Google',
     categorie: 'Automatisation publicitaire',
-    metaTitre: 'Scripts Google Ads : automatiser la surveillance plutôt que les enchères',
+    metaTitre: 'Scripts Google Ads : surveiller sans toucher aux enchères',
     metaDescription: 'Ce que les scripts Google Ads font réellement bien : alertes, contrôles de cohérence, exports vers un entrepôt. Et ce qu’il vaut mieux ne pas leur confier.',
     resume: 'Du JavaScript qui tourne dans le compte, idéal pour surveiller, risqué pour décider.',
     aQuoiCaSert: [

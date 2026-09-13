@@ -8,7 +8,7 @@ export const ETAPE_06: FicheOutil[] = [
     etape: '06',
     editeur: 'Google',
     categorie: 'Tableau de bord',
-    metaTitre: 'Looker Studio : gratuit, et pourtant rarement le bon choix seul',
+    metaTitre: 'Looker Studio : à quoi ça sert, et où sont ses limites',
     metaDescription: 'Les forces et les limites réelles de Looker Studio : lenteur sur gros volumes, connecteurs directs qui coûtent cher, et ce qu’il faut préparer en amont.',
     resume: 'Le tableau de bord gratuit de Google, excellent avec un entrepôt derrière, pénible sans.',
     aQuoiCaSert: [
@@ -60,7 +60,7 @@ export const ETAPE_06: FicheOutil[] = [
     etape: '06',
     editeur: 'Vercel',
     categorie: 'Application web',
-    metaTitre: 'Next.js : quand un tableau de bord ne suffit plus et qu’il faut un outil',
+    metaTitre: 'Next.js : quand un tableau de bord ne suffit plus',
     metaDescription: 'La frontière entre un tableau de bord et une application interne : saisie, actions, droits par utilisateur. Ce qui justifie de développer plutôt que de configurer.',
     resume: 'Le cadre applicatif pour les cas où lire ne suffit pas et où il faut agir.',
     aQuoiCaSert: [
@@ -86,7 +86,7 @@ export const ETAPE_06: FicheOutil[] = [
     etape: '06',
     editeur: 'Vercel, Inc.',
     categorie: 'Hébergement web',
-    metaTitre: 'Vercel : mettre en ligne un outil interne sans gérer de serveur',
+    metaTitre: 'Vercel : mettre en ligne un outil interne sans serveur',
     metaDescription: 'Héberger un site ou un outil interne sur Vercel : déploiement continu, environnements de préproduction, et les points à surveiller côté coût et conformité.',
     resume: 'L’hébergement qui met en ligne à chaque envoi de code, sans intervention.',
     aQuoiCaSert: [
@@ -111,7 +111,7 @@ export const ETAPE_06: FicheOutil[] = [
     etape: '06',
     editeur: 'Google',
     categorie: 'Services applicatifs',
-    metaTitre: 'Firebase : authentification et stockage pour un outil interne',
+    metaTitre: 'Firebase : authentification et stockage d’un outil interne',
     metaDescription: 'Ce que Firebase apporte à un outil interne : connexion des utilisateurs, base temps réel et stockage, et les règles de sécurité qu’il ne faut surtout pas bâcler.',
     resume: 'La brique qui gère la connexion des utilisateurs et les données d’une application interne.',
     aQuoiCaSert: [
@@ -135,7 +135,7 @@ export const ETAPE_06: FicheOutil[] = [
     etape: '06',
     editeur: 'Slack, groupe Salesforce',
     categorie: 'Alertes',
-    metaTitre: 'Slack : recevoir l’alerte avant que le client ne s’en aperçoive',
+    metaTitre: 'Slack : recevoir l’alerte avant le client',
     metaDescription: 'Utiliser Slack comme sortie d’alerte d’une chaîne de données : quels contrôles valent une notification, et comment éviter que personne ne les lise plus.',
     resume: 'Le canal où arrive l’alerte quand un chiffre sort de sa plage, avant la réunion du lundi.',
     aQuoiCaSert: [
@@ -160,7 +160,7 @@ export const ETAPE_06: FicheOutil[] = [
     etape: '06',
     editeur: 'Anthropic',
     categorie: 'Intelligence artificielle',
-    metaTitre: 'API Claude : un assistant branché sur vos données, pas sur Internet',
+    metaTitre: 'API Claude : un assistant branché sur vos données',
     metaDescription: 'Brancher un modèle de langage sur un entrepôt d’entreprise : ce que ça permet réellement, ce que ça ne remplace pas, et les garde-fous obligatoires.',
     resume: 'Le modèle qui répond sur vos chiffres, à condition de l’enfermer dans vos données.',
     aQuoiCaSert: [

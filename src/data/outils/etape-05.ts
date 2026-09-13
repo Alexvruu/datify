@@ -8,7 +8,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'Google Cloud',
     categorie: 'Entrepôt de données',
-    metaTitre: 'BigQuery : l’endroit où les chiffres de vos canaux deviennent comparables',
+    metaTitre: 'BigQuery : là où les chiffres de vos canaux se comparent',
     metaDescription: 'À quoi sert vraiment un entrepôt pour une marque e-commerce : réconcilier les régies et la boutique, calculer une marge réelle, et ce que ça coûte à faire tourner.',
     resume: 'L’entrepôt où toutes les sources se rejoignent, et où l’on peut enfin recalculer.',
     aQuoiCaSert: [
@@ -36,7 +36,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'Google Cloud',
     categorie: 'Exécution de conteneurs',
-    metaTitre: 'Cloud Run : héberger son conteneur server-side ou ses traitements à la demande',
+    metaTitre: 'Cloud Run : héberger un conteneur server-side à la demande',
     metaDescription: 'Cloud Run pour le tracking et la data : hébergement d’un conteneur GTM serveur, traitements longs, coût réel et pièges du démarrage à froid.',
     resume: 'Le service qui fait tourner un conteneur à la demande, sans serveur à administrer.',
     aQuoiCaSert: [
@@ -63,7 +63,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'Google Cloud',
     categorie: 'Fonctions à la demande',
-    metaTitre: 'Cloud Functions : les petits traitements qui font tourner un entrepôt',
+    metaTitre: 'Cloud Functions : les traitements qui nourrissent BigQuery',
     metaDescription: 'À quoi servent les fonctions cloud dans une chaîne de données : extraction d’API, transformation, alertes. Et les limites qu’on atteint plus vite qu’on ne le croit.',
     resume: 'Le morceau de code qui s’exécute tout seul, à l’heure dite ou sur événement.',
     aQuoiCaSert: [
@@ -89,7 +89,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'Google Cloud',
     categorie: 'Planification',
-    metaTitre: 'Cloud Scheduler : déclencher les traitements à heure fixe, proprement',
+    metaTitre: 'Cloud Scheduler : déclencher les traitements à heure fixe',
     metaDescription: 'Planifier les extractions et les rafraîchissements d’un entrepôt : ordre des tâches, fuseaux horaires, et pourquoi un planificateur sans alerte ne sert à rien.',
     resume: 'L’horloge de la chaîne de données. Discrète, et responsable de la moitié des pannes silencieuses.',
     aQuoiCaSert: [
@@ -138,7 +138,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'Google Cloud',
     categorie: 'Gestion des secrets',
-    metaTitre: 'Secret Manager : ne plus laisser traîner de clés d’API dans le code',
+    metaTitre: 'Secret Manager : sortir les clés d’API du code',
     metaDescription: 'Pourquoi les identifiants d’API n’ont rien à faire dans un dépôt ni dans une variable d’environnement, et comment les gérer proprement dans une chaîne de données.',
     resume: 'L’endroit où rangent les clés d’API, pour qu’elles ne finissent pas dans un dépôt public.',
     aQuoiCaSert: [
@@ -162,7 +162,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'Supermetrics',
     categorie: 'Connecteur de données',
-    metaTitre: 'Supermetrics ou connecteur maison : quand l’abonnement devient plus cher que le code',
+    metaTitre: 'Supermetrics : à quoi sert le connecteur, et ses limites',
     metaDescription: 'Le calcul honnête entre un connecteur du marché et une extraction développée sur mesure : coût, délai, dépendance et maintenance.',
     resume: 'Le connecteur qui vous fait gagner des semaines, jusqu’au jour où son abonnement dépasse le coût du code.',
     aQuoiCaSert: [
@@ -189,7 +189,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'Airbyte',
     categorie: 'Connecteur de données',
-    metaTitre: 'Airbyte : l’extraction de données en open source, avantages et coût réel',
+    metaTitre: 'Airbyte : l’extraction de données open source et son coût',
     metaDescription: 'Airbyte comparé aux connecteurs du marché : catalogue de sources, hébergement, et le coût d’exploitation qu’on oublie souvent dans la comparaison.',
     resume: 'L’alternative open source aux connecteurs payants, avec un coût déplacé vers l’exploitation.',
     aQuoiCaSert: [
@@ -215,7 +215,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'Google',
     categorie: 'Automatisation Workspace',
-    metaTitre: 'Apps Script : l’automatisation qui coûte zéro euro et rend d’énormes services',
+    metaTitre: 'Apps Script : automatiser gratuitement autour de Workspace',
     metaDescription: 'Ce qu’Apps Script permet d’automatiser autour de Google Sheets, Drive et Gmail, et le moment précis où il faut arrêter et passer à autre chose.',
     resume: 'Le script gratuit qui automatise le travail répétitif autour de Google Workspace.',
     aQuoiCaSert: [
@@ -241,7 +241,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'Python Software Foundation',
     categorie: 'Langage',
-    metaTitre: 'Python dans une chaîne de données : extraction, contrôle, automatisation',
+    metaTitre: 'Python : extraction, contrôle et automatisation des données',
     metaDescription: 'Le rôle de Python dans un projet data marketing : extraire les sources sans connecteur, contrôler la cohérence, et automatiser ce qui se répète.',
     resume: 'Le langage qui fait tout ce que les connecteurs du marché ne savent pas faire.',
     aQuoiCaSert: [
@@ -266,7 +266,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'Standard, ici dans le dialecte BigQuery',
     categorie: 'Langage',
-    metaTitre: 'SQL : le langage où se joue réellement la définition de vos indicateurs',
+    metaTitre: 'SQL : le langage où se définissent vos indicateurs',
     metaDescription: 'Pourquoi les désaccords sur les chiffres se règlent dans le SQL et nulle part ailleurs : conventions de date, périmètre, déduplication et documentation.',
     resume: 'Le langage où se décide ce qu’est une commande, une session et un client.',
     aQuoiCaSert: [
@@ -291,7 +291,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'HashiCorp',
     categorie: 'Infrastructure',
-    metaTitre: 'Terraform : décrire son infrastructure cloud plutôt que la cliquer',
+    metaTitre: 'Terraform : décrire son infrastructure plutôt que la cliquer',
     metaDescription: 'Pourquoi décrire son infrastructure dans du code change la vie d’un projet data : reproductibilité, revue, et fin des configurations que personne ne sait refaire.',
     resume: 'L’infrastructure écrite dans un fichier, donc relisible et reproductible.',
     aQuoiCaSert: [
@@ -315,7 +315,7 @@ export const ETAPE_05: FicheOutil[] = [
     etape: '05',
     editeur: 'Docker, Inc.',
     categorie: 'Conteneurisation',
-    metaTitre: 'Docker : faire tourner le même code chez vous et en production',
+    metaTitre: 'Docker : le même code chez vous et en production',
     metaDescription: 'Le rôle de Docker dans une chaîne data : environnements reproductibles, déploiement sur Cloud Run, et les pièges des images qui grossissent sans fin.',
     resume: 'La boîte qui garantit que le code tourne pareil sur votre machine et en production.',
     aQuoiCaSert: [

@@ -26,6 +26,16 @@ const jsonLd = {
   provider: { '@type': 'Person', name: 'Alexandre Gire', brand: 'Datify', url: SITE_URL },
   mainEntityOfPage: url,
 }
+// Le fil d'Ariane affiche doit aussi exister en donnees structurees.
+const jsonLdFil = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Offres', item: new URL('/offres', SITE_URL).toString() },
+    { '@type': 'ListItem', position: 2, name: o.nom, item: new URL(`/offres/${o.slug}`, SITE_URL).toString() },
+  ],
+}
+
 const jsonLdFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -40,6 +50,7 @@ const jsonLdFaq = {
 <BaseLayout title={o.metaTitre} description={o.metaDescription}>
   <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLdFaq)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLdFil)} />
 
   <!-- HERO -->
   <section class="nuit pt-20 pb-20 md:pt-28 md:pb-24">

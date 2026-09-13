@@ -9,7 +9,8 @@ import { SITE_URL } from './site.config.mjs';
 export default defineConfig({
   site: SITE_URL,
   // Ancienne URL de la page Offres, conservée pour ne pas casser les liens existants.
-  redirects: { '/services': '/offres' },
+  // /services -> /offres est gere en 301 par vercel.json.
+  // Pas de redirection Astro ici : elle generait une page stub jamais servie.
   vite: {
     plugins: [tailwindcss()]
   },

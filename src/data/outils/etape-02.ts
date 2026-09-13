@@ -8,7 +8,7 @@ export const ETAPE_02: FicheOutil[] = [
     etape: '02',
     editeur: 'Google',
     categorie: 'Gestionnaire de balises',
-    metaTitre: 'Google Tag Manager : à quoi ça sert vraiment, et comment ça dérape',
+    metaTitre: 'Google Tag Manager : à quoi ça sert, et comment ça dérape',
     metaDescription: 'GTM expliqué sans jargon : ce qu’il fait, ce qu’il ne fait pas, et les six façons dont un conteneur mal tenu fabrique des chiffres faux.',
     resume: 'Le chef d’orchestre des balises. Puissant, et redoutable quand personne ne le tient.',
     aQuoiCaSert: [
@@ -66,7 +66,7 @@ export const ETAPE_02: FicheOutil[] = [
     etape: '02',
     editeur: 'Matomo',
     categorie: 'Mesure d’audience',
-    metaTitre: 'Matomo : la mesure d’audience quand la maîtrise des données prime',
+    metaTitre: 'Matomo : la mesure d’audience quand vous gardez la main',
     metaDescription: 'Matomo comparé à GA4 : ce qu’on gagne en maîtrise et en exemption de consentement possible, ce qu’on perd en intégration publicitaire.',
     resume: 'La mesure d’audience que l’on héberge soi-même, et dont on garde les données.',
     aQuoiCaSert: [
@@ -91,7 +91,7 @@ export const ETAPE_02: FicheOutil[] = [
     etape: '02',
     editeur: 'Google',
     categorie: 'Référencement naturel',
-    metaTitre: 'Search Console : la seule source fiable sur vos requêtes réelles',
+    metaTitre: 'Search Console : la seule source fiable sur vos requêtes',
     metaDescription: 'Ce que Search Console mesure et que personne d’autre ne sait : impressions, position, requêtes réelles. Et pourquoi ses chiffres ne collent jamais avec GA4.',
     resume: 'Le seul endroit où vous voyez les requêtes qui vous amènent réellement du monde.',
     aQuoiCaSert: [
@@ -117,8 +117,8 @@ export const ETAPE_02: FicheOutil[] = [
     etape: '02',
     editeur: 'Adjust, groupe AppLovin',
     categorie: 'Attribution mobile',
-    metaTitre: 'Adjust : l’attribution des applications mobiles, un monde à part',
-    metaDescription: 'Pourquoi la mesure d’une application mobile ne ressemble pas à celle d’un site : attribution par MMP, cadre de confidentialité d’Apple, et réconciliation avec le web.',
+    metaTitre: 'Adjust : l’attribution des applications mobiles',
+    metaDescription: 'Pourquoi mesurer une application mobile ne ressemble pas à un site : attribution par MMP, cadre de confidentialité d’Apple, réconciliation avec le web.',
     resume: 'L’attribution des applications mobiles, avec ses règles propres et incompatibles avec le web.',
     aQuoiCaSert: [
       'Attribuer les installations et les événements d’une application aux campagnes qui les ont produits.',
@@ -142,7 +142,7 @@ export const ETAPE_02: FicheOutil[] = [
     etape: '02',
     editeur: 'Google',
     categorie: 'Consentement',
-    metaTitre: 'Consent Mode v2 : ce qui part vraiment avant le clic sur Accepter',
+    metaTitre: 'Consent Mode v2 : à quoi ça sert et comment je le règle',
     metaDescription: 'Mode basique ou avancé, valeurs par défaut, modélisation : ce que Consent Mode v2 change concrètement à vos données, et ce qu’il ne répare pas.',
     resume: 'Le protocole qui dit aux balises Google ce qu’elles ont le droit de faire.',
     aQuoiCaSert: [
@@ -168,7 +168,7 @@ export const ETAPE_02: FicheOutil[] = [
     etape: '02',
     editeur: 'Axeptio',
     categorie: 'Gestion du consentement',
-    metaTitre: 'Axeptio : un bandeau cookies conforme et qui ne détruit pas la mesure',
+    metaTitre: 'Axeptio : un bandeau conforme qui ne détruit pas la mesure',
     metaDescription: 'Poser une plateforme de consentement correctement : symétrie des choix, blocage réel avant accord, transmission à Consent Mode v2 et mesure du taux d’acceptation.',
     resume: 'La plateforme de consentement, dont le réglage décide de la moitié de vos données.',
     aQuoiCaSert: [

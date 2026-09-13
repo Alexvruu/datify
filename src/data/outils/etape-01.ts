@@ -8,7 +8,7 @@ export const ETAPE_01: FicheOutil[] = [
     etape: '01',
     editeur: 'Shopify Inc.',
     categorie: 'Boutique en ligne',
-    metaTitre: 'Shopify et le tracking : ce qui remonte vrai, ce qui remonte faux',
+    metaTitre: 'Shopify : ce que j’en fais, et là où la mesure casse',
     metaDescription: 'Shopify dans une architecture de mesure : checkout, Customer Events, intégrations natives Meta et Google, et les endroits précis où les chiffres se mettent à mentir.',
     resume: 'La boutique qui sert de référence à tout le reste. Ses commandes sont la seule vérité comptable.',
     aQuoiCaSert: [
@@ -36,7 +36,7 @@ export const ETAPE_01: FicheOutil[] = [
     etape: '01',
     editeur: 'PrestaShop SA',
     categorie: 'Boutique en ligne',
-    metaTitre: 'PrestaShop et le tracking : modules, hooks et conversions dupliquées',
+    metaTitre: 'PrestaShop : ce que j’en fais, et là où la mesure casse',
     metaDescription: 'Mesurer une boutique PrestaShop sans se faire piéger par les modules de tracking empilés, le tunnel en plusieurs étapes et les commandes en attente de paiement.',
     resume: 'Boutique open source très répandue en France, où le tracking se joue dans les modules et les hooks.',
     aQuoiCaSert: [
@@ -63,8 +63,8 @@ export const ETAPE_01: FicheOutil[] = [
     etape: '01',
     editeur: 'WordPress.org, avec Elementor et WooCommerce selon les projets',
     categorie: 'Site et boutique',
-    metaTitre: 'WordPress, WooCommerce et Elementor : mesurer sans dépendre des extensions',
-    metaDescription: 'Le tracking d’un site WordPress, entre extensions de tracking concurrentes, formulaires Elementor et le tunnel WooCommerce. Ce qui tient dans le temps et ce qui casse.',
+    metaTitre: 'WordPress et WooCommerce : là où la mesure casse',
+    metaDescription: 'Le tracking d’un site WordPress : extensions concurrentes, formulaires Elementor, tunnel WooCommerce. Ce qui tient dans le temps et ce qui casse.',
     resume: 'Le socle le plus répandu du web français, et celui où le tracking dépend le plus des extensions installées.',
     aQuoiCaSert: [
       'Faire tourner un site vitrine, un blog ou une boutique WooCommerce sur une base connue de tous les prestataires.',
@@ -90,7 +90,7 @@ export const ETAPE_01: FicheOutil[] = [
     etape: '01',
     editeur: 'Webflow, Inc.',
     categorie: 'Site vitrine',
-    metaTitre: 'Webflow et la mesure : où poser les balises quand on ne contrôle pas le serveur',
+    metaTitre: 'Webflow : poser les balises sans accès au serveur',
     metaDescription: 'Mesurer un site Webflow proprement : couche de données, formulaires natifs, limites du code personnalisé et contournements pour le server-side.',
     resume: 'Site vitrine rapide à produire, où toute la mesure passe par du code personnalisé injecté.',
     aQuoiCaSert: [
@@ -141,7 +141,7 @@ export const ETAPE_01: FicheOutil[] = [
     etape: '01',
     editeur: 'Amazon',
     categorie: 'Marketplace',
-    metaTitre: 'Vendre sur Amazon : ce que la marketplace vous cache de vos données',
+    metaTitre: 'Vendre sur Amazon : ce que la marketplace garde pour elle',
     metaDescription: 'Le canal marketplace dans une vision multicanal : ce qu’Amazon remonte, ce qu’il ne remonte jamais, et comment réconcilier ce chiffre d’affaires avec le reste.',
     resume: 'Canal de vente où vous possédez le produit mais pas la donnée client.',
     aQuoiCaSert: [
@@ -165,8 +165,8 @@ export const ETAPE_01: FicheOutil[] = [
     etape: '01',
     editeur: 'Pipedrive',
     categorie: 'CRM',
-    metaTitre: 'Pipedrive : transformer un pipeline commercial en conversions mesurables',
-    metaDescription: 'Utiliser Pipedrive comme source de vérité pour les conversions offline : remonter les affaires gagnées vers Google Ads et Meta, et enchérir sur les leads qui signent.',
+    metaTitre: 'Pipedrive : du pipeline aux conversions mesurables',
+    metaDescription: 'Pipedrive comme source de vérité pour les conversions offline : remonter les affaires gagnées vers Google Ads et Meta, pour enchérir sur les leads qui signent.',
     resume: 'Le CRM qui sait, lui, quels leads ont vraiment rapporté de l’argent.',
     aQuoiCaSert: [
       'Suivre les affaires de la prise de contact à la signature, avec un montant réel par affaire.',
@@ -192,7 +192,7 @@ export const ETAPE_01: FicheOutil[] = [
     etape: '01',
     editeur: 'Odoo SA',
     categorie: 'ERP et CRM',
-    metaTitre: 'Odoo vers BigQuery : sortir les données de l’ERP pour piloter',
+    metaTitre: 'Odoo vers BigQuery : sortir les données de l’ERP',
     metaDescription: 'Extraire les ventes, les marges et le pipeline d’Odoo vers un entrepôt BigQuery, pour construire un pilotage qui ne dépend plus des rapports internes de l’ERP.',
     resume: 'L’ERP qui contient les vraies marges, et qui les garde souvent pour lui.',
     aQuoiCaSert: [
@@ -218,7 +218,7 @@ export const ETAPE_01: FicheOutil[] = [
     etape: '01',
     editeur: 'Brevo, anciennement Sendinblue',
     categorie: 'Emailing et marketing automation',
-    metaTitre: 'Brevo : mesurer l’email autrement que par le taux d’ouverture',
+    metaTitre: 'Brevo : mesurer l’email au-delà du taux d’ouverture',
     metaDescription: 'Brancher Brevo au reste de la mesure : marquage des liens, attribution des ventes issues de l’email, et pourquoi le taux d’ouverture ne veut plus dire grand-chose.',
     resume: 'Le canal email, celui qui coûte le moins cher et qu’on mesure le plus mal.',
     aQuoiCaSert: [
@@ -244,8 +244,8 @@ export const ETAPE_01: FicheOutil[] = [
     etape: '01',
     editeur: 'Calendly LLC',
     categorie: 'Prise de rendez-vous',
-    metaTitre: 'Calendly : mesurer la prise de rendez-vous jusqu’au créneau confirmé',
-    metaDescription: 'Mesurer un tunnel Calendly proprement : ouverture du widget, créneaux consultés, créneau choisi et rendez-vous confirmé, sans compter les abandons comme des conversions.',
+    metaTitre: 'Calendly : mesurer les rendez-vous jusqu’à la confirmation',
+    metaDescription: 'Mesurer un tunnel Calendly proprement : widget ouvert, créneaux consultés, créneau choisi, rendez-vous confirmé, sans compter les abandons.',
     resume: 'La conversion d’un site de service, à condition de mesurer la confirmation et pas le clic.',
     aQuoiCaSert: [
       'Laisser un prospect réserver un créneau sans échange de mails.',
