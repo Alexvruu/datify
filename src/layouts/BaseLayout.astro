@@ -9,6 +9,12 @@ import '@fontsource/ibm-plex-mono/500.css'
 import '../styles/global.css'
 import { SITE_URL, GTM_ID, CALENDLY_URL, CONTACT_EMAIL, LINKEDIN_URL } from '../../site.config.mjs'
 import { UNIVERS, offresParUnivers } from '../data/offres-detail'
+import { ETAPES, NB_OUTILS } from '../data/stack'
+import { fichesParEtape } from '../data/outils-pages'
+import { RESSOURCES } from '../data/ressources'
+
+// Familles de guides, dans l'ordre du trajet de la donnee.
+const FAMILLES_GUIDES = ['Plateformes', 'Server-side', 'Régies', 'Consentement', 'Data'] as const
 
 interface Props {
   title: string
@@ -144,8 +150,19 @@ const currentPath = Astro.url.pathname
                 <span class="fleche text-[10px] transition-transform duration-200" aria-hidden="true">▾</span>
               </a>
             ))}
+            <a
+              href="/ressources"
+              id="toggle-ressources"
+              data-univers="ressources"
+              class="nav-link text-sm font-medium inline-flex items-center gap-1.5"
+              aria-expanded="false"
+              aria-controls="panneau-ressources"
+              aria-current={currentPath.startsWith('/ressources') ? 'page' : undefined}
+            >
+              Ressources
+              <span class="fleche text-[10px] transition-transform duration-200" aria-hidden="true">▾</span>
+            </a>
             {[
-              { href: '/ressources', label: 'Ressources' },
               { href: '/blog', label: 'Blog' },
               { href: '/contact', label: 'Contact' },
             ].map(({ href, label }) => (
@@ -212,6 +229,57 @@ const currentPath = Astro.url.pathname
         </div>
       ))}
 
+      <!-- Panneau Ressources : les outils par etape, et les guides par famille -->
+      {!landing && (
+        <div id="panneau-ressources" class="panneau-univers hidden md:block absolute left-0 right-0 top-[72px] bg-white border-t border-line shadow-[0_12px_32px_rgba(11,27,43,0.10)]" hidden>
+          <div class="container py-7">
+            <div class="grid lg:grid-cols-[minmax(0,1fr)_260px] gap-8">
+              <div>
+                <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-4">
+                  <p class="text-lg font-semibold text-ink">Les {NB_OUTILS} outils, un par un</p>
+                  <p class="text-sm text-muted">Rangés dans l’ordre où la donnée les traverse.</p>
+                </div>
+                <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {ETAPES.map((e) => (
+                    <li>
+                      <a href={`/ressources/outils#etape-${e.num}`} class="block h-full rounded-md border border-line bg-paper p-4 hover:border-signal hover:bg-signal-soft transition-colors">
+                        <span class="font-mono text-xs text-signal">{e.num}</span>
+                        <span class="block text-[15px] font-semibold text-ink mt-1.5 leading-snug">{e.court}</span>
+                        <span class="block text-[13px] text-body mt-1 leading-snug">{fichesParEtape(e.num).length} fiches</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+
+                <p class="text-lg font-semibold text-ink mt-8 mb-4">Les guides</p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-5">
+                  {FAMILLES_GUIDES.map((famille) => (
+                    <div>
+                      <p class="font-mono text-[11px] uppercase tracking-wider text-muted mb-2">{famille}</p>
+                      <ul class="space-y-1">
+                        {RESSOURCES.filter((r) => r.famille === famille).map((r) => (
+                          <li>
+                            {/* Dans un menu, on n'affiche que la tete du titre : le sous-titre apres les deux-points rallonge le panneau sans aider a choisir. */}
+                            <a href={`/ressources/${r.slug}`} title={r.titre} class="block text-[13px] text-body hover:text-signal transition-colors leading-snug py-1">{r.titre.split(' : ')[0]}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div class="rounded-md border border-line bg-paper p-5 flex flex-col gap-3 self-start">
+                <p class="text-[15px] font-semibold text-ink leading-snug">Votre outil est dans la liste ?</p>
+                <p class="text-sm text-body leading-snug">Chaque fiche dit à quoi il sert, ce que j’en fais, et là où il casse en silence.</p>
+                <a href="/ressources/outils" class="btn-primary text-sm py-2.5 px-5 w-fit">Les {NB_OUTILS} fiches outils</a>
+                <a href="/ressources" class="text-sm font-medium text-signal hover:underline w-fit">Tous les guides →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <!-- Mobile menu : absent sur les landings -->
       {!landing && (
         <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-line">
@@ -229,7 +297,18 @@ const currentPath = Astro.url.pathname
                 </div>
               ))}
             </div>
-            <a href="/ressources" class="text-base font-medium text-body hover:text-ink">Ressources</a>
+            <div>
+              <a href="/ressources" class="text-base font-medium text-body hover:text-ink">Ressources</a>
+              <div class="mt-3 pl-4 border-l border-line">
+                <p class="font-mono text-[11px] uppercase tracking-wider text-muted mb-2">Les {NB_OUTILS} outils</p>
+                <ul class="space-y-2.5 mb-3">
+                  {ETAPES.map((e) => (
+                    <li><a href={`/ressources/outils#etape-${e.num}`} class="block text-sm text-body hover:text-ink">{e.num} · {e.court}</a></li>
+                  ))}
+                </ul>
+                <a href="/ressources/outils" class="text-sm font-medium text-signal">Toutes les fiches →</a>
+              </div>
+            </div>
             <a href="/blog" class="text-base font-medium text-body hover:text-ink">Blog</a>
             <a href="/contact" class="text-base font-medium text-body hover:text-ink">Contact</a>
             <a
